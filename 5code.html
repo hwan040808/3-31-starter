@@ -1,462 +1,88 @@
 <!DOCTYPE html>
-<html class="light" lang="ko">
+<html lang="ko">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLANK SPACE | 공간과 패션의 연결</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        /* 감각적인 폰트 적용 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8f9fa; }
+        
+        /* 부드러운 화면 전환 애니메이션 */
+        .fade-in { animation: fadeIn 0.8s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        h1, h2, h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .glass-effect {
-            backdrop-filter: blur(24px);
-            background-color: rgba(242, 243, 253, 0.7);
-        }
-        /* Hide scrollbar for native app feel */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        
+        /* 화면 숨김 처리용 클래스 */
+        .hidden-page { display: none !important; }
     </style>
-    <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              keyframes: {
-                'fade-in-up': {
-                    '0%': { opacity: '0', transform: 'translateY(10px)' },
-                    '100%': { opacity: '1', transform: 'translateY(0)' },
-                }
-              },
-              animation: {
-                'fade-in-up': 'fade-in-up 0.3s ease-out forwards',
-              },
-              colors: {
-                "on-primary": "#ffffff",
-                "secondary-fixed-dim": "#75daa8",
-                "surface-container-lowest": "#ffffff",
-                "secondary-fixed": "#92f7c3",
-                "outline-variant": "#c1c6d6",
-                "surface-container-high": "#e6e8f2",
-                "inverse-surface": "#2d3038",
-                "primary-fixed": "#d7e2ff",
-                "on-tertiary-fixed": "#221b00",
-                "surface-container": "#ecedf7",
-                "on-secondary-fixed-variant": "#005235",
-                "on-tertiary-container": "#4c3f00",
-                "tertiary": "#705d00",
-                "on-tertiary": "#ffffff",
-                "on-surface-variant": "#414753",
-                "tertiary-container": "#caa900",
-                "secondary-container": "#92f7c3",
-                "inverse-primary": "#acc7ff",
-                "surface": "#f9f9ff",
-                "inverse-on-surface": "#eff0fa",
-                "primary-container": "#006adc",
-                "surface-bright": "#f9f9ff",
-                "background": "#f9f9ff",
-                "on-secondary": "#ffffff",
-                "surface-dim": "#d8d9e3",
-                "tertiary-fixed-dim": "#e9c400",
-                "on-surface": "#191c22",
-                "on-secondary-container": "#00734d",
-                "tertiary-fixed": "#ffe171",
-                "surface-container-highest": "#e1e2ec",
-                "on-error": "#ffffff",
-                "primary": "#0052ae",
-                "on-error-container": "#93000a",
-                "surface-container-low": "#f2f3fd",
-                "error": "#ba1a1a",
-                "on-tertiary-fixed-variant": "#554600",
-                "primary-fixed-dim": "#acc7ff",
-                "secondary": "#006c48",
-                "on-secondary-fixed": "#002113",
-                "surface-variant": "#e1e2ec",
-                "error-container": "#ffdad6",
-                "outline": "#727785",
-                "on-primary-fixed": "#001a40",
-                "surface-tint": "#005bbf",
-                "on-primary-container": "#edf1ff",
-                "on-primary-fixed-variant": "#004492",
-                "on-background": "#191c22"
-              },
-              fontFamily: {
-                "headline": ["Plus Jakarta Sans"],
-                "body": ["Inter"],
-                "label": ["Inter"]
-              },
-              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
-            },
-          },
-        }
-    </script>
 </head>
+<body class="text-[#212529]">
 
-<body class="bg-gray-200 dark:bg-gray-900 flex justify-center sm:items-center min-h-screen sm:py-8">
-
-    <!-- Mobile Frame Wrapper -->
-    <div class="relative w-full max-w-[430px] h-[100dvh] sm:h-[850px] bg-surface text-on-surface sm:rounded-[3rem] sm:border-[12px] border-gray-800 dark:border-gray-950 overflow-hidden shadow-2xl flex flex-col">
+    <div id="mainPage" class="h-screen flex flex-col justify-center items-center text-center fade-in px-6">
+        <h1 class="text-5xl md:text-6xl font-light tracking-widest mb-6">BLANK SPACE</h1>
+        <p class="text-lg md:text-xl text-gray-500 mb-12 font-light leading-relaxed">
+            비어있는 공간이 감각적인 패션 쇼룸으로.<br>
+            당신의 브랜드를 위한 완벽한 팝업 스테이지를 발견하세요.
+        </p>
         
-        <!-- TopAppBar -->
-        <header class="flex-shrink-0 w-full z-50 bg-[#f9f9ff] dark:bg-slate-950">
-            <div class="flex justify-between items-center px-6 py-4 w-full">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
-                        <img alt="사용자 프로필 사진" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO7daZurEiCaHNH-1jRebquTiLWtEBWRp6PWkrcWoVJcA4w9PBekJFqSuW-uaOYF8ML3U6P6r96w6pulnk6jKWk6fVdi213V0VoGalIXxKSjUQmns7MSvSscDpY3DEDD1MTwaRnnjTnqiW0sajlLg1G77q9LmrIfTpvAMdrqVNRQLHMGcP_H5-NmM8SlEG7COwC56sp8UFdXUZFCsIoED2VvsD1nv8wrtrl_lXlHCs9mTGkOF0A4Zt28BhssfUd-_3Cr-w-3ddV4Du"/>
-                    </div>
-                    <h1 id="header-title" class="font-['Plus_Jakarta_Sans'] text-xl font-extrabold tracking-tight text-[#006ADC] dark:text-blue-400">학업 비타민</h1>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#f2f3fd] transition-colors active:scale-95">
-                        <span class="material-symbols-outlined text-[#006ADC]">search</span>
-                    </button>
-                </div>
-            </div>
-            <div class="bg-[#e1e2ec] dark:bg-slate-800 h-[1px] w-full opacity-50"></div>
-        </header>
-
-        <!-- Scrollable Main Content Area -->
-        <main class="flex-1 overflow-y-auto no-scrollbar relative">
-            
-            <!-- ================= PAGE 1: HOME ================= -->
-            <div id="page-home" class="page-section block px-6 pt-6 pb-32 space-y-8 animate-fade-in-up">
-                <!-- Welcome Section -->
-                <section class="space-y-2">
-                    <p class="text-outline font-medium">안녕하세요, 민수님! 👋</p>
-                    <h2 class="text-2xl font-extrabold tracking-tight">오늘도 활기찬 <br/><span class="text-primary">학업 에너지를</span> 충전해볼까요?</h2>
-                </section>
-
-                <!-- 핵심 과제 Bento Grid -->
-                <section class="space-y-4">
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-xl font-bold tracking-tight">오늘의 핵심 과제</h3>
-                        <span class="text-sm font-semibold text-primary cursor-pointer" onclick="switchPage('todo')">전체보기</span>
-                    </div>
-                    <div class="flex flex-col gap-4">
-                        <!-- Task 1: Focus High Priority -->
-                        <div class="bg-primary-container text-on-primary-container p-6 rounded-xl shadow-sm relative overflow-hidden group">
-                            <div class="relative z-10 space-y-4">
-                                <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold tracking-wider uppercase inline-block">High Priority</span>
-                                <h4 class="text-xl font-bold leading-tight">알고리즘 분석 <br/> 기말 과제 제출</h4>
-                                <div class="flex items-center gap-2 text-white/80">
-                                    <span class="material-symbols-outlined text-sm">schedule</span>
-                                    <span class="text-sm font-medium">오늘 오후 11:59 까지</span>
-                                </div>
-                            </div>
-                            <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
-                            <button class="absolute right-4 top-4 w-10 h-10 bg-white text-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
-                                <span class="material-symbols-outlined" data-weight="fill">play_arrow</span>
-                            </button>
-                        </div>
-
-                        <!-- Task 2: Medium -->
-                        <div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-lg bg-secondary-fixed flex flex-shrink-0 items-center justify-center">
-                                    <span class="material-symbols-outlined text-on-secondary-fixed">edit_note</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h4 class="text-base font-bold">마케팅 원론 독후감 초안</h4>
-                                    <div class="mt-1 flex items-center justify-between">
-                                        <span class="text-xs font-medium text-outline">내일 오전 10:00</span>
-                                    </div>
-                                </div>
-                                <span class="material-symbols-outlined text-primary">chevron_right</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Upcoming Class Notification -->
-                <section class="space-y-4">
-                    <h3 class="text-xl font-bold tracking-tight">수업 알림</h3>
-                    <div class="bg-secondary p-[2px] rounded-[1.1rem] shadow-lg relative overflow-hidden">
-                        <div class="bg-white/95 dark:bg-slate-900/90 backdrop-blur-md rounded-[1rem] p-4 flex items-center gap-4">
-                            <div class="flex flex-col items-center justify-center px-2 border-r border-outline-variant/30 min-w-[60px]">
-                                <span class="text-secondary font-extrabold text-xl">14:00</span>
-                                <span class="text-[9px] font-bold text-outline tracking-widest uppercase mt-1">In 45m</span>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="text-base font-bold">경제학 원론</h4>
-                                <p class="text-xs text-outline mt-0.5">사회과학관 302호 • 김경수 교수님</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Quick Action Chips -->
-                <section class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-                    <button class="flex-shrink-0 px-5 py-2.5 bg-primary-fixed text-on-primary-fixed rounded-full font-bold text-xs flex items-center gap-2 active:scale-95 transition-transform" onclick="switchPage('todo')">
-                        <span class="material-symbols-outlined text-base">add_task</span> 할일 추가
-                    </button>
-                    <button class="flex-shrink-0 px-5 py-2.5 bg-surface-container-high text-on-surface-variant rounded-full font-bold text-xs flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
-                        <span class="material-symbols-outlined text-base">timer</span> 집중 모드
-                    </button>
-                    <button class="flex-shrink-0 px-5 py-2.5 bg-surface-container-high text-on-surface-variant rounded-full font-bold text-xs flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
-                        <span class="material-symbols-outlined text-base">auto_stories</span> 학습 자료
-                    </button>
-                </section>
-            </div>
-
-            <!-- ================= PAGE 2: TODO ================= -->
-            <div id="page-todo" class="page-section hidden px-6 pt-6 pb-32 space-y-6 animate-fade-in-up">
-                <section class="space-y-2">
-                    <h2 class="text-2xl font-extrabold tracking-tight">나의 투두 리스트 📝</h2>
-                    <p class="text-outline font-medium text-sm">진행 중인 과제가 3개 있습니다.</p>
-                </section>
-
-                <div class="space-y-3">
-                    <!-- Todo Item 1 -->
-                    <label class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:border-primary-fixed transition-colors">
-                        <div class="relative flex items-center">
-                            <input type="checkbox" class="w-6 h-6 border-2 border-outline rounded text-primary focus:ring-primary focus:ring-offset-0 transition-all cursor-pointer peer" />
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-base text-on-surface peer-checked:line-through peer-checked:text-outline transition-all">알고리즘 분석 기말 과제 제출</h4>
-                            <p class="text-xs text-error font-medium mt-1">오늘 마감 (오후 11:59)</p>
-                        </div>
-                    </label>
-
-                    <!-- Todo Item 2 -->
-                    <label class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:border-primary-fixed transition-colors">
-                        <div class="relative flex items-center">
-                            <input type="checkbox" class="w-6 h-6 border-2 border-outline rounded text-primary focus:ring-primary focus:ring-offset-0 transition-all cursor-pointer peer" />
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-base text-on-surface peer-checked:line-through peer-checked:text-outline transition-all">마케팅 원론 독후감 초안</h4>
-                            <p class="text-xs text-outline font-medium mt-1">내일 오전 10:00</p>
-                        </div>
-                    </label>
-
-                    <!-- Todo Item 3 -->
-                    <label class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:border-primary-fixed transition-colors">
-                        <div class="relative flex items-center">
-                            <input type="checkbox" class="w-6 h-6 border-2 border-outline rounded text-primary focus:ring-primary focus:ring-offset-0 transition-all cursor-pointer peer" />
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-base text-on-surface peer-checked:line-through peer-checked:text-outline transition-all">데이터베이스 팀미팅 준비</h4>
-                            <p class="text-xs text-outline font-medium mt-1">금요일 오후 3:00</p>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- ================= PAGE 3: CALENDAR ================= -->
-            <div id="page-calendar" class="page-section hidden px-6 pt-6 pb-32 space-y-6 animate-fade-in-up">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-extrabold tracking-tight">11월 일정 📅</h2>
-                    <div class="flex gap-2">
-                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
-                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
-                    </div>
-                </div>
-
-                <!-- Mock Calendar Grid -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                        <div class="text-xs font-bold text-error">일</div>
-                        <div class="text-xs font-bold text-outline">월</div>
-                        <div class="text-xs font-bold text-outline">화</div>
-                        <div class="text-xs font-bold text-outline">수</div>
-                        <div class="text-xs font-bold text-outline">목</div>
-                        <div class="text-xs font-bold text-outline">금</div>
-                        <div class="text-xs font-bold text-primary">토</div>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 text-center text-sm">
-                        <!-- Empty slots -->
-                        <div class="p-2 text-gray-300">29</div>
-                        <div class="p-2 text-gray-300">30</div>
-                        <div class="p-2 text-gray-300">31</div>
-                        <!-- Days -->
-                        <div class="p-2 font-medium">1</div>
-                        <div class="p-2 font-medium relative">2 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></span></div>
-                        <div class="p-2 font-medium">3</div>
-                        <div class="p-2 font-medium">4</div>
-                        <div class="p-2 font-medium">5</div>
-                        <div class="p-2 font-medium">6</div>
-                        <div class="p-2 font-medium">7</div>
-                        <div class="p-2 font-medium">8</div>
-                        <div class="p-2 font-medium relative">
-                            <div class="w-7 h-7 bg-primary text-white rounded-full flex items-center justify-center mx-auto shadow-md">9</div>
-                        </div>
-                        <div class="p-2 font-medium">10</div>
-                        <div class="p-2 font-medium">11</div>
-                        <div class="p-2 font-medium">12</div>
-                        <div class="p-2 font-medium relative">13 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-error rounded-full"></span></div>
-                        <div class="p-2 font-medium">14</div>
-                        <div class="p-2 font-medium">15</div>
-                    </div>
-                </div>
-
-                <!-- Upcoming Events List -->
-                <div class="space-y-3">
-                    <h3 class="font-bold text-lg">다가오는 일정</h3>
-                    <div class="p-4 bg-surface-container-low rounded-xl flex items-center gap-4">
-                        <div class="w-2 h-10 bg-primary rounded-full"></div>
-                        <div>
-                            <h4 class="font-bold text-sm">교수님 면담</h4>
-                            <p class="text-xs text-outline">11월 9일 (수) 오후 2:00</p>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-surface-container-low rounded-xl flex items-center gap-4">
-                        <div class="w-2 h-10 bg-error rounded-full"></div>
-                        <div>
-                            <h4 class="font-bold text-sm">중간고사 성적 이의신청 마감</h4>
-                            <p class="text-xs text-outline">11월 13일 (일) 오후 6:00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= PAGE 4: SETTINGS ================= -->
-            <div id="page-settings" class="page-section hidden px-6 pt-6 pb-32 space-y-6 animate-fade-in-up">
-                <h2 class="text-2xl font-extrabold tracking-tight">설정 ⚙️</h2>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="p-4 border-b border-gray-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-primary-fixed overflow-hidden">
-                            <img alt="프로필" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO7daZurEiCaHNH-1jRebquTiLWtEBWRp6PWkrcWoVJcA4w9PBekJFqSuW-uaOYF8ML3U6P6r96w6pulnk6jKWk6fVdi213V0VoGalIXxKSjUQmns7MSvSscDpY3DEDD1MTwaRnnjTnqiW0sajlLg1G77q9LmrIfTpvAMdrqVNRQLHMGcP_H5-NmM8SlEG7COwC56sp8UFdXUZFCsIoED2VvsD1nv8wrtrl_lXlHCs9mTGkOF0A4Zt28BhssfUd-_3Cr-w-3ddV4Du" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-base">김민수</h4>
-                            <p class="text-xs text-outline">컴퓨터공학과 3학년</p>
-                        </div>
-                        <button class="ml-auto px-3 py-1.5 bg-gray-100 rounded-lg text-xs font-semibold">프로필 수정</button>
-                    </div>
-
-                    <div class="p-4 border-b border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-outline">notifications</span>
-                            <span class="font-medium text-sm">푸시 알림</span>
-                        </div>
-                        <!-- Toggle Switch -->
-                        <div class="w-11 h-6 bg-primary rounded-full relative cursor-pointer">
-                            <div class="w-5 h-5 bg-white rounded-full absolute top-0.5 right-0.5 shadow-sm"></div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 border-b border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-outline">dark_mode</span>
-                            <span class="font-medium text-sm">다크 모드</span>
-                        </div>
-                        <!-- Toggle Switch (Off) -->
-                        <div class="w-11 h-6 bg-gray-200 rounded-full relative cursor-pointer">
-                            <div class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 shadow-sm"></div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors text-error">
-                        <div class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-error">logout</span>
-                            <span class="font-medium text-sm">로그아웃</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <p class="text-center text-xs text-outline">앱 버전 1.0.0</p>
-            </div>
-
-        </main>
-
-        <!-- Floating Action Button (FAB) relative to mobile frame -->
-        <div id="fab-button" class="absolute bottom-[100px] right-5 z-40 transition-opacity duration-300">
-            <button class="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary-container text-white shadow-xl flex items-center justify-center active:scale-90 transition-transform">
-                <span class="material-symbols-outlined text-3xl">add</span>
-            </button>
-        </div>
-
-        <!-- BottomNavBar relative to mobile frame -->
-        <nav class="absolute bottom-0 left-0 w-full z-50 bg-[#f9f9ff]/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-around items-center px-2 pb-5 pt-3 shadow-[0_-4px_16px_rgba(25,28,34,0.06)] rounded-t-[1.5rem] border-t border-[#c1c6d6]/20">
-            <!-- 홈 -->
-            <a id="nav-home" class="nav-item flex flex-col items-center justify-center bg-[#d7e2ff] dark:bg-blue-900/40 text-[#001a40] dark:text-blue-100 rounded-2xl px-4 py-1.5 transition-all duration-300 cursor-pointer" onclick="switchPage('home')">
-                <span class="material-symbols-outlined text-[22px]" data-weight="fill">home</span>
-                <span class="font-['Inter'] text-[10px] font-medium mt-1">홈</span>
-            </a>
-            <!-- 투두 -->
-            <a id="nav-todo" class="nav-item flex flex-col items-center justify-center text-[#727785] dark:text-slate-500 px-4 py-1.5 hover:text-[#006ADC] dark:hover:text-blue-300 active:scale-90 transition-all duration-200 cursor-pointer" onclick="switchPage('todo')">
-                <span class="material-symbols-outlined text-[22px]">check_circle</span>
-                <span class="font-['Inter'] text-[10px] font-medium mt-1">투두</span>
-            </a>
-            <!-- 캘린더 -->
-            <a id="nav-calendar" class="nav-item flex flex-col items-center justify-center text-[#727785] dark:text-slate-500 px-4 py-1.5 hover:text-[#006ADC] dark:hover:text-blue-300 active:scale-90 transition-all duration-200 cursor-pointer" onclick="switchPage('calendar')">
-                <span class="material-symbols-outlined text-[22px]">calendar_month</span>
-                <span class="font-['Inter'] text-[10px] font-medium mt-1">캘린더</span>
-            </a>
-            <!-- 설정 -->
-            <a id="nav-settings" class="nav-item flex flex-col items-center justify-center text-[#727785] dark:text-slate-500 px-4 py-1.5 hover:text-[#006ADC] dark:hover:text-blue-300 active:scale-90 transition-all duration-200 cursor-pointer" onclick="switchPage('settings')">
-                <span class="material-symbols-outlined text-[22px]">settings</span>
-                <span class="font-['Inter'] text-[10px] font-medium mt-1">설정</span>
-            </a>
-        </nav>
-        
+        <button onclick="switchPage('detailPage')" class="inline-block px-10 py-4 bg-black text-white text-sm tracking-wider uppercase rounded-full hover:bg-gray-800 transition duration-300">
+            공간 탐색 시작하기
+        </button>
     </div>
 
-    <!-- JavaScript for Page Navigation -->
+    <div id="detailPage" class="hidden-page min-h-screen bg-white">
+        
+        <nav class="p-8 border-b border-gray-100">
+            <button onclick="switchPage('mainPage')" class="text-sm tracking-wider font-bold hover:text-gray-500 transition">
+                ← 메인으로 돌아가기
+            </button>
+        </nav>
+
+        <div class="max-w-5xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="h-[500px] rounded-2xl bg-cover bg-center shadow-lg" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80');"></div>
+            
+            <div class="flex flex-col justify-center">
+                <span class="text-gray-400 text-sm tracking-widest uppercase mb-2">Suwon Haenggung-dong</span>
+                <h2 class="text-4xl font-light mb-8">구옥의 재해석, 빈티지 쇼룸</h2>
+                <p class="text-gray-600 leading-loose mb-10 font-light">
+                    세월의 흔적이 묻어나는 붉은 벽돌과 모던한 금속 집기가 대비를 이루는 매력적인 공간입니다. 스트릿 패션 브랜드나 감각적인 라이프스타일 팝업스토어에 완벽하게 어울립니다.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-4 mb-10 text-sm border-t border-gray-100 pt-6">
+                    <div><strong>면적:</strong> 35평</div>
+                    <div><strong>최소 대관:</strong> 3일</div>
+                    <div><strong>특징:</strong> 전면 통유리, 핀 조명</div>
+                </div>
+
+                <button onclick="alert('가상의 예약 시스템입니다. 과제 제출용으로 완벽하게 작동합니다!')" class="w-full py-4 border border-black text-center hover:bg-black hover:text-white transition duration-300">
+                    이 공간 예약하기
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function switchPage(targetPageId) {
-            // 1. 모든 페이지 숨기기
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(page => {
-                page.classList.remove('block');
-                page.classList.add('hidden');
-                // 애니메이션 리셋을 위해 클래스 제거 후 약간의 지연 후 다시 추가
-                page.classList.remove('animate-fade-in-up');
-            });
-
-            // 2. 선택된 페이지만 보여주기 & 애니메이션 적용
-            const targetPage = document.getElementById('page-' + targetPageId);
-            targetPage.classList.remove('hidden');
-            targetPage.classList.add('block');
+            // 모든 페이지 숨기기
+            document.getElementById('mainPage').classList.add('hidden-page');
+            document.getElementById('detailPage').classList.add('hidden-page');
             
-            // Reflow 강제 실행 (애니메이션 재시작을 위함)
-            void targetPage.offsetWidth; 
-            targetPage.classList.add('animate-fade-in-up');
-
-            // 3. 네비게이션 아이템 스타일 초기화
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => {
-                // 비활성 상태 스타일로 리셋
-                item.className = "nav-item flex flex-col items-center justify-center text-[#727785] dark:text-slate-500 px-4 py-1.5 hover:text-[#006ADC] dark:hover:text-blue-300 active:scale-90 transition-all duration-200 cursor-pointer";
-                const icon = item.querySelector('.material-symbols-outlined');
-                icon.removeAttribute('data-weight');
-            });
-
-            // 4. 선택된 네비게이션 아이템 활성화 스타일 적용
-            const activeNav = document.getElementById('nav-' + targetPageId);
-            activeNav.className = "nav-item flex flex-col items-center justify-center bg-[#d7e2ff] dark:bg-blue-900/40 text-[#001a40] dark:text-blue-100 rounded-2xl px-4 py-1.5 transition-all duration-300 cursor-pointer";
-            const activeIcon = activeNav.querySelector('.material-symbols-outlined');
-            activeIcon.setAttribute('data-weight', 'fill');
-
-            // 5. 페이지에 따라 헤더 타이틀 변경 및 FAB 버튼 숨기기/보이기 처리
-            const headerTitle = document.getElementById('header-title');
-            const fabButton = document.getElementById('fab-button');
-
-            if(targetPageId === 'home') {
-                headerTitle.innerText = '학업 비타민';
-                fabButton.style.display = 'flex';
-            } else if(targetPageId === 'todo') {
-                headerTitle.innerText = '나의 투두';
-                fabButton.style.display = 'flex';
-            } else if(targetPageId === 'calendar') {
-                headerTitle.innerText = '일정 캘린더';
-                fabButton.style.display = 'flex';
-            } else if(targetPageId === 'settings') {
-                headerTitle.innerText = '설정';
-                fabButton.style.display = 'none'; // 설정 화면에서는 플러스 버튼 숨김
-            }
+            // 사용자가 클릭한 페이지만 보여주기
+            const targetPage = document.getElementById(targetPageId);
+            targetPage.classList.remove('hidden-page');
+            
+            // 페이지가 나타날 때마다 페이드인 애니메이션 재실행
+            targetPage.classList.remove('fade-in');
+            void targetPage.offsetWidth; // 애니메이션 초기화를 위한 트릭
+            targetPage.classList.add('fade-in');
+            
+            // 화면 최상단으로 스크롤 이동
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
