@@ -8,15 +8,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
+    <!-- Google Fonts & Pretendard -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        sans: ['"Noto Sans KR"', '"Pretendard"', 'sans-serif'],
                         serif: ['"Playfair Display"', 'serif'],
                     },
                     colors: {
@@ -50,6 +51,11 @@
         .luxury-shadow {
             box-shadow: 0 20px 40px -15px rgba(28, 25, 23, 0.15);
         }
+        /* 페르소나 카드용 글래스모피즘 효과 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body class="font-sans text-arch-800 antialiased bg-arch-50 selection:bg-accent-500 selection:text-white">
@@ -74,10 +80,11 @@
                 </a>
                 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-10 items-center">
+                <div class="hidden md:flex space-x-8 lg:space-x-10 items-center">
                     <a href="#about" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">브랜드 스토리</a>
                     <a href="#services" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">핵심 서비스</a>
                     <a href="#portfolio" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">포트폴리오</a>
+                    <a href="#persona" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">타겟 고객</a>
                     <a href="#contact" class="bg-white text-arch-900 px-7 py-2.5 rounded-none border border-white font-bold text-sm tracking-wide hover:bg-transparent hover:text-white transition-all duration-300 nav-btn">
                         무료 견적 신청
                     </a>
@@ -98,6 +105,7 @@
                 <a href="#about" class="block text-white/80 hover:text-white font-medium tracking-wide">브랜드 스토리</a>
                 <a href="#services" class="block text-white/80 hover:text-white font-medium tracking-wide">핵심 서비스</a>
                 <a href="#portfolio" class="block text-white/80 hover:text-white font-medium tracking-wide">포트폴리오</a>
+                <a href="#persona" class="block text-white/80 hover:text-white font-medium tracking-wide">타겟 고객</a>
                 <a href="#contact" class="block w-full text-center mt-6 bg-accent-500 text-white px-6 py-4 font-bold tracking-wide">무료 견적 신청</a>
             </div>
         </div>
@@ -108,7 +116,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-arch-900/50 via-transparent to-arch-900/80"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center mt-20">
             <p class="text-accent-500 font-bold tracking-[0.2em] text-sm uppercase mb-6" data-aos="fade-up">Premium Space Design Platform</p>
-            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-light text-white leading-tight mb-8 drop-shadow-xl" style="font-family: 'Playfair Display', serif;">
+            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-light text-white leading-tight mb-8 drop-shadow-xl font-serif">
                 Design Your Space,<br>
                 <span class="font-sans font-black italic text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Design Your Life.</span>
             </h1>
@@ -358,6 +366,155 @@
                 <div class="absolute bottom-0 left-0 w-3/4 h-80 bg-white p-2 luxury-shadow z-20 transform -rotate-2">
                     <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover border border-arch-100">
                     <div class="absolute -top-4 -right-4 bg-accent-500 text-white text-xs font-bold px-3 py-1">3D Render Preview</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: Persona Section -->
+    <section class="py-24 bg-arch-100 border-t border-arch-200" id="persona">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-accent-500 tracking-[0.2em] uppercase mb-3">Target Audience</h2>
+                <h3 class="text-3xl sm:text-4xl font-black text-arch-900 mb-4">SPACE LINK가 만나는 고객</h3>
+                <p class="text-arch-600 max-w-2xl mx-auto">프리미엄 공간 디자인의 가치를 알아보고, 자신의 라이프스타일에 아낌없이 투자하는 우리의 핵심 고객 페르소나입니다.</p>
+            </div>
+
+            <!-- 페르소나 컨테이너 (기존 코드 통합) -->
+            <div class="glass-card w-full max-w-5xl mx-auto rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
+                <!-- 상단 헤더 & 프로필 영역 -->
+                <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-8 md:p-10 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <!-- 프로필 이미지 (실제 사람, 원형) -->
+                        <div class="relative shrink-0">
+                            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=400" 
+                                     alt="김지은 프로필" class="w-full h-full object-cover">
+                            </div>
+                            <!-- 상태 뱃지 -->
+                            <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-2 border-white shadow-sm"></div>
+                        </div>
+
+                        <!-- 인적 사항 -->
+                        <div class="text-center md:text-left flex-1">
+                            <div class="inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold mb-3 tracking-wide">
+                                핵심 타겟 페르소나
+                            </div>
+                            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 font-sans">
+                                김지은 <span class="text-xl md:text-2xl text-gray-500 font-medium ml-1">34세</span>
+                            </h1>
+                            <p class="text-xl text-indigo-600 font-bold mb-4">마케팅 대행사 과장 (7년 차)</p>
+                            
+                            <div class="flex flex-wrap justify-center md:justify-start gap-3 text-sm font-medium">
+                                <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 text-gray-700">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    서울시 강남구
+                                </span>
+                                <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 text-gray-700">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                    미혼 (연애 중)
+                                </span>
+                                <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 text-gray-700">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    연봉 5~6천만 원
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 본문 정보 영역 (Grid) -->
+                <div class="p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white">
+                    <!-- 라이프스타일 & 가치관 -->
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="bg-yellow-100 text-yellow-600 p-2 rounded-lg">✨</span> 라이프스타일 & 가치관
+                        </h3>
+                        <ul class="space-y-3 text-sm text-gray-700 leading-relaxed">
+                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>성격:</strong> 외향적이고 대인관계가 좋음. 트렌드에 민감하며 성장 욕구가 강함.</div></li>
+                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>관심사:</strong> 인테리어, SNS, 자기계발, 여행, 핫플레이스 탐방, 홈스타일링.</div></li>
+                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>소비 패턴:</strong> 가치 소비 중시. 공간의 감도와 디자인에 투자하여 삶의 질을 높이려 함.</div></li>
+                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>온라인 활동:</strong> 인스타그램 핀터레스트를 적극 활용해 인테리어 영감을 수집함.</div></li>
+                        </ul>
+                    </div>
+
+                    <!-- 미루기/문제점 (Pain Points) -->
+                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100">
+                        <h3 class="text-lg font-bold text-red-900 mb-4 flex items-center gap-2">
+                            <span class="bg-red-100 text-red-600 p-2 rounded-lg">🚨</span> 인테리어 시의 문제점 (Pain Points)
+                        </h3>
+                        <ul class="space-y-3 text-sm text-gray-700 leading-relaxed">
+                            <li class="flex items-start gap-2"><span class="text-red-500 font-bold mt-0.5">•</span> <div><strong>정보 비대칭 불안:</strong> 예산 낭비나 시공 불량(먹튀 등)에 대한 막연한 두려움이 큼.</div></li>
+                            <li class="flex items-start gap-2"><span class="text-red-500 font-bold mt-0.5">•</span> <div><strong>시간 부족:</strong> 바쁜 업무 탓에 여러 업체를 직접 발품 팔며 비교하기 어려움.</div></li>
+                            <li class="flex items-start gap-2"><span class="text-red-500 font-bold mt-0.5">•</span> <div><strong>소통의 어려움:</strong> 자신이 원하는 감각적인 무드를 디자이너에게 정확히 전달하는 데 한계를 느낌.</div></li>
+                        </ul>
+                    </div>
+
+                    <!-- 니즈 & 목표 (Needs & Goals) -->
+                    <div class="bg-green-50 p-6 rounded-2xl border border-green-100 md:col-span-2">
+                        <h3 class="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
+                            <span class="bg-green-100 text-green-600 p-2 rounded-lg">🎯</span> 니즈 & 목표 (Needs & Goals)
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
+                                <div class="text-2xl mb-2">💎</div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">감각적인 공간</h4>
+                                <p class="text-xs text-gray-500">누구에게나 자랑하고 싶은 디자인</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
+                                <div class="text-2xl mb-2">⏱️</div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">효율적인 큐레이션</h4>
+                                <p class="text-xs text-gray-500">믿을 수 있는 업체의 빠른 매칭</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
+                                <div class="text-2xl mb-2">🛡️</div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">시공의 안정성</h4>
+                                <p class="text-xs text-gray-500">안심 에스크로와 명확한 A/S 보장</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
+                                <div class="text-2xl mb-2">🛋️</div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">라이프스타일 반영</h4>
+                                <p class="text-xs text-gray-500">휴식과 재충전을 위한 맞춤형 설계</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 사업과의 연결성 -->
+                <div class="bg-arch-900 text-white p-8 md:p-10">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20">
+                            <svg class="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold">왜 SPACE LINK의 핵심 고객인가?</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-arch-50">
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="text-accent-500">🔍</span> 감도 높은 포트폴리오
+                            </h4>
+                            <p class="text-sm text-arch-300">트렌드에 민감한 이들은 기존의 뻔한 디자인을 거부합니다. 검증된 탑티어 디자이너들의 독창적인 포트폴리오 큐레이션이 강력한 훅(Hook)이 됩니다.</p>
+                        </div>
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="text-accent-500">🌱</span> 확실한 가치 소비
+                            </h4>
+                            <p class="text-sm text-arch-300">공간이 주는 행복과 삶의 질 향상을 잘 알고 있습니다. 프리미엄 서비스에 대한 정당한 비용 지불을 아끼지 않으므로 우수한 단가의 계약 성사율이 높습니다.</p>
+                        </div>
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="text-accent-500">📱</span> 바이럴 마케팅의 중심
+                            </h4>
+                            <p class="text-sm text-arch-300">자신의 예쁜 공간을 인스타그램 등 SNS에 자랑하고 소통하는 것을 즐깁니다. 완공 후 자연스러운 '온라인 집들이'를 통한 플랫폼 홍보 효과를 기대할 수 있습니다.</p>
+                        </div>
+                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="text-accent-500">💎</span> 신뢰와 투명성 요구
+                            </h4>
+                            <p class="text-sm text-arch-300">시간을 뺏기고 스트레스받는 것을 싫어합니다. 3D 시뮬레이션 매칭과 에스크로 시스템이 제공하는 '투명성과 편의성'이 이들의 가장 큰 페인 포인트를 해결해 줍니다.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
