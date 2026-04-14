@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEOUL: CINEMATIC | 당신의 여행을 영화로</title>
-    <!-- 폰트 불러오기 -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        /* 밝고 세련된 소프트 시네마틱 테마 변수 */
+        /* 밝고 세련된 소프트 시네마틱 테마 */
         :root {
             --bg-color: #f8f9fa;
             --text-main: #222222;
             --text-muted: #666666;
-            --accent-primary: #ff6b6b; /* 따뜻하고 트렌디한 코랄/레드 포인트 */
-            --accent-secondary: #4ecdc4;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.8);
+            --accent-primary: #ff6b6b; /* 코랄/레드 포인트 */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.9);
             --shadow: rgba(0, 0, 0, 0.08);
         }
 
@@ -30,7 +28,6 @@
             line-height: 1.6;
         }
 
-        /* 스크롤 막기 (모달 열렸을 때) */
         body.modal-open { overflow: hidden; }
 
         h1, h2, h3, .logo {
@@ -46,81 +43,58 @@
             transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 밝은 네비게이션 바 */
+        /* 네비게이션 바 */
         nav {
-            position: fixed;
-            top: 0; width: 100%;
+            position: fixed; top: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 5%;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            transition: 0.3s;
+            z-index: 1000; transition: 0.3s;
         }
-
-        .logo {
-            font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: #111;
-        }
-
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: #111; }
         .nav-links { display: flex; gap: 40px; }
         .nav-links a { font-size: 0.9rem; font-weight: 600; color: #444; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent-primary); }
 
-        /* 밝고 따뜻한 히어로 섹션 */
+        /* 히어로 섹션 */
         .hero {
             position: relative; height: 100vh;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
-
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* 밝고 화사한 서울 주간 풍경 */
-            background: url('https://images.unsplash.com/photo-1538485399081-7191377e8241?q=80&w=2000&auto=format&fit=crop') no-center/cover;
+            background: url('https://images.unsplash.com/photo-1548115184-bc6544d06a58?q=80&w=2000&auto=format&fit=crop') no-center/cover;
             background-position: center;
-            animation: zoomIn 25s infinite alternate;
-            z-index: -2;
+            animation: zoomIn 25s infinite alternate; z-index: -2;
         }
-
         @keyframes zoomIn {
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
         }
-
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.9) 100%);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.95) 100%);
             z-index: -1;
         }
-
-        .hero-content {
-            text-align: center; z-index: 1; padding: 0 20px; margin-top: 80px;
-        }
-
+        .hero-content { text-align: center; z-index: 1; padding: 0 20px; margin-top: 80px; }
         .hero-subtitle {
             font-size: 1.1rem; letter-spacing: 4px; color: var(--accent-primary);
             margin-bottom: 15px; display: block; font-weight: 600;
         }
-
         .hero-title {
             font-size: 4.5vw; line-height: 1.2; font-weight: 700;
-            margin-bottom: 25px; color: #111;
+            margin-bottom: 25px; color: #111; text-shadow: 0 4px 15px rgba(255,255,255,0.5);
         }
-
         .btn-primary {
-            display: inline-block; padding: 16px 45px; font-size: 1rem; font-weight: bold;
+            display: inline-block; padding: 18px 50px; font-size: 1rem; font-weight: bold;
             color: #fff; background: #111; border-radius: 50px;
-            transition: 0.3s; letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: 0.3s; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-
         .btn-primary:hover {
             background: var(--accent-primary); transform: translateY(-3px);
             box-shadow: 0 15px 25px rgba(255, 107, 107, 0.3);
@@ -130,137 +104,159 @@
         section { padding: 100px 5%; }
         .section-title { text-align: center; margin-bottom: 60px; }
         .section-title h2 { font-size: 2.8rem; margin-bottom: 15px; color: #111; }
-        .section-title p { color: var(--text-muted); font-size: 1.1rem; font-weight: 400; }
+        .section-title p { color: var(--text-muted); font-size: 1.1rem; font-weight: 400; max-width: 600px; margin: 0 auto;}
 
-        /* 패키지 카드 (가격 숨김, 클릭 유도) */
+        /* 패키지 카드 */
         .packages-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
         }
-
         .package-card {
             background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid #fff;
             border-radius: 24px; overflow: hidden; transition: 0.4s; cursor: pointer;
-            box-shadow: 0 15px 35px var(--shadow);
-            display: flex; flex-direction: column;
+            box-shadow: 0 15px 35px var(--shadow); display: flex; flex-direction: column;
         }
-
         .package-card:hover {
             transform: translateY(-8px); border-color: var(--accent-primary);
             box-shadow: 0 20px 40px rgba(255, 107, 107, 0.15);
         }
-
         .pkg-img {
-            width: 100%; height: 260px; background-size: cover; background-position: center; position: relative;
+            width: 100%; height: 240px; background-size: cover; background-position: center; position: relative;
         }
-
-        .pkg-img.retro { background-image: url('https://images.unsplash.com/photo-1588612140409-f62f8350bc56?q=80&w=1000&auto=format&fit=crop'); }
-        .pkg-img.picnic { background-image: url('https://images.unsplash.com/photo-1598501211756-3b7c2ccce762?q=80&w=1000&auto=format&fit=crop'); }
-        .pkg-img.fashion { background-image: url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1000&auto=format&fit=crop'); }
-
         .pkg-tag {
             position: absolute; top: 15px; right: 15px;
-            background: rgba(255,255,255,0.9); padding: 6px 14px; border-radius: 20px;
+            background: rgba(255,255,255,0.95); padding: 6px 14px; border-radius: 20px;
             font-size: 0.75rem; font-weight: 700; color: #111; letter-spacing: 0.5px;
         }
-
-        .pkg-content { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
-        .pkg-content h3 { font-size: 1.6rem; margin-bottom: 10px; color: #111; }
-        .pkg-desc { color: var(--text-muted); margin-bottom: 25px; font-size: 0.95rem; flex-grow: 1; }
-        
+        .pkg-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .pkg-content h3 { font-size: 1.5rem; margin-bottom: 10px; color: #111; }
+        .pkg-desc { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; flex-grow: 1; line-height: 1.5;}
         .view-details-btn {
-            text-align: center; padding: 12px; background: #f0f0f0; border-radius: 12px;
+            text-align: center; padding: 12px; background: #f4f4f4; border-radius: 12px;
             font-weight: 600; color: #333; transition: 0.3s; font-size: 0.9rem;
         }
         .package-card:hover .view-details-btn { background: var(--text-main); color: #fff; }
 
-        /* 모달 (상세페이지 & 결과물 & 가격 표시) */
+        /* 후기(Reviews) 섹션 */
+        .reviews-section { background: #fff; }
+        .reviews-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+        .review-card {
+            background: #fdfdfd; border: 1px solid #eee; padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.3s;
+        }
+        .review-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+        .stars { color: #ffc107; font-size: 1.2rem; margin-bottom: 15px; }
+        .review-text { font-size: 1rem; color: #444; line-height: 1.6; margin-bottom: 20px; font-style: italic; }
+        .reviewer { display: flex; align-items: center; gap: 15px; }
+        .reviewer img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .reviewer-info h4 { font-size: 0.95rem; color: #111; margin-bottom: 2px; }
+        .reviewer-info p { font-size: 0.8rem; color: #888; }
+
+        /* 포트폴리오 갤러리 */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;
+        }
+        .gallery-item { height: 350px; border-radius: 16px; overflow: hidden; position: relative; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item:nth-child(2), .gallery-item:nth-child(5) { grid-row: span 2; height: auto; } /* Masonry 느낌 */
+
+        /* 모달 (상세페이지) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(10px);
             z-index: 2000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s;
+            opacity: 0; transition: opacity 0.3s; padding: 20px;
         }
-
         .modal-overlay.active { display: flex; opacity: 1; }
-
         .modal-content {
-            background: #fff; width: 90%; max-width: 800px; max-height: 90vh;
+            background: #fff; width: 100%; max-width: 850px; max-height: 90vh;
             border-radius: 24px; overflow-y: auto; position: relative;
             transform: translateY(30px); transition: 0.4s; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
         }
-
         .modal-overlay.active .modal-content { transform: translateY(0); }
+        
+        /* 모달 스크롤바 디자인 */
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
         .close-modal {
-            position: absolute; top: 20px; right: 20px; width: 40px; height: 40px;
-            background: rgba(0,0,0,0.1); border-radius: 50%; display: flex;
+            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
+            background: rgba(255,255,255,0.9); border-radius: 50%; display: flex;
             justify-content: center; align-items: center; cursor: pointer;
-            font-size: 1.5rem; z-index: 10; transition: 0.3s;
+            font-size: 1.5rem; z-index: 10; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .close-modal:hover { background: #111; color: #fff; }
 
-        .modal-hero { width: 100%; height: 300px; background-size: cover; background-position: center; }
-        .modal-body { padding: 40px; }
-        .modal-title { font-size: 2.2rem; margin-bottom: 15px; }
-        .modal-tags { display: flex; gap: 10px; margin-bottom: 30px; }
-        .tag { padding: 5px 12px; background: #f0f0f0; border-radius: 15px; font-size: 0.8rem; font-weight: 600; color: #555; }
-
-        /* 결과물 예시 섹션 */
-        .result-preview {
-            margin: 40px 0; padding: 30px; background: #f9f9f9; border-radius: 20px; text-align: center;
+        .modal-hero { width: 100%; height: 350px; background-size: cover; background-position: center; position: relative;}
+        .modal-hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, rgba(255,255,255,1), transparent);
         }
-        .result-preview h4 { font-size: 1.2rem; margin-bottom: 20px; color: var(--accent-primary); }
-        .result-images { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .modal-body { padding: 0 50px 50px 50px; position: relative; top: -30px; z-index: 2;}
+        .modal-tags { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;}
+        .tag { padding: 6px 14px; background: #111; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #fff; }
+        
+        .modal-title { font-size: 2.5rem; margin-bottom: 20px; color: #111;}
+        .modal-desc { color: #555; line-height: 1.8; font-size: 1.05rem; margin-bottom: 30px; }
+        
+        /* 패키지 포함 내역 */
+        .package-features {
+            background: #f8f9fa; padding: 25px; border-radius: 16px; margin-bottom: 40px; border: 1px solid #eee;
+        }
+        .package-features h4 { margin-bottom: 15px; font-size: 1.1rem; color: #111; }
+        .package-features ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .package-features li { display: flex; align-items: center; font-size: 0.95rem; color: #444; }
+        .package-features li::before { content: '✓'; color: var(--accent-primary); font-weight: bold; margin-right: 10px; }
+
+        /* 결과물 예시 그리드 */
+        .result-preview h4 { font-size: 1.3rem; margin-bottom: 20px; color: #111; }
+        .result-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
         .result-img { 
-            width: 100%; height: 250px; object-fit: cover; border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%; height: 280px; object-fit: cover; border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
         }
+        .result-img:hover { transform: scale(1.03); }
 
-        /* 하단 가격 및 결제 영역 */
         .modal-footer {
-            margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;
+            margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee;
             display: flex; justify-content: space-between; align-items: center;
         }
         .modal-price-wrap { text-align: left; }
-        .price-label { font-size: 0.9rem; color: #888; margin-bottom: 5px; display: block; }
-        .actual-price { font-size: 2rem; font-weight: 800; color: #111; }
-        
+        .price-label { font-size: 0.95rem; color: #888; margin-bottom: 5px; display: block; font-weight: 500;}
+        .actual-price { font-size: 2.2rem; font-weight: 800; color: var(--accent-primary); }
         .btn-book {
-            padding: 18px 40px; background: var(--accent-primary); color: #fff;
+            padding: 18px 45px; background: #111; color: #fff;
             border-radius: 50px; font-weight: bold; font-size: 1.1rem; border: none;
-            cursor: pointer; transition: 0.3s;
+            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
         }
-        .btn-book:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4); }
+        .btn-book:hover { background: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4); }
 
-        /* 갤러리 섹션 */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-        .gallery-item { height: 300px; border-radius: 16px; overflow: hidden; position: relative; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .gallery-item:hover img { transform: scale(1.1); }
-        
         /* 예약 폼 */
-        .booking-section { background: #fff; }
+        .booking-section { background: #fafafa; }
         .booking-form {
             background: #fff; padding: 50px; border-radius: 24px; box-shadow: 0 20px 50px var(--shadow);
-            max-width: 600px; margin: 0 auto; border: 1px solid #eee;
+            max-width: 650px; margin: 0 auto; border: 1px solid #eee;
         }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: #444; }
-        .input-group input, .input-group select {
-            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 12px;
-            font-family: inherit; font-size: 1rem; transition: 0.3s; background: #fafafa;
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: #333; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 16px; border: 1px solid #ddd; border-radius: 12px;
+            font-family: inherit; font-size: 1rem; transition: 0.3s; background: #fdfdfd;
         }
-        .input-group input:focus, .input-group select:focus {
-            border-color: var(--accent-primary); background: #fff; outline: none;
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            border-color: var(--accent-primary); background: #fff; outline: none; box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
         }
         
-        footer { text-align: center; padding: 40px; background: #111; color: #fff; }
+        footer { text-align: center; padding: 50px 20px; background: #111; color: #fff; }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.8rem; }
+            .hero-title { font-size: 3rem; }
             .nav-links { display: none; }
-            .modal-content { width: 95%; }
-            .result-images { grid-template-columns: 1fr; }
+            .package-features ul { grid-template-columns: 1fr; }
+            .modal-body { padding: 0 25px 30px 25px; }
             .modal-footer { flex-direction: column; gap: 20px; text-align: center; }
             .modal-price-wrap { text-align: center; }
             .btn-book { width: 100%; }
@@ -273,6 +269,7 @@
         <a href="#" class="logo">SEOUL: CINEMATIC</a>
         <div class="nav-links">
             <a href="#packages">PACKAGES</a>
+            <a href="#reviews">REVIEWS</a>
             <a href="#portfolio">PORTFOLIO</a>
             <a href="#book">BOOK NOW</a>
         </div>
@@ -282,95 +279,167 @@
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content reveal">
-            <span class="hero-subtitle">K-STYLE FILM DIRECTING</span>
-            <h1 class="hero-title">당신의 여행,<br>화보가 되다</h1>
-            <p style="font-size: 1.1rem; color: #444; margin-bottom: 40px; font-weight: 500;">
-                어둡고 무서운 골목 대신, 가장 찬란하게 빛나는 서울의 햇살 아래서.<br>당신만의 밝고 트렌디한 시네마틱 릴스를 연출해 드립니다.
+            <span class="hero-subtitle">YOUR SEOUL, DIRECTED</span>
+            <h1 class="hero-title">가장 완벽한<br>당신의 씬(SCENE)</h1>
+            <p style="font-size: 1.15rem; color: #333; margin-bottom: 40px; font-weight: 500; max-width: 500px; margin-left: auto; margin-right: auto;">
+                단순한 인증샷이 아닙니다. 전문 디렉터의 시선으로 당신의 여행을 한 편의 감각적인 화보와 릴스로 연출해 드립니다.
             </p>
-            <a href="#packages" class="btn-primary">투어 패키지 보기</a>
+            <a href="#packages" class="btn-primary">디렉팅 패키지 보기</a>
         </div>
     </section>
 
     <!-- 패키지 섹션 -->
     <section id="packages">
         <div class="section-title reveal">
-            <h2>CURATED TOURS</h2>
-            <p>원하는 감성을 선택하세요. 상세페이지에서 결과물 예시를 확인할 수 있습니다.</p>
+            <h2>DIRECTING PACKAGES</h2>
+            <p>원하는 무드와 장소를 선택하세요. 상상 속의 컨셉이 있다면 커스텀 마이징도 가능합니다.</p>
         </div>
 
         <div class="packages-grid">
-            <!-- 패키지 1: 클릭 시 모달 오픈 함수 호출 -->
+            <!-- 패키지 1 -->
             <div class="package-card reveal" onclick="openModal('retro')">
-                <div class="pkg-img retro"><span class="pkg-tag">Vintage K-pop</span></div>
+                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1588612140409-f62f8350bc56?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="pkg-tag">Vintage K-pop</span>
+                </div>
                 <div class="pkg-content">
                     <h3>RETRO EULJIRO</h3>
-                    <p class="pkg-desc">아날로그 필름 카메라 감성. 뉴진스(NewJeans) 뮤직비디오 스타일의 청량하고 레트로한 감성을 골목길에서 연출합니다.</p>
+                    <p class="pkg-desc">낡은 인쇄소 골목과 화려한 네온사인. 청량하고 빈티지한 필름 카메라 감성으로 힙지로의 바이브를 담아냅니다.</p>
                     <div class="view-details-btn">상세 내용 및 결과물 보기 →</div>
                 </div>
             </div>
 
+            <!-- 패키지 2 -->
             <div class="package-card reveal" style="transition-delay: 0.1s;" onclick="openModal('picnic')">
-                <div class="pkg-img picnic"><span class="pkg-tag">Sunset Vibe</span></div>
+                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1598501211756-3b7c2ccce762?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="pkg-tag">Romantic Sunset</span>
+                </div>
                 <div class="pkg-content">
                     <h3>HAN-RIVER PICNIC</h3>
-                    <p class="pkg-desc">반짝이는 윤슬과 한강 공원 피크닉. 따뜻한 노을빛을 받아 부드럽고 사랑스러운 감성의 커플/개인 화보 릴스를 촬영합니다.</p>
+                    <p class="pkg-desc">따뜻한 노을빛과 반짝이는 한강의 윤슬. E-bike를 타거나 잔디밭에서 즐기는 부드럽고 사랑스러운 무드를 연출합니다.</p>
                     <div class="view-details-btn">상세 내용 및 결과물 보기 →</div>
                 </div>
             </div>
 
+            <!-- 패키지 3 -->
             <div class="package-card reveal" style="transition-delay: 0.2s;" onclick="openModal('fashion')">
-                <div class="pkg-img fashion"><span class="pkg-tag">Premium</span></div>
+                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="pkg-tag">Magazine Look</span>
+                </div>
                 <div class="pkg-content">
                     <h3>SEONGSU LOOKBOOK</h3>
-                    <p class="pkg-desc">가장 트렌디한 성수동 카페거리와 팝업스토어 배경. 마치 패션 매거진의 한 페이지 같은 세련된 룩북 필름을 제작합니다.</p>
+                    <p class="pkg-desc">가장 트렌디한 성수동 팝업스토어와 카페거리. 글로벌 패션 매거진의 한 페이지처럼 세련된 교차 편집 필름을 제작합니다.</p>
+                    <div class="view-details-btn">상세 내용 및 결과물 보기 →</div>
+                </div>
+            </div>
+
+            <!-- 패키지 4: 커스텀 마이징 (NEW) -->
+            <div class="package-card reveal" style="transition-delay: 0.3s;" onclick="openModal('custom')">
+                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1000&auto=format&fit=crop');">
+                    <span class="pkg-tag" style="background: #111; color: #00f2ff;">1:1 Bespoke</span>
+                </div>
+                <div class="pkg-content">
+                    <h3>CUSTOM DIRECTING</h3>
+                    <p class="pkg-desc">"원하는 컨셉이 있으신가요?" 장소, 무드, 의상까지. 고객님이 원하시는 모든 상상을 완벽한 시네마틱 결과물로 구현해 드립니다.</p>
                     <div class="view-details-btn">상세 내용 및 결과물 보기 →</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 모달 창 (상세페이지 & 가격 표시 영역) -->
+    <!-- 모달 창 (상세페이지) -->
     <div class="modal-overlay" id="packageModal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal()">✕</div>
-            <div class="modal-hero" id="m-img" style="background-image: url('');"></div>
+            <div class="modal-hero" id="m-img"></div>
             <div class="modal-body">
                 <div class="modal-tags" id="m-tags"></div>
                 <h2 class="modal-title" id="m-title">Title</h2>
-                <p style="color: #666; line-height: 1.7; margin-bottom: 20px;" id="m-desc">Description</p>
+                <p class="modal-desc" id="m-desc">Description</p>
                 
-                <!-- AI 생성 / 시네마틱 결과물 예시 -->
+                <!-- 패키지 포함 내역 (NEW) -->
+                <div class="package-features">
+                    <h4>✨ 패키지 포함 내역</h4>
+                    <ul id="m-features">
+                        <!-- JS에서 동적 주입 -->
+                    </ul>
+                </div>
+
+                <!-- 결과물 예시 -->
                 <div class="result-preview">
-                    <h4>✨ 이렇게 만들어집니다 (예상 결과물)</h4>
+                    <h4>📸 예상 결과물 (Reference)</h4>
+                    <p style="margin-bottom: 20px; color: #666; font-size: 0.95rem;">전문 디렉터의 K-스타일 톤앤매너 색보정이 들어간 실제 느낌입니다.</p>
                     <div class="result-images" id="m-results">
                         <!-- JS에서 동적 이미지 삽입됨 -->
                     </div>
-                    <p style="margin-top:15px; font-size:0.85rem; color:#888;">* 전문 디렉터가 트렌디한 K-감성 색보정과 BGM을 직접 입혀 당일 전송합니다.</p>
                 </div>
 
-                <!-- 상세 정보를 다 본 후 나타나는 가격 영역 -->
                 <div class="modal-footer">
                     <div class="modal-price-wrap">
-                        <span class="price-label">촬영 + 편집본 포함 패키지</span>
+                        <span class="price-label">촬영 + 편집본 전체 포함</span>
                         <div class="actual-price" id="m-price">₩ 0</div>
                     </div>
-                    <button class="btn-book" onclick="goToBook()">지금 예약하기</button>
+                    <button class="btn-book" onclick="goToBook()">이 컨셉으로 예약하기</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 갤러리 -->
+    <!-- 고객 후기 섹션 (NEW) -->
+    <section id="reviews" class="reviews-section">
+        <div class="section-title reveal">
+            <h2>CLIENT STORIES</h2>
+            <p>서울 시네마틱과 함께한 주인공들의 진짜 이야기</p>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card reveal">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"어색할까봐 걱정했는데, 디렉터님이 시선 처리부터 걷는 속도까지 다 디렉팅 해주셔서 정말 편했어요. 완성된 릴스 보고 제 친구들이 다 어디서 찍었냐고 난리났습니다 ㅠㅠ 최고!"</p>
+                <div class="reviewer">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="">
+                    <div class="reviewer-info">
+                        <h4>Sarah J.</h4>
+                        <p>Retro Euljiro 패키지</p>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card reveal" style="transition-delay: 0.1s;">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"저희 커플 1주년 기념으로 한강 피크닉 패키지를 예약했어요. 윤슬 반짝이는 타이밍을 기가 막히게 잡아주시고, 색감이 진짜 영화 포스터처럼 나왔어요. 평생 간직할게요!"</p>
+                <div class="reviewer">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=150&auto=format&fit=crop" alt="">
+                    <div class="reviewer-info">
+                        <h4>Emily & David</h4>
+                        <p>Han-River Picnic 패키지</p>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card reveal" style="transition-delay: 0.2s;">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"커스텀 마이징으로 '홍대에서 아이돌 뮤비 느낌'으로 찍어달라고 엄청 무리한 요구를 했는데, 동선부터 소품까지 완벽하게 짜오셨더라고요. 돈이 아깝지 않은 하이엔드 서비스입니다."</p>
+                <div class="reviewer">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=150&auto=format&fit=crop" alt="">
+                    <div class="reviewer-info">
+                        <h4>Takuya M.</h4>
+                        <p>Custom Directing 패키지</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 갤러리 섹션 확장 -->
     <section id="portfolio" style="background: #fff;">
         <div class="section-title reveal">
-            <h2>OUR MOOD</h2>
-            <p>밝고 화사한 우리만의 색감</p>
+            <h2>OUR PORTFOLIO</h2>
+            <p>다양한 장소, 압도적인 미감</p>
         </div>
         <div class="gallery-grid">
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1548115184-bc6544d06a58?q=80&w=800&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=800&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1620025700877-cd032b903e1b?q=80&w=800&auto=format&fit=crop" alt=""></div>
             <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1515555230216-82228b4e598b?q=80&w=800&auto=format&fit=crop" alt=""></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=800&auto=format&fit=crop" alt=""></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?q=80&w=800&auto=format&fit=crop" alt=""></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1542317772-78d10b0ed19d?q=80&w=800&auto=format&fit=crop" alt=""></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1620025700877-cd032b903e1b?q=80&w=800&auto=format&fit=crop" alt=""></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1589136777351-fdc9c9cb1b58?q=80&w=800&auto=format&fit=crop" alt=""></div>
         </div>
     </section>
 
@@ -378,46 +447,56 @@
     <section id="book" class="booking-section">
         <div class="section-title reveal">
             <h2>START CASTING</h2>
-            <p>원하는 날짜와 테마를 남겨주세요.</p>
+            <p>당신의 이야기를 남겨주세요. 24시간 내에 디렉터가 회신드립니다.</p>
         </div>
         <div class="booking-form reveal">
-            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('예약 접수 완료!');">
+            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('예약 상담이 성공적으로 접수되었습니다!');">
                 <div class="input-group">
-                    <label>이름 (Name)</label>
-                    <input type="text" placeholder="Your Name" required>
+                    <label>대표자 성함 (Name)</label>
+                    <input type="text" placeholder="예: 홍길동" required>
                 </div>
                 <div class="input-group">
-                    <label>원하는 시네마틱 무드</label>
+                    <label>인스타그램/SNS (Optional)</label>
+                    <input type="text" placeholder="@your_id (고객님의 무드를 미리 파악하는 데 도움이 됩니다)">
+                </div>
+                <div class="input-group">
+                    <label>원하는 패키지 선택</label>
                     <select id="book-select" required>
-                        <option value="" disabled selected>테마를 선택해주세요</option>
-                        <option value="retro">Retro Euljiro (청량/레트로)</option>
-                        <option value="picnic">Han-River Picnic (따뜻/로맨틱)</option>
-                        <option value="fashion">Seongsu Lookbook (세련/트렌디)</option>
+                        <option value="" disabled selected>패키지를 선택해주세요</option>
+                        <option value="retro">Retro Euljiro (청량/레트로/필름)</option>
+                        <option value="picnic">Han-River Picnic (노을/로맨틱/자연)</option>
+                        <option value="fashion">Seongsu Lookbook (트렌디/매거진/패션)</option>
+                        <option value="custom">Custom Directing (완전 맞춤형 컨셉)</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>예정된 촬영 날짜</label>
+                    <label>희망 촬영 날짜</label>
                     <input type="date" required>
                 </div>
-                <button type="submit" class="btn-book" style="width: 100%; margin-top: 10px;">상담 신청하기</button>
+                <div class="input-group">
+                    <label>추가 요청 및 커스텀 내용 (Custom 선택 시 상세히 적어주세요)</label>
+                    <textarea rows="4" placeholder="원하시는 장소, 참고할 만한 영상 링크, 특이사항 등을 자유롭게 적어주세요."></textarea>
+                </div>
+                <button type="submit" class="btn-book" style="width: 100%; margin-top: 10px;">무료 상담 및 견적 요청하기</button>
             </form>
         </div>
     </section>
 
     <footer>
-        <h3 style="margin-bottom: 10px; font-family: 'Oswald';">SEOUL: CINEMATIC</h3>
-        <p style="color: #888; font-size: 0.9rem;">당신의 서울을 가장 아름답게 기록합니다.</p>
+        <h3 style="margin-bottom: 10px; font-family: 'Oswald'; font-size: 1.5rem; letter-spacing: 2px;">SEOUL: CINEMATIC</h3>
+        <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">당신의 서울을 가장 아름답게 기록합니다.</p>
+        <p style="color: #555; font-size: 0.8rem;">© 2026 SEOUL CINEMATIC. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // 스크롤 네비게이션 효과
+        // 네비게이션 효과
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                nav.style.background = 'rgba(255, 255, 255, 0.9)';
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
                 nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.05)';
             } else {
-                nav.style.background = 'rgba(255, 255, 255, 0.5)';
+                nav.style.background = 'rgba(255, 255, 255, 0.6)';
                 nav.style.boxShadow = 'none';
             }
         });
@@ -428,53 +507,72 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
+                if (elementTop < windowHeight - 50) reveals[i].classList.add("active");
             }
         }
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // 패키지 데이터 (상세 내용 및 결과물 예시, 가격 데이터)
+        // 패키지 상세 데이터 (내용 대폭 강화)
         const packageData = {
             retro: {
                 title: "RETRO EULJIRO",
-                tags: ["청량함", "필름감성", "Y2K"],
-                heroImg: "https://images.unsplash.com/photo-1588612140409-f62f8350bc56?q=80&w=1200&auto=format&fit=crop",
-                desc: "마치 오래된 필름 영화의 주인공이 된 것처럼. 힙지로의 골목길에서 톡톡 튀는 청량한 Y2K 감성의 영상을 찍어드립니다. 자연스러운 웃음과 걷는 모습을 짐벌로 완벽하게 쫓아갑니다.",
+                tags: ["청량함", "필름감성", "Y2K", "힙지로"],
+                heroImg: "https://images.unsplash.com/photo-1588612140409-f62f8350bc56?q=80&w=1600&auto=format&fit=crop",
+                desc: "마치 90년대 필름 영화의 주인공이 된 것처럼. 서울에서 가장 힙한 을지로의 인쇄소 골목과 화려한 네온사인을 배경으로 톡톡 튀는 청량한 Y2K 감성의 영상을 찍어드립니다. 카메라 앞이 어색해도 걱정 마세요. 자연스러운 웃음과 걷는 모습을 전문 디렉터가 이끌어내고, 흔들림 없는 짐벌로 완벽하게 쫓아갑니다.",
+                features: ["전문 디렉터 1:1 동행 (2시간)", "시네마틱 릴스(숏폼) 영상 2편 제공", "고화질 스냅 원본 100컷 이상", "Y2K 감성 특화 프리미엄 색보정 적용", "어색함 없는 세밀한 포즈 및 동선 디렉팅"],
                 results: [
-                    "https://images.unsplash.com/photo-1516483638261-f40af5aa11ce?q=80&w=600&auto=format&fit=crop", // 감성 결과물 1
-                    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=600&auto=format&fit=crop"  // 감성 결과물 2
+                    "https://images.unsplash.com/photo-1516483638261-f40af5aa11ce?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1517427677506-699a224a59bb?q=80&w=600&auto=format&fit=crop"
                 ],
                 price: "₩ 150,000"
             },
             picnic: {
                 title: "HAN-RIVER PICNIC",
-                tags: ["노을빛", "로맨틱", "윤슬"],
-                heroImg: "https://images.unsplash.com/photo-1598501211756-3b7c2ccce762?q=80&w=1200&auto=format&fit=crop",
-                desc: "오후 5시, 한강이 가장 예뻐지는 시간. 반짝이는 강물(윤슬)과 따뜻한 노을을 배경으로 몽환적이고 부드러운 화보를 연출합니다. 커플이나 우정 여행객에게 가장 인기가 많습니다.",
+                tags: ["노을빛", "로맨틱", "윤슬", "자연"],
+                heroImg: "https://images.unsplash.com/photo-1598501211756-3b7c2ccce762?q=80&w=1600&auto=format&fit=crop",
+                desc: "오후 5시, 한강이 가장 예뻐지는 매직 아워(Magic Hour). 반짝이는 강물(윤슬)과 따뜻한 노을을 배경으로 몽환적이고 부드러운 화보를 연출합니다. E-bike를 타고 달리는 역동적인 모습부터 피크닉 매트 위에서의 여유로운 모습까지. 커플이나 우정 여행객에게 가장 압도적인 만족도를 자랑하는 베스트셀러입니다.",
+                features: ["매직 아워 특화 촬영 (2.5시간)", "로맨틱 무드 릴스(숏폼) 영상 1편 + 교차편집 1편", "색감 보정 스냅 사진 20장 제공", "피크닉 매트 등 가벼운 촬영 소품 무료 대여", "한강 노을빛 웜톤(Warm-tone) 특화 색보정"],
                 results: [
                     "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1506501139174-099022df5260?q=80&w=600&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1506501139174-099022df5260?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1515555230216-82228b4e598b?q=80&w=600&auto=format&fit=crop"
                 ],
                 price: "₩ 180,000"
             },
             fashion: {
                 title: "SEONGSU LOOKBOOK",
-                tags: ["트렌디", "매거진", "스트릿"],
-                heroImg: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop",
-                desc: "핫플레이스가 즐비한 성수동을 런웨이처럼 활용하세요. 세련된 건축물과 팝업스토어를 배경으로 하이엔드 패션 매거진 스타일의 교차 편집 릴스를 만들어 드립니다.",
+                tags: ["트렌디", "매거진", "스트릿패션", "하이엔드"],
+                heroImg: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop",
+                desc: "핫플레이스가 즐비한 성수동 전체를 당신만의 런웨이로 활용하세요. 붉은 벽돌의 인더스트리얼 건축물과 가장 힙한 팝업스토어를 배경으로, 마치 하이엔드 패션 매거진이나 브랜드 캠페인 영상 같은 세련된 룩북 필름을 제작합니다. 패션과 스타일에 관심이 많은 분들을 위한 프리미엄 패키지입니다.",
+                features: ["프리미엄 룩북 촬영 (3시간)", "감각적인 비트 매칭(교차편집) 릴스 2편", "매거진 스타일 하이엔드 보정본 30장", "다양한 스팟 이동 및 2착장 환복 가능", "의상 및 무드에 맞춘 현장 즉석 로케이션 수정"],
                 results: [
                     "https://images.unsplash.com/photo-1485231183945-fef2e4301c44?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?q=80&w=600&auto=format&fit=crop"
                 ],
                 price: "₩ 220,000"
+            },
+            custom: {
+                title: "1:1 CUSTOM DIRECTING",
+                tags: ["맞춤제작", "아이돌뮤비", "모든상상", "VVIP"],
+                heroImg: "https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1600&auto=format&fit=crop",
+                desc: "정해진 틀은 없습니다. '홍대 클럽 거리에서 아이돌 뮤직비디오처럼', '경복궁에서 사극 영화 주인공처럼', 혹은 틱톡에서 본 특정 밈(Meme) 영상까지. 고객님이 원하시는 레퍼런스만 보여주시면, 장소 헌팅부터 동선 기획, BGM, 촬영 기법까지 모든 것을 1:1로 새롭게 설계하여 상상을 현실로 만들어 드립니다.",
+                features: ["고객 맞춤형 사전 기획 미팅 (온라인)", "원하는 장소 및 시간대 제한 없는 촬영 (협의)", "원하는 레퍼런스 스타일 100% 반영 릴스 제작", "드론, 특수 조명 등 필요시 추가 장비 투입", "최종본 수정(피드백) 1회 제공"],
+                results: [
+                    "https://images.unsplash.com/photo-1508898578281-774ac4893c0c?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1493225457124-a1a2a5f25754?q=80&w=600&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1501686637-b7aca9ee32b2?q=80&w=600&auto=format&fit=crop"
+                ],
+                price: "견적 협의 (상담 후 결정)"
             }
         };
 
         const modal = document.getElementById('packageModal');
         let currentSelected = '';
 
-        // 모달 열기 및 데이터 주입
+        // 모달 열기
         function openModal(pkgType) {
             const data = packageData[pkgType];
             currentSelected = pkgType;
@@ -484,10 +582,13 @@
             document.getElementById('m-desc').innerText = data.desc;
             document.getElementById('m-price').innerText = data.price;
             
-            // 태그 동적 생성
+            // 태그 주입
             document.getElementById('m-tags').innerHTML = data.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
             
-            // 결과물 이미지 동적 생성 (AI 생성 화보 컨셉)
+            // 포함 내역(Features) 주입
+            document.getElementById('m-features').innerHTML = data.features.map(feat => `<li>${feat}</li>`).join('');
+
+            // 결과물 이미지 주입
             document.getElementById('m-results').innerHTML = data.results.map(url => `<img src="${url}" class="result-img" alt="">`).join('');
 
             modal.classList.add('active');
@@ -500,17 +601,18 @@
             document.body.classList.remove('modal-open');
         }
 
-        // 모달 외부 클릭 시 닫기
         window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
+            if (event.target == modal) closeModal();
         }
 
-        // 모달에서 예약하기 버튼 클릭 시
+        // 예약 폼으로 스크롤 이동 및 자동 선택
         function goToBook() {
             closeModal();
             document.getElementById('book-select').value = currentSelected;
+            // 텍스트 에어리어 포커스 (커스텀 선택 시 유도)
+            if(currentSelected === 'custom') {
+                document.querySelector('textarea').focus();
+            }
             document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
