@@ -3,683 +3,613 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPACE LINK | 프리미엄 공간 디자인 매칭 플랫폼</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts & Pretendard -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Noto Sans KR"', '"Pretendard"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
-                    },
-                    colors: {
-                        arch: {
-                            50: '#f7f7f6',
-                            100: '#ebeae8',
-                            200: '#d3d1cd',
-                            300: '#b1ada6',
-                            400: '#8c877d',
-                            500: '#706b61',
-                            600: '#5a554c',
-                            700: '#4a463f',
-                            800: '#3f3c36',
-                            900: '#1c1917', // Deep Charcoal
-                        },
-                        accent: {
-                            500: '#b45309', // Amber 700 (Warm Luxury)
-                            600: '#92400e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <title>SEOUL: CINEMATIC | 당신의 여행을 영화로</title>
+    <!-- 폰트 불러오기: 영문은 영화 포스터 느낌의 Oswald, 한글은 깔끔한 Pretendard -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        html { scroll-behavior: smooth; }
+        /* CSS 변수 설정 (테마 컬러) */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-cyan: #00f2ff;
+            --accent-magenta: #ff003c;
+            --glass-bg: rgba(20, 20, 20, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 기본 리셋 및 폰트 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Oswald', 'Pretendard', sans-serif;
+            text-transform: uppercase;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 스크롤 애니메이션 클래스 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 네비게이션 바 (글래스모피즘) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(5, 5, 5, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* 모바일 햄버거 메뉴 숨김 (기본) */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 히어로 섹션 (첫 화면) */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
         .hero-bg {
-            background: linear-gradient(rgba(28, 25, 23, 0.6), rgba(28, 25, 23, 0.8)), url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            background-attachment: fixed;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1617300741697-3df8fbf20f66?q=80&w=2070&auto=format&fit=crop') no-center/cover;
+            background-position: center;
+            animation: zoomIn 20s infinite alternate;
+            z-index: -2;
         }
-        .luxury-shadow {
-            box-shadow: 0 20px 40px -15px rgba(28, 25, 23, 0.15);
+
+        @keyframes zoomIn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
-        /* 페르소나 카드용 글래스모피즘 효과 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.9) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 0 20px;
+            margin-top: 50px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 5vw;
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 18px 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #000;
+            background: #fff;
+            border-radius: 50px;
+            transition: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-cyan);
+            box-shadow: 0 0 30px var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        /* 공통 섹션 스타일 */
+        section {
+            padding: 120px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* 투어 패키지 섹션 */
+        .packages {
+            background: url('https://images.unsplash.com/photo-1555896971-49669e120150?q=80&w=2070&auto=format&fit=crop') fixed center/cover;
+            position: relative;
+        }
+
+        .packages::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(5,5,5,0.85);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .package-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.15);
+        }
+
+        .pkg-img {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .pkg-img.cyberpunk { background-image: url('https://images.unsplash.com/photo-1536644265438-662f3f9fba3d?q=80&w=2069&auto=format&fit=crop'); }
+        .pkg-img.citypop { background-image: url('https://images.unsplash.com/photo-1517427677506-699a224a59bb?q=80&w=2070&auto=format&fit=crop'); }
+        .pkg-img.seongsu { background-image: url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=2069&auto=format&fit=crop'); }
+
+        .pkg-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .pkg-content {
+            padding: 30px;
+        }
+
+        .pkg-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .pkg-desc {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .pkg-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+        }
+
+        .pkg-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* 갤러리 섹션 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 350px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* 예약(Booking) 폼 섹션 */
+        .booking-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 5%;
+        }
+
+        .booking-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            padding: 50px;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .booking-form h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            border-color: var(--accent-cyan);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--text-main);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        /* 푸터 */
+        footer {
+            background: #020202;
+            padding: 50px 5%;
+            text-align: center;
+            border-top: 1px solid #111;
+        }
+
+        footer .logo { margin-bottom: 20px; display: inline-block;}
+        footer p { color: #555; font-size: 0.9rem;}
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .nav-links {
+                display: none; /* 실제 구현시 자바스크립트로 토글 메뉴 제작 */
+            }
+            .mobile-menu-btn { display: block; }
+            .packages-grid { grid-template-columns: 1fr; }
+            .booking-form { padding: 30px; }
         }
     </style>
 </head>
-<body class="font-sans text-arch-800 antialiased bg-arch-50 selection:bg-accent-500 selection:text-white">
+<body>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-500 bg-transparent py-4" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <a href="#" class="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
-                    <svg class="w-8 h-8 text-white transition-colors duration-300" id="nav-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 21h18"></path>
-                        <path d="M3 7v1a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V7"></path>
-                        <path d="M6 11v10"></path>
-                        <path d="M18 11v10"></path>
-                        <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"></path>
-                        <path d="M12 3v4"></path>
-                    </svg>
-                    <span class="font-serif text-2xl tracking-widest text-white transition-colors duration-300" id="nav-logo-text">
-                        SPACE LINK
-                    </span>
-                </a>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 lg:space-x-10 items-center">
-                    <a href="#about" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">브랜드 스토리</a>
-                    <a href="#services" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">핵심 서비스</a>
-                    <a href="#portfolio" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">포트폴리오</a>
-                    <a href="#persona" class="text-white/90 hover:text-accent-500 font-medium text-sm tracking-wide transition-colors nav-link">타겟 고객</a>
-                    <a href="#contact" class="bg-white text-arch-900 px-7 py-2.5 rounded-none border border-white font-bold text-sm tracking-wide hover:bg-transparent hover:text-white transition-all duration-300 nav-btn">
-                        무료 견적 신청
-                    </a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white focus:outline-none nav-link">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
+    <!-- 네비게이션 -->
+    <nav id="navbar">
+        <a href="#" class="logo">SEOUL: CINEMATIC</a>
+        <div class="nav-links">
+            <a href="#about">ABOUT</a>
+            <a href="#packages">PACKAGES</a>
+            <a href="#portfolio">PORTFOLIO</a>
+            <a href="#book" style="color: var(--accent-cyan);">BOOK NOW</a>
         </div>
-        
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-arch-900 border-t border-arch-800 absolute w-full top-full shadow-2xl">
-            <div class="px-4 py-6 space-y-4">
-                <a href="#about" class="block text-white/80 hover:text-white font-medium tracking-wide">브랜드 스토리</a>
-                <a href="#services" class="block text-white/80 hover:text-white font-medium tracking-wide">핵심 서비스</a>
-                <a href="#portfolio" class="block text-white/80 hover:text-white font-medium tracking-wide">포트폴리오</a>
-                <a href="#persona" class="block text-white/80 hover:text-white font-medium tracking-wide">타겟 고객</a>
-                <a href="#contact" class="block w-full text-center mt-6 bg-accent-500 text-white px-6 py-4 font-bold tracking-wide">무료 견적 신청</a>
-            </div>
-        </div>
+        <div class="mobile-menu-btn">☰</div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero-bg relative h-screen flex items-center justify-center">
-        <div class="absolute inset-0 bg-gradient-to-b from-arch-900/50 via-transparent to-arch-900/80"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center mt-20">
-            <p class="text-accent-500 font-bold tracking-[0.2em] text-sm uppercase mb-6" data-aos="fade-up">Premium Space Design Platform</p>
-            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-light text-white leading-tight mb-8 drop-shadow-xl font-serif">
-                Design Your Space,<br>
-                <span class="font-sans font-black italic text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Design Your Life.</span>
-            </h1>
-            <p class="mt-4 text-lg sm:text-xl text-gray-300 mb-12 font-light tracking-wide max-w-2xl mx-auto leading-relaxed">
-                상상 속의 공간을 현실로 만들어 줄 1% 탑티어 디자이너.<br>
-                견적부터 3D 렌더링, 시공까지 투명하고 완벽하게 매칭해 드립니다.
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content reveal">
+            <span class="hero-subtitle">DIRECTED BY LOCAL CREATORS</span>
+            <h1 class="hero-title">BE THE STAR OF<br>YOUR OWN MOVIE</h1>
+            <p style="font-size: 1.1rem; color: #ccc; margin-bottom: 40px; font-weight: 300;">
+                단순한 명소 관광이 아닙니다.<br>우리는 당신이 주인공인 하이엔드 릴스(Reels)를 연출합니다.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="#contact" class="bg-accent-500 text-white px-10 py-4 font-bold text-lg hover:bg-accent-600 transition-all shadow-lg flex items-center justify-center group">
-                    디자이너 매칭받기
-                    <i class="fa-solid fa-arrow-right ml-3 transform group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                <a href="#portfolio" class="bg-transparent border border-white/50 text-white px-10 py-4 font-bold text-lg hover:bg-white hover:text-arch-900 transition-all flex items-center justify-center">
-                    포트폴리오 둘러보기
-                </a>
-            </div>
-        </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce opacity-70">
-            <span class="text-white text-xs tracking-widest uppercase mb-2">Scroll Down</span>
-            <div class="w-[1px] h-10 bg-white"></div>
-        </div>
-    </header>
-
-    <!-- Trust/Stats Bar (Overlapping) -->
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 z-20 mb-24">
-        <div class="bg-white luxury-shadow flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-arch-100">
-            <div class="flex-1 p-8 text-center hover:bg-arch-50 transition-colors">
-                <p class="text-4xl font-serif font-bold text-arch-900 mb-2">350<span class="text-accent-500">+</span></p>
-                <p class="text-sm font-bold text-arch-500 tracking-wide">검증된 파트너 디자이너</p>
-            </div>
-            <div class="flex-1 p-8 text-center hover:bg-arch-50 transition-colors">
-                <p class="text-4xl font-serif font-bold text-arch-900 mb-2">1,200<span class="text-accent-500">+</span></p>
-                <p class="text-sm font-bold text-arch-500 tracking-wide">누적 공간 디자인 프로젝트</p>
-            </div>
-            <div class="flex-1 p-8 text-center hover:bg-arch-50 transition-colors">
-                <p class="text-4xl font-serif font-bold text-arch-900 mb-2">98<span class="text-accent-500">%</span></p>
-                <p class="text-sm font-bold text-arch-500 tracking-wide">시공 후 고객 만족도</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Core Value Section (Why Us) -->
-    <section class="py-20" id="services">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row justify-between items-end mb-16 gap-6">
-                <div>
-                    <h2 class="text-sm font-bold text-accent-500 tracking-[0.2em] uppercase mb-3">Our Core Solutions</h2>
-                    <h3 class="text-3xl sm:text-4xl font-black text-arch-900 leading-tight">
-                        불안했던 인테리어 여정,<br>SPACE LINK가 혁신합니다.
-                    </h3>
-                </div>
-                <p class="text-arch-500 max-w-lg leading-relaxed text-sm sm:text-base">
-                    단순한 중개를 넘어, 계약부터 완공까지 안심할 수 있는 기술력과 시스템으로 투명한 공간 디자인 문화를 만들어갑니다.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-white p-10 group hover:shadow-2xl transition-all duration-500 border border-arch-100 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-arch-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-arch-900 text-white flex items-center justify-center text-2xl mb-8 relative z-10">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-arch-900 mb-4 relative z-10">데이터 기반 정밀 매칭</h4>
-                    <p class="text-arch-600 leading-relaxed text-[15px] relative z-10">
-                        고객님의 예산, 평수, 선호 스타일을 AI가 분석하여 수백 개의 포트폴리오 중 가장 완벽하게 어울리는 상위 1% 디자이너를 매칭합니다.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="bg-white p-10 group hover:shadow-2xl transition-all duration-500 border border-arch-100 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-arch-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-accent-500 text-white flex items-center justify-center text-2xl mb-8 relative z-10">
-                        <i class="fa-solid fa-vr-cardboard"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-arch-900 mb-4 relative z-10">3D 메타버스 시뮬레이션</h4>
-                    <p class="text-arch-600 leading-relaxed text-[15px] relative z-10">
-                        시공 전, 완성될 공간을 3D 렌더링과 VR 투어로 미리 걸어보세요. 마감재와 가구 배치까지 눈으로 직접 확인하고 수정할 수 있습니다.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="bg-white p-10 group hover:shadow-2xl transition-all duration-500 border border-arch-100 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-arch-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                    <div class="w-14 h-14 bg-arch-900 text-white flex items-center justify-center text-2xl mb-8 relative z-10">
-                        <i class="fa-solid fa-file-shield"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-arch-900 mb-4 relative z-10">안심 에스크로 & 1년 A/S</h4>
-                    <p class="text-arch-600 leading-relaxed text-[15px] relative z-10">
-                        대금 먹튀 걱정 없는 안심 에스크로 결제 시스템을 지원하며, 완공 후 1년간 무상 A/S를 플랫폼 차원에서 철저하게 보증합니다.
-                    </p>
-                </div>
-            </div>
+            <a href="#book" class="btn-primary">START CASTING</a>
         </div>
     </section>
 
-    <!-- Process Section -->
-    <section class="py-24 bg-arch-900 text-white" id="about">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <h2 class="text-sm font-bold text-accent-500 tracking-[0.2em] uppercase mb-3">How It Works</h2>
-                <h3 class="text-3xl sm:text-4xl font-black text-white">4단계 안심 공간 프로젝트</h3>
+    <!-- 패키지 섹션 -->
+    <section id="packages" class="packages">
+        <div class="section-title reveal">
+            <h2>CINEMATIC PACKAGES</h2>
+            <p>당신의 취향과 무드에 맞는 로케이션을 선택하세요.</p>
+        </div>
+
+        <div class="packages-grid">
+            <!-- 패키지 1 -->
+            <div class="package-card reveal">
+                <div class="pkg-img cyberpunk">
+                    <span class="pkg-tag">Bestseller</span>
+                </div>
+                <div class="pkg-content">
+                    <h3>CYBERPUNK EULJIRO</h3>
+                    <p class="pkg-desc">화려한 네온사인과 낡은 인쇄소 골목이 얽힌 '힙지로'. 역동적인 짐벌 워킹으로 왕가위 영화 스러운 사이버펑크 무드를 담아냅니다.</p>
+                    <div class="pkg-footer">
+                        <span style="font-size: 0.85rem; color: #888;">2시간 촬영 / 릴스 2편</span>
+                        <span class="pkg-price">₩ 150,000</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="relative">
-                <!-- Line connecting steps (Desktop) -->
-                <div class="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-arch-700 -translate-y-1/2 z-0"></div>
+            <!-- 패키지 2 -->
+            <div class="package-card reveal" style="transition-delay: 0.2s;">
+                <div class="pkg-img citypop">
+                    <span class="pkg-tag">Sunset / Night</span>
+                </div>
+                <div class="pkg-content">
+                    <h3>CITYPOP HAN-RIVER</h3>
+                    <p class="pkg-desc">노을 지는 한강 공원, E-bike(전기자전거)를 타고 달리는 칠(Chill)한 바이브. 레트로한 시티팝 감성의 색보정을 제공합니다.</p>
+                    <div class="pkg-footer">
+                        <span style="font-size: 0.85rem; color: #888;">2시간 촬영 / 릴스 1편</span>
+                        <span class="pkg-price">₩ 120,000</span>
+                    </div>
+                </div>
+            </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
-                    <!-- Step 1 -->
-                    <div class="text-center group">
-                        <div class="w-20 h-20 mx-auto bg-arch-800 border border-arch-600 rounded-full flex items-center justify-center text-2xl font-serif mb-6 group-hover:bg-accent-500 group-hover:border-accent-500 transition-colors duration-300">
-                            01
-                        </div>
-                        <h4 class="text-xl font-bold mb-3">무료 진단 및 견적</h4>
-                        <p class="text-arch-400 text-sm leading-relaxed">
-                            온라인 폼을 통해 희망하는 컨셉과<br>예산을 접수하고 무료 상담을 받습니다.
-                        </p>
-                    </div>
-                    <!-- Step 2 -->
-                    <div class="text-center group">
-                        <div class="w-20 h-20 mx-auto bg-arch-800 border border-arch-600 rounded-full flex items-center justify-center text-2xl font-serif mb-6 group-hover:bg-accent-500 group-hover:border-accent-500 transition-colors duration-300">
-                            02
-                        </div>
-                        <h4 class="text-xl font-bold mb-3">전문가 큐레이션 매칭</h4>
-                        <p class="text-arch-400 text-sm leading-relaxed">
-                            조건에 딱 맞는 3곳의 디자인 스튜디오<br>포트폴리오와 비교 견적을 받아봅니다.
-                        </p>
-                    </div>
-                    <!-- Step 3 -->
-                    <div class="text-center group">
-                        <div class="w-20 h-20 mx-auto bg-arch-800 border border-arch-600 rounded-full flex items-center justify-center text-2xl font-serif mb-6 group-hover:bg-accent-500 group-hover:border-accent-500 transition-colors duration-300">
-                            03
-                        </div>
-                        <h4 class="text-xl font-bold mb-3">3D 시안 및 계약</h4>
-                        <p class="text-arch-400 text-sm leading-relaxed">
-                            채택된 디자이너와 3D 시안을 조율하고<br>안전한 표준 계약서를 작성합니다.
-                        </p>
-                    </div>
-                    <!-- Step 4 -->
-                    <div class="text-center group">
-                        <div class="w-20 h-20 mx-auto bg-arch-800 border border-arch-600 rounded-full flex items-center justify-center text-2xl font-serif mb-6 group-hover:bg-accent-500 group-hover:border-accent-500 transition-colors duration-300">
-                            04
-                        </div>
-                        <h4 class="text-xl font-bold mb-3">책임 시공 및 스타일링</h4>
-                        <p class="text-arch-400 text-sm leading-relaxed">
-                            감리 시스템 하에 시공이 진행되며,<br>마지막 가구 스타일링까지 마무리됩니다.
-                        </p>
+            <!-- 패키지 3 -->
+            <div class="package-card reveal" style="transition-delay: 0.4s;">
+                <div class="pkg-img seongsu">
+                    <span class="pkg-tag">Premium Lookbook</span>
+                </div>
+                <div class="pkg-content">
+                    <h3>HIGH-END SEONGSU</h3>
+                    <p class="pkg-desc">트렌디한 팝업 스토어와 인더스트리얼 카페가 있는 성수동. 글로벌 패션 매거진의 룩북 같은 감각적인 스냅 및 영상을 기획합니다.</p>
+                    <div class="pkg-footer">
+                        <span style="font-size: 0.85rem; color: #888;">3시간 촬영 / 사진+영상</span>
+                        <span class="pkg-price">₩ 200,000</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Gallery Section -->
-    <section class="py-24 bg-white" id="portfolio">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                <div>
-                    <h2 class="text-sm font-bold text-accent-500 tracking-[0.2em] uppercase mb-3">Featured Spaces</h2>
-                    <h3 class="text-3xl sm:text-4xl font-black text-arch-900">영감이 현실이 된 공간들</h3>
-                </div>
-                <!-- Categories -->
-                <div class="flex gap-4">
-                    <button class="px-5 py-2 bg-arch-900 text-white text-sm font-bold rounded-full">전체 보기</button>
-                    <button class="px-5 py-2 bg-arch-100 text-arch-600 hover:bg-arch-200 text-sm font-bold rounded-full transition-colors">주거 공간</button>
-                    <button class="px-5 py-2 bg-arch-100 text-arch-600 hover:bg-arch-200 text-sm font-bold rounded-full transition-colors">상업/오피스</button>
-                </div>
+    <!-- 갤러리 섹션 -->
+    <section id="portfolio">
+        <div class="section-title reveal">
+            <h2>OUR PORTFOLIO</h2>
+            <p>우리가 연출한 서울의 영화 같은 순간들</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1542317772-78d10b0ed19d?q=80&w=1000&auto=format&fit=crop" alt="">
+                <div class="gallery-overlay"><h4>Myeongdong Neon</h4></div>
             </div>
-
-            <!-- Image Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Item 1 -->
-                <div class="group relative h-96 overflow-hidden cursor-pointer bg-arch-100">
-                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-arch-900/90 via-arch-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                        <span class="text-accent-500 text-xs font-bold tracking-widest uppercase mb-2">Residential</span>
-                        <h4 class="text-2xl font-bold text-white mb-2">한남 더 힐 미니멀리즘</h4>
-                        <p class="text-gray-300 text-sm">Design by Studio Blank</p>
-                    </div>
-                </div>
-                
-                <!-- Item 2 -->
-                <div class="group relative h-96 overflow-hidden cursor-pointer bg-arch-100">
-                    <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-arch-900/90 via-arch-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                        <span class="text-accent-500 text-xs font-bold tracking-widest uppercase mb-2">Commercial</span>
-                        <h4 class="text-2xl font-bold text-white mb-2">성수동 로스터리 카페</h4>
-                        <p class="text-gray-300 text-sm">Design by Object Arch</p>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="group relative h-96 overflow-hidden cursor-pointer bg-arch-100">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-arch-900/90 via-arch-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                        <span class="text-accent-500 text-xs font-bold tracking-widest uppercase mb-2">Office</span>
-                        <h4 class="text-2xl font-bold text-white mb-2">IT 스타트업 라운지</h4>
-                        <p class="text-gray-300 text-sm">Design by Space Lab</p>
-                    </div>
-                </div>
+            <div class="gallery-item reveal" style="transition-delay: 0.1s;"><img src="https://images.unsplash.com/photo-1605335606450-93a0273767e7?q=80&w=1000&auto=format&fit=crop" alt="">
+                <div class="gallery-overlay"><h4>Han-River Vibe</h4></div>
             </div>
+            <div class="gallery-item reveal" style="transition-delay: 0.2s;"><img src="https://images.unsplash.com/photo-1589136777351-fdc9c9cb1b58?q=80&w=1000&auto=format&fit=crop" alt="">
+                <div class="gallery-overlay"><h4>Seongsu Cafe</h4></div>
+            </div>
+            <div class="gallery-item reveal" style="transition-delay: 0.3s;"><img src="https://images.unsplash.com/photo-1588612140409-f62f8350bc56?q=80&w=1000&auto=format&fit=crop" alt="">
+                <div class="gallery-overlay"><h4>Euljiro Street</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 예약 폼 섹션 -->
+    <section id="book" class="booking-section packages">
+        <!-- 배경 공유 -->
+        <div class="booking-form reveal">
+            <h2>CASTING TICKET</h2>
+            <p style="text-align: center; color: #aaa; margin-bottom: 30px;">당신의 여행 일정을 남겨주시면, 전속 디렉터가 24시간 내에 컨셉 제안서를 보내드립니다.</p>
             
-            <div class="mt-12 text-center">
-                <a href="#" class="inline-flex items-center gap-2 text-arch-900 font-bold hover:text-accent-500 transition-colors group">
-                    포트폴리오 더보기 <i class="fa-solid fa-arrow-right-long transform group-hover:translate-x-2 transition-transform"></i>
-                </a>
-            </div>
+            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('예약 문의가 접수되었습니다. 데모 버전입니다.');">
+                <div class="input-group">
+                    <label>이름 (Name)</label>
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="input-group">
+                    <label>인스타그램 또는 틱톡 (SNS Link)</label>
+                    <input type="text" placeholder="@your_handle" required>
+                </div>
+                <div class="input-group">
+                    <label>원하는 시네마틱 무드 (Select Mood)</label>
+                    <select required>
+                        <option value="" disabled selected>선택해주세요</option>
+                        <option value="cyberpunk">Cyberpunk Euljiro</option>
+                        <option value="citypop">Citypop Han-River</option>
+                        <option value="seongsu">High-end Seongsu</option>
+                        <option value="custom">기타 (Custom Concept)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>예정된 촬영 날짜 (Date)</label>
+                    <input type="date" required style="color-scheme: dark;">
+                </div>
+                <button type="submit" class="submit-btn">REQUEST BOOKING</button>
+            </form>
         </div>
     </section>
 
-    <!-- Review / Interactive Section -->
-    <section class="py-24 bg-arch-50 border-t border-arch-200 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
-            <!-- Text Content -->
-            <div class="lg:w-1/2">
-                <div class="flex items-center gap-2 mb-6 text-accent-500">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-black text-arch-900 mb-8 leading-tight">
-                    "머릿속에만 있던 카페 디자인을<br>3D 렌더링으로 먼저 봤을 때의<br>전율을 잊지 못합니다."
-                </h2>
-                <p class="text-lg text-arch-600 mb-10 leading-relaxed">
-                    단순한 도면이 아닙니다. 빛의 각도, 가구의 질감까지 완벽하게 구현된 3D 프리뷰 덕분에 시공 후의 오차를 0%로 줄일 수 있었습니다. SPACE LINK의 매칭 시스템은 제 인생 최고의 선택이었습니다.
-                </p>
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-full bg-arch-300 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="고객 프로필" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <p class="font-bold text-arch-900">김도윤 대표</p>
-                        <p class="text-sm text-arch-500">성수동 '오브제 로스터리' 창업자</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Visual Element -->
-            <div class="lg:w-1/2 relative w-full h-[500px]">
-                <!-- Before (Drawing) -->
-                <div class="absolute top-0 right-10 w-3/4 h-80 bg-white p-2 luxury-shadow z-10 transform rotate-3">
-                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover border border-arch-100">
-                    <div class="absolute -bottom-4 -left-4 bg-arch-900 text-white text-xs font-bold px-3 py-1">2D Blueprint</div>
-                </div>
-                <!-- After (3D Render) -->
-                <div class="absolute bottom-0 left-0 w-3/4 h-80 bg-white p-2 luxury-shadow z-20 transform -rotate-2">
-                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover border border-arch-100">
-                    <div class="absolute -top-4 -right-4 bg-accent-500 text-white text-xs font-bold px-3 py-1">3D Render Preview</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- NEW: Persona Section -->
-    <section class="py-24 bg-arch-100 border-t border-arch-200" id="persona">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-sm font-bold text-accent-500 tracking-[0.2em] uppercase mb-3">Target Audience</h2>
-                <h3 class="text-3xl sm:text-4xl font-black text-arch-900 mb-4">SPACE LINK가 만나는 고객</h3>
-                <p class="text-arch-600 max-w-2xl mx-auto">프리미엄 공간 디자인의 가치를 알아보고, 자신의 라이프스타일에 아낌없이 투자하는 우리의 핵심 고객 페르소나입니다.</p>
-            </div>
-
-            <!-- 페르소나 컨테이너 (기존 코드 통합) -->
-            <div class="glass-card w-full max-w-5xl mx-auto rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
-                <!-- 상단 헤더 & 프로필 영역 -->
-                <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-8 md:p-10 border-b border-gray-100">
-                    <div class="flex flex-col md:flex-row items-center gap-8">
-                        <!-- 프로필 이미지 (실제 사람, 원형) -->
-                        <div class="relative shrink-0">
-                            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white">
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=400" 
-                                     alt="김지은 프로필" class="w-full h-full object-cover">
-                            </div>
-                            <!-- 상태 뱃지 -->
-                            <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-2 border-white shadow-sm"></div>
-                        </div>
-
-                        <!-- 인적 사항 -->
-                        <div class="text-center md:text-left flex-1">
-                            <div class="inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold mb-3 tracking-wide">
-                                핵심 타겟 페르소나
-                            </div>
-                            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 font-sans">
-                                김지은 <span class="text-xl md:text-2xl text-gray-500 font-medium ml-1">34세</span>
-                            </h1>
-                            <p class="text-xl text-indigo-600 font-bold mb-4">마케팅 대행사 과장 (7년 차)</p>
-                            
-                            <div class="flex flex-wrap justify-center md:justify-start gap-3 text-sm font-medium">
-                                <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 text-gray-700">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    서울시 강남구
-                                </span>
-                                <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 text-gray-700">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                                    미혼 (연애 중)
-                                </span>
-                                <span class="flex items-center gap-1 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 text-gray-700">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    연봉 5~6천만 원
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 본문 정보 영역 (Grid) -->
-                <div class="p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white">
-                    <!-- 라이프스타일 & 가치관 -->
-                    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                            <span class="bg-yellow-100 text-yellow-600 p-2 rounded-lg">✨</span> 라이프스타일 & 가치관
-                        </h3>
-                        <ul class="space-y-3 text-sm text-gray-700 leading-relaxed">
-                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>성격:</strong> 외향적이고 대인관계가 좋음. 트렌드에 민감하며 성장 욕구가 강함.</div></li>
-                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>관심사:</strong> 인테리어, SNS, 자기계발, 여행, 핫플레이스 탐방, 홈스타일링.</div></li>
-                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>소비 패턴:</strong> 가치 소비 중시. 공간의 감도와 디자인에 투자하여 삶의 질을 높이려 함.</div></li>
-                            <li class="flex items-start gap-2"><span class="text-indigo-500 font-bold mt-0.5">•</span> <div><strong>온라인 활동:</strong> 인스타그램 핀터레스트를 적극 활용해 인테리어 영감을 수집함.</div></li>
-                        </ul>
-                    </div>
-
-                    <!-- 미루기/문제점 (Pain Points) -->
-                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100">
-                        <h3 class="text-lg font-bold text-red-900 mb-4 flex items-center gap-2">
-                            <span class="bg-red-100 text-red-600 p-2 rounded-lg">🚨</span> 인테리어 시의 문제점 (Pain Points)
-                        </h3>
-                        <ul class="space-y-3 text-sm text-gray-700 leading-relaxed">
-                            <li class="flex items-start gap-2"><span class="text-red-500 font-bold mt-0.5">•</span> <div><strong>정보 비대칭 불안:</strong> 예산 낭비나 시공 불량(먹튀 등)에 대한 막연한 두려움이 큼.</div></li>
-                            <li class="flex items-start gap-2"><span class="text-red-500 font-bold mt-0.5">•</span> <div><strong>시간 부족:</strong> 바쁜 업무 탓에 여러 업체를 직접 발품 팔며 비교하기 어려움.</div></li>
-                            <li class="flex items-start gap-2"><span class="text-red-500 font-bold mt-0.5">•</span> <div><strong>소통의 어려움:</strong> 자신이 원하는 감각적인 무드를 디자이너에게 정확히 전달하는 데 한계를 느낌.</div></li>
-                        </ul>
-                    </div>
-
-                    <!-- 니즈 & 목표 (Needs & Goals) -->
-                    <div class="bg-green-50 p-6 rounded-2xl border border-green-100 md:col-span-2">
-                        <h3 class="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
-                            <span class="bg-green-100 text-green-600 p-2 rounded-lg">🎯</span> 니즈 & 목표 (Needs & Goals)
-                        </h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
-                                <div class="text-2xl mb-2">💎</div>
-                                <h4 class="font-bold text-gray-900 text-sm mb-1">감각적인 공간</h4>
-                                <p class="text-xs text-gray-500">누구에게나 자랑하고 싶은 디자인</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
-                                <div class="text-2xl mb-2">⏱️</div>
-                                <h4 class="font-bold text-gray-900 text-sm mb-1">효율적인 큐레이션</h4>
-                                <p class="text-xs text-gray-500">믿을 수 있는 업체의 빠른 매칭</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
-                                <div class="text-2xl mb-2">🛡️</div>
-                                <h4 class="font-bold text-gray-900 text-sm mb-1">시공의 안정성</h4>
-                                <p class="text-xs text-gray-500">안심 에스크로와 명확한 A/S 보장</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl shadow-sm border border-green-50 text-center">
-                                <div class="text-2xl mb-2">🛋️</div>
-                                <h4 class="font-bold text-gray-900 text-sm mb-1">라이프스타일 반영</h4>
-                                <p class="text-xs text-gray-500">휴식과 재충전을 위한 맞춤형 설계</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 사업과의 연결성 -->
-                <div class="bg-arch-900 text-white p-8 md:p-10">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20">
-                            <svg class="w-6 h-6 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </div>
-                        <h2 class="text-2xl md:text-3xl font-extrabold">왜 SPACE LINK의 핵심 고객인가?</h2>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-arch-50">
-                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                <span class="text-accent-500">🔍</span> 감도 높은 포트폴리오
-                            </h4>
-                            <p class="text-sm text-arch-300">트렌드에 민감한 이들은 기존의 뻔한 디자인을 거부합니다. 검증된 탑티어 디자이너들의 독창적인 포트폴리오 큐레이션이 강력한 훅(Hook)이 됩니다.</p>
-                        </div>
-                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                <span class="text-accent-500">🌱</span> 확실한 가치 소비
-                            </h4>
-                            <p class="text-sm text-arch-300">공간이 주는 행복과 삶의 질 향상을 잘 알고 있습니다. 프리미엄 서비스에 대한 정당한 비용 지불을 아끼지 않으므로 우수한 단가의 계약 성사율이 높습니다.</p>
-                        </div>
-                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                <span class="text-accent-500">📱</span> 바이럴 마케팅의 중심
-                            </h4>
-                            <p class="text-sm text-arch-300">자신의 예쁜 공간을 인스타그램 등 SNS에 자랑하고 소통하는 것을 즐깁니다. 완공 후 자연스러운 '온라인 집들이'를 통한 플랫폼 홍보 효과를 기대할 수 있습니다.</p>
-                        </div>
-                        <div class="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                <span class="text-accent-500">💎</span> 신뢰와 투명성 요구
-                            </h4>
-                            <p class="text-sm text-arch-300">시간을 뺏기고 스트레스받는 것을 싫어합니다. 3D 시뮬레이션 매칭과 에스크로 시스템이 제공하는 '투명성과 편의성'이 이들의 가장 큰 페인 포인트를 해결해 줍니다.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-24 relative overflow-hidden" id="contact">
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat">
-            <div class="absolute inset-0 bg-arch-900/90 backdrop-blur-sm"></div>
-        </div>
-        
-        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
-            <h2 class="text-4xl md:text-5xl font-serif text-white mb-6 leading-tight">
-                당신의 공간은<br>어떤 이야기를 담고 있나요?
-            </h2>
-            <p class="text-lg text-gray-300 mb-12 font-light">
-                단 1분의 정보 입력으로, 당신의 비전을 현실로 만들어줄<br>검증된 공간 디자이너 3곳의 무료 비교 견적을 받아보세요.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#" class="bg-white text-arch-900 px-10 py-5 font-bold text-lg hover:bg-gray-100 transition-all shadow-xl flex items-center justify-center">
-                    <i class="fa-solid fa-pen-ruler mr-3"></i> 1분 무료 견적 신청
-                </a>
-                <a href="#" class="bg-transparent border border-white/30 text-white px-10 py-5 font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center">
-                    <i class="fa-brands fa-whatsapp text-xl mr-3"></i> 카카오톡 1:1 상담
-                </a>
-            </div>
-            <p class="text-gray-400 text-sm mt-8">* 무상 방문 견적 이벤트가 이번 주 한정으로 진행 중입니다.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-arch-950 text-arch-400 py-16 border-t border-black">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="md:col-span-1 text-center md:text-left">
-                <div class="flex items-center gap-3 justify-center md:justify-start mb-6 group">
-                    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 21h18"></path>
-                        <path d="M3 7v1a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V7"></path>
-                        <path d="M6 11v10"></path>
-                        <path d="M18 11v10"></path>
-                        <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"></path>
-                        <path d="M12 3v4"></path>
-                    </svg>
-                    <span class="font-serif text-xl tracking-widest text-white">SPACE LINK</span>
-                </div>
-                <p class="text-sm leading-relaxed mb-6">대한민국 1등 프리미엄 공간 디자인 매칭 플랫폼. 투명한 시장 문화를 선도합니다.</p>
-                <div class="flex gap-4 justify-center md:justify-start">
-                    <a href="#" class="text-arch-400 hover:text-white transition-colors text-xl"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="text-arch-400 hover:text-white transition-colors text-xl"><i class="fa-brands fa-behance"></i></a>
-                    <a href="#" class="text-arch-400 hover:text-white transition-colors text-xl"><i class="fa-brands fa-youtube"></i></a>
-                </div>
-            </div>
-            
-            <div class="text-center md:text-left">
-                <h4 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Services</h4>
-                <ul class="space-y-3 text-sm">
-                    <li><a href="#" class="hover:text-white transition-colors">주거 공간 인테리어</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">상업 공간 디자인</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">오피스/사옥 구축</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">건축 및 리모델링</a></li>
-                </ul>
-            </div>
-            
-            <div class="text-center md:text-left">
-                <h4 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Company</h4>
-                <ul class="space-y-3 text-sm">
-                    <li><a href="#" class="hover:text-white transition-colors">회사 소개</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">디자이너 파트너스 입점</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">인재 채용</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">고객 센터</a></li>
-                </ul>
-            </div>
-
-            <div class="text-center md:text-left">
-                <h4 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Contact</h4>
-                <ul class="space-y-3 text-sm">
-                    <li>고객센터 1588-0000</li>
-                    <li>평일 09:00 - 18:00 (주말 휴무)</li>
-                    <li>hello@spacelink.co.kr</li>
-                    <li class="pt-2">서울특별시 강남구 테헤란로 123, 스페이스 타워 15층</li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 text-center md:text-left text-xs text-arch-600 border-t border-arch-800 pt-8 flex flex-col md:flex-row justify-between">
-            <p>&copy; 2026 SPACE LINK Inc. All rights reserved.</p>
-            <div class="space-x-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-arch-400 transition-colors">이용약관</a>
-                <a href="#" class="hover:text-white font-bold transition-colors">개인정보처리방침</a>
-            </div>
-        </div>
+    <!-- 푸터 -->
+    <footer>
+        <div class="logo">SEOUL: CINEMATIC</div>
+        <p>Email: casting@seoulcinematic.com | Instagram: @seoul.cinematic</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.5;">© 2026 SEOUL CINEMATIC. All rights reserved. (Demo version)</p>
     </footer>
 
-    <!-- JavaScript for Mobile Menu and Sticky Navbar Style -->
+    <!-- 자바스크립트: 스크롤 애니메이션 및 UI 인터랙션 -->
     <script>
-        // Mobile menu toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
-
-        // Navbar styling on scroll (Transparent -> Solid White)
+        // 스크롤 시 네비게이션 바 블러 효과 강화 및 애니메이션
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            const logoIcon = document.getElementById('nav-logo-icon');
-            const logoText = document.getElementById('nav-logo-text');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const navBtn = document.querySelector('.nav-btn');
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-
             if (window.scrollY > 50) {
-                // Scrolled state
-                nav.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3');
-                nav.classList.remove('bg-transparent', 'py-4');
-                
-                logoIcon.classList.add('text-arch-900');
-                logoIcon.classList.remove('text-white');
-                logoText.classList.add('text-arch-900');
-                logoText.classList.remove('text-white');
-                
-                mobileBtn.classList.add('text-arch-900');
-                mobileBtn.classList.remove('text-white');
-
-                navLinks.forEach(link => {
-                    link.classList.add('text-arch-800');
-                    link.classList.remove('text-white/90');
-                });
-
-                navBtn.classList.add('bg-arch-900', 'text-white', 'border-arch-900');
-                navBtn.classList.remove('bg-white', 'text-arch-900', 'border-white');
-                navBtn.classList.add('hover:bg-accent-500', 'hover:border-accent-500');
-                navBtn.classList.remove('hover:bg-transparent', 'hover:text-white');
-
+                nav.style.padding = '15px 5%';
+                nav.style.background = 'rgba(0, 0, 0, 0.7)';
             } else {
-                // Transparent Top state
-                nav.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3');
-                nav.classList.add('bg-transparent', 'py-4');
-                
-                logoIcon.classList.remove('text-arch-900');
-                logoIcon.classList.add('text-white');
-                logoText.classList.remove('text-arch-900');
-                logoText.classList.add('text-white');
-
-                mobileBtn.classList.remove('text-arch-900');
-                mobileBtn.classList.add('text-white');
-
-                navLinks.forEach(link => {
-                    link.classList.remove('text-arch-800');
-                    link.classList.add('text-white/90');
-                });
-
-                navBtn.classList.remove('bg-arch-900', 'text-white', 'border-arch-900');
-                navBtn.classList.add('bg-white', 'text-arch-900', 'border-white');
-                navBtn.classList.remove('hover:bg-accent-500', 'hover:border-accent-500');
-                navBtn.classList.add('hover:bg-transparent', 'hover:text-white');
+                nav.style.padding = '20px 5%';
+                nav.style.background = 'rgba(5, 5, 5, 0.3)';
             }
         });
+
+        // 스크롤 등장 애니메이션 (Intersection Observer)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // 엘리먼트가 화면에 보이기 시작할 지점
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // 로딩 시 즉시 실행
     </script>
 </body>
 </html>
