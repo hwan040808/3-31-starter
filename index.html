@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEOUL: CINEMATIC | Visual Production Archive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        /* 미니멀 에이전시/스튜디오 테마 (무채색 기반의 시크함) */
+        /* 트렌디한 다크 아카이브 테마 (MZ 브루탈리즘 + 하이엔드 믹스) */
         :root {
-            --bg-color: #ffffff;
-            --text-main: #111111;
-            --text-muted: #777777;
-            --accent-primary: #000000;
-            --border-color: #eeeeee;
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --shadow: rgba(0, 0, 0, 0.05);
+            --bg-color: #050505;
+            --text-main: #f4f4f4;
+            --text-muted: #888888;
+            --accent-primary: #ffffff;
+            --border-color: #333333;
+            --glass-bg: rgba(10, 10, 10, 0.85);
+            --shadow: rgba(0, 0, 0, 0.5);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,10 +26,16 @@
             font-family: 'Pretendard', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.3px;
         }
 
         body.modal-open { overflow: hidden; }
+
+        /* 글로벌 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 0px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
 
         h1, h2, h3, .logo {
             font-family: 'Oswald', 'Pretendard', sans-serif;
@@ -40,235 +46,260 @@
 
         /* 스크롤 애니메이션 */
         .reveal {
-            opacity: 0; transform: translateY(30px);
-            transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* 무한 흐르는 텍스트 (Marquee) */
+        .marquee-container {
+            width: 100%; background: var(--text-main); color: var(--bg-color);
+            overflow: hidden; padding: 10px 0; border-bottom: 1px solid var(--border-color);
+            position: relative; z-index: 1001;
+        }
+        .marquee {
+            white-space: nowrap; font-family: 'Oswald'; font-weight: 500; font-size: 0.9rem;
+            letter-spacing: 2px; text-transform: uppercase;
+            animation: marquee 20s linear infinite; display: inline-block;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         /* 네비게이션 바 */
         nav {
-            position: fixed; top: 0; width: 100%;
+            position: sticky; top: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 25px 5%;
-            background: rgba(255, 255, 255, 0.8);
+            padding: 20px 5%;
+            background: var(--glass-bg);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid transparent;
+            border-bottom: 1px solid var(--border-color);
             z-index: 1000; transition: 0.3s;
         }
-        nav.scrolled { border-bottom: 1px solid var(--border-color); padding: 20px 5%; }
-        .logo { font-size: 1.4rem; font-weight: 700; letter-spacing: 2px; color: #000; }
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; color: #fff; }
         .nav-links { display: flex; gap: 40px; }
-        .nav-links a { font-size: 0.85rem; font-weight: 600; color: #555; transition: 0.3s; letter-spacing: 1px;}
-        .nav-links a:hover { color: #000; }
+        .nav-links a { font-size: 0.85rem; font-weight: 600; color: #aaa; transition: 0.3s; letter-spacing: 1px;}
+        .nav-links a:hover { color: #fff; }
 
         /* 히어로 섹션 */
         .hero {
-            position: relative; height: 100vh;
+            position: relative; height: calc(100vh - 50px);
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            overflow: hidden; border-bottom: 1px solid var(--border-color);
         }
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1517427677506-699a224a59bb?q=80&w=2000&auto=format&fit=crop') no-center/cover;
-            background-position: center; filter: grayscale(20%) contrast(1.1);
+            /* 메인 히어로 이미지 */
+            background: url('https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=2000&q=80') no-repeat center/cover;
+            filter: grayscale(100%) contrast(1.2) brightness(0.6);
             animation: zoomIn 30s infinite alternate; z-index: -2;
         }
-        @keyframes zoomIn { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        @keyframes zoomIn { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,1) 100%);
+            background: radial-gradient(circle, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.9) 100%);
             z-index: -1;
         }
-        .hero-content { text-align: center; z-index: 1; padding: 0 20px; margin-top: 60px; }
+        .hero-content { text-align: center; z-index: 1; padding: 0 20px; }
         .hero-subtitle {
-            font-size: 0.9rem; letter-spacing: 5px; color: #000;
-            margin-bottom: 20px; display: block; font-weight: 600;
+            font-size: 0.9rem; letter-spacing: 6px; color: #fff;
+            margin-bottom: 20px; display: block; font-weight: 500;
         }
         .hero-title {
-            font-size: 4.5vw; line-height: 1.1; font-weight: 700;
-            margin-bottom: 25px; color: #000; letter-spacing: -2px;
+            font-size: 5.5vw; line-height: 1; font-weight: 700;
+            margin-bottom: 25px; color: #fff; letter-spacing: -2px;
+            text-transform: uppercase;
         }
         .hero-desc {
-            font-size: 1.1rem; color: #444; margin-bottom: 40px; font-weight: 400; max-width: 550px; margin-left: auto; margin-right: auto; line-height: 1.7;
+            font-size: 1.1rem; color: #bbb; margin-bottom: 40px; font-weight: 400; max-width: 550px; margin-left: auto; margin-right: auto; line-height: 1.7;
         }
         .btn-primary {
-            display: inline-block; padding: 16px 45px; font-size: 0.95rem; font-weight: 600;
-            color: #fff; background: #000; border-radius: 4px;
-            transition: 0.3s; letter-spacing: 1px; text-transform: uppercase;
+            display: inline-block; padding: 18px 50px; font-size: 0.95rem; font-weight: 600;
+            color: #000; background: #fff; border-radius: 0px;
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: 1px; text-transform: uppercase;
         }
-        .btn-primary:hover { background: #333; transform: translateY(-2px); }
+        .btn-primary:hover { background: #ccc; transform: scale(0.98); }
 
         /* 공통 섹션 */
-        section { padding: 120px 5%; }
-        .section-title { margin-bottom: 70px; display: flex; flex-direction: column; align-items: flex-start; }
-        .section-title h2 { font-size: 2.5rem; margin-bottom: 15px; color: #000; letter-spacing: -1px; }
-        .section-title p { color: var(--text-muted); font-size: 1.05rem; font-weight: 400; max-width: 600px; }
+        section { padding: 140px 5%; border-bottom: 1px solid var(--border-color); }
+        .section-title { margin-bottom: 80px; display: flex; flex-direction: column; align-items: flex-start; }
+        .section-title h2 { font-size: 3rem; margin-bottom: 15px; color: #fff; letter-spacing: -1px; }
+        .section-title p { color: var(--text-muted); font-size: 1.1rem; font-weight: 400; max-width: 600px; }
 
         /* 프로덕션 셋업 (패키지) */
         .packages-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
         }
         .package-card {
-            background: #fff; border: 1px solid var(--border-color);
-            border-radius: 8px; overflow: hidden; transition: 0.4s; cursor: pointer;
-            display: flex; flex-direction: column;
+            background: #0a0a0a; border: 1px solid var(--border-color);
+            overflow: hidden; transition: 0.4s; cursor: pointer;
+            display: flex; flex-direction: column; position: relative;
         }
-        .package-card:hover { border-color: #000; box-shadow: 0 20px 40px var(--shadow); transform: translateY(-5px); }
+        .package-card:hover, .package-card:focus { border-color: #fff; outline: none; }
         .pkg-img {
-            width: 100%; height: 320px; background-size: cover; background-position: center; position: relative; filter: grayscale(15%); transition: 0.4s;
+            width: 100%; height: 380px; background-size: cover; background-position: center; 
+            filter: grayscale(100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .package-card:hover .pkg-img { filter: grayscale(0%); }
+        .package-card:hover .pkg-img, .package-card:focus .pkg-img { filter: grayscale(0%); transform: scale(1.05); }
+        .pkg-img-wrapper { width: 100%; height: 380px; overflow: hidden; position: relative; }
+        
         .pkg-tag {
             position: absolute; top: 20px; left: 20px;
-            background: #000; padding: 6px 12px; border-radius: 4px;
-            font-size: 0.7rem; font-weight: 600; color: #fff; letter-spacing: 1px; text-transform: uppercase;
+            background: #fff; padding: 6px 12px;
+            font-size: 0.75rem; font-weight: 700; color: #000; letter-spacing: 1px; text-transform: uppercase; z-index: 2;
         }
-        .pkg-content { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
-        .pkg-content h3 { font-size: 1.4rem; margin-bottom: 12px; color: #000; }
+        .pkg-content { padding: 35px; display: flex; flex-direction: column; flex-grow: 1; position: relative; z-index: 2; background: #0a0a0a; }
+        .pkg-content h3 { font-size: 1.6rem; margin-bottom: 15px; color: #fff; }
         .pkg-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; flex-grow: 1; line-height: 1.6;}
         .view-details-btn {
-            text-align: left; font-weight: 600; color: #000; font-size: 0.9rem;
-            display: flex; align-items: center; gap: 8px; border-top: 1px solid #eee; padding-top: 20px;
+            text-align: left; font-weight: 600; color: #fff; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 25px;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        .view-details-btn::after { content: '→'; transition: 0.3s; }
-        .package-card:hover .view-details-btn::after { transform: translateX(5px); }
-
-        /* 클라이언트 아카이브 (리뷰) */
-        .reviews-section { background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .review-card {
-            background: #fff; border: 1px solid var(--border-color); padding: 40px; border-radius: 8px;
-            transition: 0.3s;
-        }
-        .review-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .project-meta { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: block;}
-        .review-text { font-size: 1.05rem; color: #111; line-height: 1.7; margin-bottom: 30px; font-weight: 400; }
-        .reviewer { display: flex; align-items: center; gap: 15px; border-top: 1px solid #eee; padding-top: 20px;}
-        .reviewer-info h4 { font-size: 0.95rem; color: #000; margin-bottom: 3px; font-family: 'Pretendard'; font-weight: 600;}
-        .reviewer-info p { font-size: 0.8rem; color: #666; }
-
-        /* 비주얼 라이브러리 (갤러리) */
-        .gallery-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
-        }
-        .gallery-item { height: 400px; overflow: hidden; position: relative; border-radius: 4px; background: #eee;}
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; filter: grayscale(10%);}
-        .gallery-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
-        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; height: auto; }
-        .gallery-item:nth-child(4) { grid-column: span 2; }
+        .view-details-btn::after { content: '↗'; transition: 0.3s; font-size: 1.2rem; }
+        .package-card:hover .view-details-btn::after { transform: translate(3px, -3px); color: #fff;}
 
         /* 모달 (상세페이지) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
             z-index: 2000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s; padding: 20px;
+            opacity: 0; transition: opacity 0.4s; padding: 20px;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content {
-            background: #fff; width: 100%; max-width: 900px; max-height: 90vh;
-            border: 1px solid #ddd; overflow-y: auto; position: relative;
-            transform: translateY(20px); transition: 0.4s; box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+            background: #0a0a0a; width: 100%; max-width: 900px; max-height: 90vh;
+            border: 1px solid #333; overflow-y: auto; position: relative;
+            transform: translateY(20px); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-thumb { background: #ccc; }
+        .modal-content::-webkit-scrollbar { width: 4px; }
+        .modal-content::-webkit-scrollbar-thumb { background: #555; }
 
         .close-modal {
-            position: absolute; top: 30px; right: 30px; width: 40px; height: 40px;
-            background: #f4f4f4; border-radius: 50%; display: flex;
+            position: absolute; top: 25px; right: 25px; width: 45px; height: 45px;
+            background: #fff; border-radius: 0; display: flex;
             justify-content: center; align-items: center; cursor: pointer;
-            font-size: 1.2rem; z-index: 10; transition: 0.3s; color: #000;
+            font-size: 1.5rem; z-index: 10; transition: 0.3s; color: #000; border: none;
         }
-        .close-modal:hover { background: #000; color: #fff; }
+        .close-modal:hover { background: #ccc; }
 
-        .modal-hero { width: 100%; height: 400px; background-size: cover; background-position: center; position: relative;}
-        .modal-body { padding: 50px 60px; }
+        .modal-hero { width: 100%; height: 450px; background-size: cover; background-position: center; position: relative;}
+        .modal-hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, #0a0a0a, transparent);
+        }
+        .modal-body { padding: 0 60px 60px 60px; position: relative; top: -40px; z-index: 2;}
         .modal-tags { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;}
-        .tag { padding: 4px 10px; border: 1px solid #ddd; font-size: 0.75rem; font-weight: 600; color: #555; text-transform: uppercase;}
+        .tag { padding: 6px 12px; border: 1px solid #444; font-size: 0.75rem; font-weight: 600; color: #aaa; text-transform: uppercase;}
         
-        .modal-title { font-size: 2.5rem; margin-bottom: 20px; color: #000; letter-spacing: -1px;}
-        .modal-desc { color: #444; line-height: 1.8; font-size: 1.05rem; margin-bottom: 40px; }
+        .modal-title { font-size: 3rem; margin-bottom: 25px; color: #fff; letter-spacing: -1px; line-height: 1.1;}
+        .modal-desc { color: #ccc; line-height: 1.8; font-size: 1.05rem; margin-bottom: 50px; }
         
         /* Deliverables & Scope */
         .package-features {
-            background: #fafafa; padding: 35px; border: 1px solid #eee; margin-bottom: 50px;
+            background: #0f0f0f; padding: 40px; border: 1px solid #222; margin-bottom: 60px;
         }
-        .package-features h4 { margin-bottom: 20px; font-size: 1.1rem; color: #000; font-family: 'Oswald'; letter-spacing: 1px; text-transform: uppercase;}
+        .package-features h4 { margin-bottom: 25px; font-size: 1.2rem; color: #fff; font-family: 'Oswald'; letter-spacing: 1px; text-transform: uppercase;}
         .package-features ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .package-features li { display: flex; align-items: flex-start; font-size: 0.95rem; color: #555; line-height: 1.5; }
-        .package-features li::before { content: '■'; color: #000; font-size: 0.6rem; margin-right: 12px; margin-top: 6px; }
+        .package-features li { display: flex; align-items: flex-start; font-size: 0.95rem; color: #aaa; line-height: 1.6; }
+        .package-features li::before { content: '■'; color: #fff; font-size: 0.6rem; margin-right: 15px; margin-top: 7px; }
 
-        /* 결과물 예시 (Reference Archives) */
-        .result-preview h4 { font-size: 1.1rem; margin-bottom: 25px; color: #000; font-family: 'Oswald'; letter-spacing: 1px; text-transform: uppercase;}
-        .result-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        /* 결과물 예시 */
+        .result-preview h4 { font-size: 1.2rem; margin-bottom: 30px; color: #fff; font-family: 'Oswald'; letter-spacing: 1px; text-transform: uppercase;}
+        .result-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .result-img { 
-            width: 100%; height: 300px; object-fit: cover; filter: grayscale(10%);
-            transition: 0.3s; background: #eee;
+            width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center;
+            filter: grayscale(100%); transition: 0.5s; background: #111; border: 1px solid #222;
         }
-        .result-img:hover { filter: grayscale(0%); }
+        .result-img:hover { filter: grayscale(0%); border-color: #fff; }
 
         .modal-footer {
-            margin-top: 60px; padding-top: 40px; border-top: 1px solid #eee;
+            margin-top: 60px; padding-top: 40px; border-top: 1px solid #222;
             display: flex; justify-content: space-between; align-items: flex-end;
         }
         .price-label { font-size: 0.85rem; color: #888; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px;}
-        .actual-price { font-size: 2rem; font-weight: 700; color: #000; font-family: 'Oswald';}
+        .actual-price { font-size: 2.2rem; font-weight: 700; color: #fff; font-family: 'Oswald';}
         .btn-book {
-            padding: 16px 40px; background: #000; color: #fff;
+            padding: 18px 45px; background: #fff; color: #000;
             font-weight: 600; font-size: 1rem; border: none;
             cursor: pointer; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase;
         }
-        .btn-book:hover { background: #333; }
+        .btn-book:hover { background: #ccc; }
+
+        /* 비주얼 라이브러리 (갤러리) */
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .gallery-item { aspect-ratio: 1 / 1; overflow: hidden; position: relative; background: #111; border: 1px solid #222; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; filter: grayscale(100%);}
+        .gallery-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
+        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; height: 100%; }
+        .gallery-item:nth-child(4) { grid-column: span 2; aspect-ratio: 2 / 1; }
 
         /* 프로젝트 인쿼리 (예약 폼) */
-        .booking-section { background: #fff; padding-top: 80px;}
+        .booking-section { background: #000; padding-top: 100px; border-bottom: none;}
         .booking-form {
-            background: #fafafa; padding: 60px; border: 1px solid #eee;
+            background: #0a0a0a; padding: 70px; border: 1px solid #222;
             max-width: 800px; margin: 0 auto; 
         }
-        .form-header { text-align: center; margin-bottom: 40px; }
-        .form-header h3 { font-size: 1.8rem; margin-bottom: 10px; color: #000;}
-        .form-header p { color: #666; font-size: 0.95rem; }
+        .form-header { text-align: center; margin-bottom: 50px; }
+        .form-header h3 { font-size: 2rem; margin-bottom: 10px; color: #fff;}
+        .form-header p { color: #888; font-size: 0.95rem; }
         
-        .input-group { margin-bottom: 25px; }
-        .input-group label { display: block; margin-bottom: 10px; font-size: 0.85rem; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 0.5px;}
+        .input-group { margin-bottom: 30px; }
+        .input-group label { display: block; margin-bottom: 12px; font-size: 0.85rem; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 1px;}
         .input-group input, .input-group select, .input-group textarea {
-            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 0;
-            font-family: inherit; font-size: 0.95rem; transition: 0.3s; background: #fff;
+            width: 100%; padding: 18px; border: 1px solid #333; border-radius: 0;
+            font-family: inherit; font-size: 1rem; transition: 0.3s; background: #000; color: #fff;
         }
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-            border-color: #000; outline: none;
+            border-color: #fff; outline: none; background: #050505;
         }
         
-        footer { text-align: center; padding: 80px 20px 40px 20px; background: #050505; color: #fff; }
+        /* 커스텀 알림창 (Toast) */
+        #toast {
+            visibility: hidden; min-width: 300px; background-color: #fff; color: #000;
+            text-align: center; padding: 20px; position: fixed; z-index: 3000;
+            left: 50%; bottom: 30px; font-weight: 700; font-family: 'Oswald', sans-serif;
+            text-transform: uppercase; letter-spacing: 1px; border: 1px solid #000;
+            transform: translateX(-50%) translateY(20px); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        footer { text-align: center; padding: 100px 20px 50px 20px; background: #000; color: #fff; border-top: 1px solid #222;}
 
         @media (max-width: 900px) {
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .gallery-item:nth-child(1) { grid-column: span 1; grid-row: span 1; height: 300px;}
-            .gallery-item:nth-child(4) { grid-column: span 1; }
+            .gallery-item:nth-child(1) { grid-column: span 1; grid-row: span 1; aspect-ratio: 1 / 1;}
+            .gallery-item:nth-child(4) { grid-column: span 1; aspect-ratio: 1 / 1; }
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 3rem; letter-spacing: -1px;}
+            .hero-title { font-size: 3.5rem; letter-spacing: -1px;}
             .nav-links { display: none; }
             .package-features ul { grid-template-columns: 1fr; }
-            .modal-body { padding: 40px 25px; }
+            .modal-body { padding: 0 30px 40px 30px; }
             .result-images { grid-template-columns: 1fr; }
-            .result-img { height: 250px; }
+            .result-img { aspect-ratio: 16 / 9; }
             .modal-footer { flex-direction: column; gap: 20px; align-items: flex-start; }
             .btn-book { width: 100%; }
-            .booking-form { padding: 30px; }
+            .booking-form { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
 
+    <div class="marquee-container">
+        <div class="marquee">
+            <span>visual production archive • cinematic directing • high-end editorial • bespoke studio • visual production archive • cinematic directing • high-end editorial • bespoke studio • visual production archive • cinematic directing • high-end editorial • bespoke studio •</span>
+        </div>
+    </div>
+
     <nav id="navbar">
         <a href="#" class="logo">SEOUL: CINEMATIC</a>
         <div class="nav-links">
             <a href="#production">PRODUCTION</a>
-            <a href="#archives">ARCHIVES</a>
             <a href="#library">LIBRARY</a>
             <a href="#inquiry">INQUIRY</a>
         </div>
@@ -279,96 +310,88 @@
         <div class="hero-overlay"></div>
         <div class="hero-content reveal">
             <span class="hero-subtitle">VISUAL PRODUCTION TEAM</span>
-            <h1 class="hero-title">당신의 시선,<br>하나의 아카이브가 되다</h1>
+            <h1 class="hero-title">당신의 시선,<br>아카이브가 되다</h1>
             <p class="hero-desc">
-                단순히 소비되는 기록을 넘어, 로컬 크리에이터 팀과 함께 개인의 서사가 담긴 밀도 높은 에디토리얼 필름과 시각적 포트폴리오를 제작합니다.
+                로컬 크리에이터 팀과 함께 개인의 서사가 담긴 밀도 높은 에디토리얼 필름과 시각적 포트폴리오를 제작합니다.
             </p>
             <a href="#production" class="btn-primary">View Productions</a>
         </div>
     </section>
 
-    <!-- 프로덕션 셋업 (패키지) -->
     <section id="production">
         <div class="section-title reveal">
             <h2>PRODUCTION SETUPS</h2>
-            <p>프로젝트의 성격에 맞는 로케이션과 무드를 선택하십시오. 모든 작업은 전담 디렉터와의 조율을 통해 완성됩니다.</p>
+            <p>프로젝트 성격에 맞는 셋업을 확인하십시오. 철저하게 기획된 로케이션과 톤앤매너를 제공합니다.</p>
         </div>
 
         <div class="packages-grid">
-            <!-- 셋업 1: 을지로 -->
-            <div class="package-card reveal" onclick="openModal('noir')">
-                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1601334641324-42b78d21c97a?q=80&w=1000&auto=format&fit=crop');">
-                    <span class="pkg-tag">Location 01</span>
+            <div class="package-card reveal" onclick="openModal('noir')" role="button" tabindex="0" onkeydown="handleKey(event, 'noir')">
+                <span class="pkg-tag">Location 01</span>
+                <div class="pkg-img-wrapper">
+                    <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1555896971-49669e120150?auto=format&fit=crop&w=1200&q=80');"></div>
                 </div>
                 <div class="pkg-content">
                     <h3>NOIR SEQUENCE : EULJIRO</h3>
-                    <p class="pkg-desc">인더스트리얼한 인쇄소 골목과 네온사인의 대비. 거친 질감과 사이버펑크/누아르 무드를 극대화한 시퀀스 작업.</p>
+                    <p class="pkg-desc">인더스트리얼한 골목과 네온사인의 극적인 대비. 사이버펑크와 누아르 무드를 극대화한 시퀀스 작업.</p>
                     <div class="view-details-btn">View Details & References</div>
                 </div>
             </div>
 
-            <!-- 셋업 2: 한강 -->
-            <div class="package-card reveal" style="transition-delay: 0.1s;" onclick="openModal('serene')">
-                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=1000&auto=format&fit=crop');">
-                    <span class="pkg-tag">Location 02</span>
+            <div class="package-card reveal" style="transition-delay: 0.1s;" onclick="openModal('serene')" role="button" tabindex="0" onkeydown="handleKey(event, 'serene')">
+                <span class="pkg-tag">Location 02</span>
+                <div class="pkg-img-wrapper">
+                    <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80');"></div>
                 </div>
                 <div class="pkg-content">
                     <h3>SERENE SEQUENCE : HAN-RIVER</h3>
-                    <p class="pkg-desc">블루 아워(Blue Hour)의 한강과 물안개, 윤슬의 반사광을 활용. 인물의 정적인 분위기와 내러티브를 담아내는 작업.</p>
+                    <p class="pkg-desc">블루 아워(Blue Hour)의 수면 반사광을 활용. 인물의 정적인 분위기와 내러티브를 담아내는 작업.</p>
                     <div class="view-details-btn">View Details & References</div>
                 </div>
             </div>
 
-            <!-- 셋업 3: 성수 -->
-            <div class="package-card reveal" style="transition-delay: 0.2s;" onclick="openModal('urban')">
-                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1000&auto=format&fit=crop');">
-                    <span class="pkg-tag">Location 03</span>
+            <div class="package-card reveal" style="transition-delay: 0.2s;" onclick="openModal('urban')" role="button" tabindex="0" onkeydown="handleKey(event, 'urban')">
+                <span class="pkg-tag">Location 03</span>
+                <div class="pkg-img-wrapper">
+                    <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1485231183945-fef2e4301c44?auto=format&fit=crop&w=1200&q=80');"></div>
                 </div>
                 <div class="pkg-content">
                     <h3>URBAN EDITORIAL : SEONGSU</h3>
-                    <p class="pkg-desc">노출 콘크리트와 현대적 상업 공간의 교차. 패션 브랜드 캠페인 룩북 형식의 속도감 있는 교차 편집 프로덕션.</p>
+                    <p class="pkg-desc">노출 콘크리트와 모던 상업 공간의 교차. 패션 캠페인 룩북 형식의 속도감 있는 교차 편집 프로덕션.</p>
                     <div class="view-details-btn">View Details & References</div>
                 </div>
             </div>
 
-            <!-- 셋업 4: 커스텀 -->
-            <div class="package-card reveal" style="transition-delay: 0.3s;" onclick="openModal('bespoke')">
-                <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1522204523234-8729aa6e3d5f?q=80&w=1000&auto=format&fit=crop');">
-                    <span class="pkg-tag" style="background: #fff; color: #000;">Project 04</span>
+            <div class="package-card reveal" style="transition-delay: 0.3s;" onclick="openModal('bespoke')" role="button" tabindex="0" onkeydown="handleKey(event, 'bespoke')">
+                <span class="pkg-tag" style="background: #000; color: #fff; border: 1px solid #333;">Project 04</span>
+                <div class="pkg-img-wrapper">
+                    <div class="pkg-img" style="background-image: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1200&q=80');"></div>
                 </div>
                 <div class="pkg-content">
                     <h3>BESPOKE PRODUCTION</h3>
-                    <p class="pkg-desc">기획부터 결과물까지 클라이언트의 비전을 100% 반영하는 맞춤형 작업. 스튜디오 렌탈 및 특수 장비 투입 가능.</p>
+                    <p class="pkg-desc">클라이언트의 비전을 100% 반영하는 맞춤형 스튜디오 작업 및 특수 장비 투입 에디토리얼.</p>
                     <div class="view-details-btn">View Details & References</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 모달 창 (상세페이지) -->
     <div class="modal-overlay" id="packageModal">
         <div class="modal-content">
-            <div class="close-modal" onclick="closeModal()">✕</div>
+            <button class="close-modal" aria-label="Close modal" onclick="closeModal()">✕</button>
             <div class="modal-hero" id="m-img"></div>
             <div class="modal-body">
                 <div class="modal-tags" id="m-tags"></div>
                 <h2 class="modal-title" id="m-title">Title</h2>
                 <p class="modal-desc" id="m-desc">Description</p>
                 
-                <!-- Deliverables -->
                 <div class="package-features">
                     <h4>Deliverables & Scope</h4>
-                    <ul id="m-features">
-                        <!-- JS에서 동적 주입 -->
-                    </ul>
+                    <ul id="m-features"></ul>
                 </div>
 
-                <!-- Reference Archives -->
                 <div class="result-preview">
                     <h4>Reference Archives</h4>
-                    <div class="result-images" id="m-results">
-                        <!-- JS에서 동적 이미지 삽입됨 -->
-                    </div>
+                    <div class="result-images" id="m-results"></div>
                 </div>
 
                 <div class="modal-footer">
@@ -382,70 +405,28 @@
         </div>
     </div>
 
-    <!-- 클라이언트 아카이브 (리뷰 대체) -->
-    <section id="archives" class="reviews-section">
-        <div class="section-title reveal">
-            <h2>CLIENT ARCHIVES</h2>
-            <p>저희와 함께 작업을 진행한 협업자 및 클라이언트들의 프로덕션 코멘트입니다.</p>
-        </div>
-        <div class="reviews-grid">
-            <div class="review-card reveal">
-                <span class="project-meta">Project: Urban Editorial | Client: S.J</span>
-                <p class="review-text">"단순한 촬영이 아니라, 모델의 아이덴티티를 정확히 캐치하여 브랜드 캠페인 수준의 디렉팅을 제공합니다. 상업 작업물로도 손색없는 완성도에 팀 전체가 만족했습니다."</p>
-                <div class="reviewer">
-                    <div class="reviewer-info">
-                        <h4>Sarah J.</h4>
-                        <p>Independent Fashion Brand Director</p>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card reveal" style="transition-delay: 0.1s;">
-                <span class="project-meta">Project: Noir Sequence | Client: H.M</span>
-                <p class="review-text">"음악 작업물에 쓰일 비주얼라이저가 필요해 의뢰했습니다. 을지로의 거친 텍스처와 빛을 다루는 디렉터님의 감각 덕분에 곡의 내러티브가 시각적으로 완벽하게 구현되었습니다."</p>
-                <div class="reviewer">
-                    <div class="reviewer-info">
-                        <h4>Hyun Min</h4>
-                        <p>Music Producer / Artist</p>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card reveal" style="transition-delay: 0.2s;">
-                <span class="project-meta">Project: Bespoke Production | Client: T.M</span>
-                <p class="review-text">"사전 미팅부터 로케이션 헌팅, 현장 통제까지 시스템이 매우 프로페셔널합니다. 카메라 앞에서의 어색함을 지워주는 세밀한 무빙 디렉팅이 가장 인상적이었습니다."</p>
-                <div class="reviewer">
-                    <div class="reviewer-info">
-                        <h4>Takuya M.</h4>
-                        <p>Creative Content Creator</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 비주얼 라이브러리 -->
     <section id="library">
         <div class="section-title reveal">
             <h2>VISUAL LIBRARY</h2>
-            <p>다양한 로케이션에서 구축한 SEOUL CINEMATIC의 아카이브 데이터베이스.</p>
+            <p>완벽한 일관성으로 구축된 SEOUL CINEMATIC 아카이브 데이터베이스.</p>
         </div>
         <div class="gallery-grid">
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1485231183945-fef2e4301c44?q=80&w=1200&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1601334641324-42b78d21c97a?q=80&w=800&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1563223771-460ce9fa85b1?q=80&w=1200&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?q=80&w=800&auto=format&fit=crop" alt=""></div>
-            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1542317772-78d10b0ed19d?q=80&w=800&auto=format&fit=crop" alt=""></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1200&q=80" alt="Cinematic Portrait" loading="lazy"></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1515578135893-1dd8996e1b6f?auto=format&fit=crop&w=800&q=80" alt="Neon Street" loading="lazy"></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80" alt="Photography Camera" loading="lazy"></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1533227260815-484d66487e45?auto=format&fit=crop&w=1200&q=80" alt="Urban Architecture" loading="lazy"></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1518110925485-6c7e2b8686e0?auto=format&fit=crop&w=800&q=80" alt="Editorial Fashion" loading="lazy"></div>
+            <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80" alt="Studio Setup" loading="lazy"></div>
         </div>
     </section>
 
-    <!-- 프로젝트 인쿼리 (예약 폼) -->
     <section id="inquiry" class="booking-section">
         <div class="booking-form reveal">
             <div class="form-header">
                 <h3>PROJECT INQUIRY</h3>
                 <p>작업 의뢰 및 미팅 스케줄링을 위한 기본 정보를 작성해 주십시오.</p>
             </div>
-            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('프로젝트 인쿼리가 접수되었습니다. 담당 디렉터가 회신드리겠습니다.');">
+            <form action="#" method="POST" onsubmit="event.preventDefault(); showToast();">
                 <div class="input-group">
                     <label>Client Name / Organization</label>
                     <input type="text" placeholder="성함 또는 단체명" required>
@@ -466,16 +447,18 @@
                 </div>
                 <div class="input-group">
                     <label>Expected Schedule</label>
-                    <input type="date" required>
+                    <input type="date" required style="color-scheme: dark;">
                 </div>
                 <div class="input-group">
                     <label>Project Details / Notes</label>
-                    <textarea rows="4" placeholder="작업의 목적(예: 포트폴리오, 브랜드 홍보, 앨범 아트워크 등) 및 특정 요구사항을 기재해 주십시오."></textarea>
+                    <textarea rows="4" placeholder="작업의 목적 및 특정 요구사항을 기재해 주십시오."></textarea>
                 </div>
                 <button type="submit" class="btn-book" style="width: 100%; margin-top: 10px;">SUBMIT INQUIRY</button>
             </form>
         </div>
     </section>
+
+    <div id="toast">Project Inquiry Submitted. We will contact you soon.</div>
 
     <footer>
         <h3 style="margin-bottom: 15px; font-family: 'Oswald'; font-size: 1.5rem; letter-spacing: 2px;">SEOUL: CINEMATIC</h3>
@@ -484,19 +467,14 @@
     </footer>
 
     <script>
-        // 네비게이션 스크롤 효과
+        // 네비게이션
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-                nav.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                nav.classList.remove('scrolled');
-                nav.style.background = 'rgba(255, 255, 255, 0.8)';
-            }
+            if (window.scrollY > 50) nav.style.background = 'rgba(5, 5, 5, 0.95)';
+            else nav.style.background = 'rgba(10, 10, 10, 0.85)';
         });
 
-        // 요소 등장 애니메이션
+        // 애니메이션
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -508,66 +486,80 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // 프로덕션 상세 데이터 (에이전시 톤으로 재작성 및 Unsplash 이미지 매칭)
+        // Toast 알림창 함수
+        function showToast() {
+            var toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3500);
+            
+            // 폼 초기화 (선택사항)
+            document.querySelector('form').reset();
+        }
+
+        // 키보드 접근성 (엔터 키로 모달 열기)
+        function handleKey(event, pkgType) {
+            if (event.key === "Enter") openModal(pkgType);
+        }
+
+        // 안정적인 Unsplash ID로 교체된 데이터
         const packageData = {
             noir: {
                 title: "NOIR SEQUENCE : EULJIRO",
                 tags: ["Industrial", "Cyberpunk", "Cinematography", "Night"],
-                heroImg: "https://images.unsplash.com/photo-1601334641324-42b78d21c97a?q=80&w=1600&auto=format&fit=crop",
-                desc: "을지로 특유의 거친 인더스트리얼 텍스처와 강렬한 네온사인의 광원을 활용한 야간 시퀀스입니다. 모델의 움직임에 맞춘 타이트한 짐벌 워킹을 통해 누아르 영화나 사이버펑크 무드의 긴장감 있는 에디토리얼 필름을 완성합니다. 피사체의 강렬한 아이덴티티를 묘사하는 데 최적화되어 있습니다.",
-                features: ["메인 디렉터 1:1 현장 컨트롤 (2 hours)", "시네마틱 숏폼 시퀀스 2편 기획 및 컷 편집", "그레이딩 스틸컷 아카이브 100컷", "하이컨트라스트 누아르 특화 DI (색보정)", "포즈 및 무빙 동선 디렉팅 문서 사전 제공"],
+                heroImg: "https://images.unsplash.com/photo-1555896971-49669e120150?auto=format&fit=crop&w=1600&q=80",
+                desc: "을지로 특유의 거친 인더스트리얼 텍스처와 강렬한 네온사인의 광원을 활용한 야간 시퀀스입니다. 타이트한 짐벌 워킹을 통해 누아르 영화나 사이버펑크 무드의 긴장감 있는 에디토리얼 필름을 완성합니다.",
+                features: ["메인 디렉터 1:1 현장 컨트롤 (2 hours)", "시네마틱 숏폼 시퀀스 2편 기획 및 컷 편집", "그레이딩 스틸컷 아카이브 100컷", "하이컨트라스트 누아르 특화 DI (색보정)", "무빙 동선 디렉팅 문서 사전 제공"],
                 results: [
-                    "https://images.unsplash.com/photo-1555896971-49669e120150?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1505761671135-639e33f43b01?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1588612140409-f62f8350bc56?q=80&w=600&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1515578135893-1dd8996e1b6f?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1565538420870-da08ff96a207?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1551634979-2b11f8c946fe?auto=format&fit=crop&w=800&q=80"
                 ],
                 price: "₩ 150,000"
             },
             serene: {
                 title: "SERENE SEQUENCE : HAN-RIVER",
                 tags: ["Blue Hour", "Reflection", "Narrative", "Calm"],
-                heroImg: "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?q=80&w=1600&auto=format&fit=crop",
-                desc: "블루 아워(Blue Hour) 시간대의 한강 브리지와 수면에 반사되는 빛(윤슬)을 캡처합니다. 역동성보다는 피사체의 내면과 정적인 내러티브를 담아내는 데 집중하는 작업으로, 와이드 앵글을 활용한 풍경과 인물의 조화로운 시퀀스를 지향합니다.",
+                heroImg: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80",
+                desc: "블루 아워(Blue Hour) 시간대의 수면 반사광(윤슬)을 캡처합니다. 역동성보다는 피사체의 내면과 정적인 내러티브를 담아내는 데 집중하는 작업으로, 풍경과 인물의 조화로운 시퀀스를 지향합니다.",
                 features: ["블루 아워 골든타임 특화 로케이션 슈팅 (2.5 hours)", "원테이크 스타일의 내러티브 숏 필름 1편", "풍경과 인물이 결합된 와이드 스틸컷 30장", "오브제(E-bike, 필름카메라 등) 디렉팅 지원", "소프트 톤 앤 매너(Soft Tone & Manner) 보정"],
                 results: [
-                    "https://images.unsplash.com/photo-1563223771-460ce9fa85b1?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=600&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&w=800&q=80"
                 ],
                 price: "₩ 180,000"
             },
             urban: {
                 title: "URBAN EDITORIAL : SEONGSU",
                 tags: ["Editorial", "Street Fashion", "Lookbook", "Modern"],
-                heroImg: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop",
-                desc: "성수동의 노출 콘크리트 건축물과 모던 상업 공간을 무대로 전개되는 하이엔드 스트릿 에디토리얼 작업입니다. 속도감 있는 컷 전환과 클로즈업을 혼합한 교차 편집을 통해, 클라이언트의 스타일을 패션 브랜드 룩북 필름처럼 세련되게 시각화합니다.",
+                heroImg: "https://images.unsplash.com/photo-1485231183945-fef2e4301c44?auto=format&fit=crop&w=1600&q=80",
+                desc: "노출 콘크리트 건축물과 모던 상업 공간을 무대로 전개되는 하이엔드 스트릿 에디토리얼 작업입니다. 속도감 있는 컷 전환을 통해, 클라이언트의 스타일을 패션 룩북 필름처럼 세련되게 시각화합니다.",
                 features: ["다중 로케이션 에디토리얼 슈팅 (3 hours)", "비트 싱크 기반 룩북 필름 2편 (멀티캠 컷편집)", "상업 포트폴리오 수준의 정밀 리터칭 스틸 30장", "2회 착장 변경에 따른 무드 보드 재조정", "스트릿 아방가르드 톤 DI 적용"],
                 results: [
-                    "https://images.unsplash.com/photo-1485231183945-fef2e4301c44?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?q=80&w=600&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80"
                 ],
                 price: "₩ 220,000"
             },
             bespoke: {
                 title: "BESPOKE PRODUCTION",
                 tags: ["Custom Build", "Studio", "VVIP", "Directing"],
-                heroImg: "https://images.unsplash.com/photo-1522204523234-8729aa6e3d5f?q=80&w=1600&auto=format&fit=crop",
-                desc: "프로덕션의 한계를 두지 않는 완전 맞춤형 프로젝트입니다. 특정 아티스트의 뮤직비디오 오마주, 실내 스튜디오 렌탈 촬영, 특수 조명 세팅 등 클라이언트가 제시하는 레퍼런스와 비전을 정확한 프로덕션 기획을 통해 물리적 결과물로 구현해 냅니다.",
-                features: ["전담 프로듀서 1:1 온라인 사전 기획 미팅", "로케이션 헌팅 및 스토리보드 기획 문서 제공", "클라이언트 비전 100% 반영 레퍼런스 필름 제작", "필요시 스튜디오 및 조명 장비 인프라 지원 (비용 별도)", "결과물에 대한 1차 피드백 및 리비전(수정) 적용"],
+                heroImg: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1600&q=80",
+                desc: "프로덕션의 한계를 두지 않는 완전 맞춤형 프로젝트입니다. 특정 아티스트의 뮤직비디오 오마주, 실내 스튜디오 렌탈 촬영, 특수 조명 세팅 등 클라이언트의 비전을 정확한 기획을 통해 물리적 결과물로 구현합니다.",
+                features: ["전담 프로듀서 1:1 사전 기획 미팅", "로케이션 헌팅 및 스토리보드 기획 문서 제공", "클라이언트 비전 100% 반영 레퍼런스 필름 제작", "필요시 스튜디오 및 조명 장비 인프라 지원", "결과물에 대한 1차 피드백 및 리비전 적용"],
                 results: [
-                    "https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1598501211756-3b7c2ccce762?q=80&w=600&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1501686637-b7aca9ee32b2?q=80&w=600&auto=format&fit=crop"
+                    "https://images.unsplash.com/photo-1522204523234-8729aa6e3d5f?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1598501211756-3b7c2ccce762?auto=format&fit=crop&w=800&q=80",
+                    "https://images.unsplash.com/photo-1501686637-b7aca9ee32b2?auto=format&fit=crop&w=800&q=80"
                 ],
-                price: "견적 협의 (기획안 확정 후 산출)"
+                price: "견적 협의"
             }
         };
 
         const modal = document.getElementById('packageModal');
         let currentSelected = '';
 
-        // 모달 데이터 바인딩
         function openModal(pkgType) {
             const data = packageData[pkgType];
             currentSelected = pkgType;
@@ -579,8 +571,9 @@
             
             document.getElementById('m-tags').innerHTML = data.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
             document.getElementById('m-features').innerHTML = data.features.map(feat => `<li>${feat}</li>`).join('');
-            document.getElementById('m-results').innerHTML = data.results.map(url => `<img src="${url}" class="result-img" alt="">`).join('');
-
+            
+            document.getElementById('m-results').innerHTML = data.results.map(url => `<img src="${url}" class="result-img" alt="Reference Image">`).join('');
+            
             modal.classList.add('active');
             document.body.classList.add('modal-open');
         }
