@@ -3,152 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GatherAI - 똑똑한 모임 플래너</title>
+    <title>GatherAI - 모임의 최적해</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 기본 폰트 및 스크롤바 숨김 설정 */
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        body { font-family: 'Pretendard', sans-serif; background-color: #f3f4f6; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .screen { display: none; animation: fadeIn 0.3s ease-in-out; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .screen { display: none; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; transform: translateX(20px); }
+        .screen.active { display: block; opacity: 1; transform: translateX(0); }
         
         /* 모바일 뷰 컨테이너 */
-        .app-container { max-width: 480px; margin: 0 auto; background: white; min-height: 100vh; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+        .app-container { max-width: 480px; margin: 0 auto; background: white; min-height: 100vh; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding-bottom: 70px;}
+        
+        /* 선택 가능한 버튼 UI */
+        .selectable.selected { background-color: #111827; color: white; border-color: #111827; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        /* 프리미엄 AI 로딩 그라데이션 */
+        .ai-gradient { background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6); background-size: 400% 400%; animation: gradientBG 4s ease infinite; color: white; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* 하단 네비게이션 바 */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding: 12px 0; z-index: 50; padding-bottom: env(safe-area-inset-bottom, 12px); }
+        .nav-item { display: flex; flex-direction: column; items-center; font-size: 10px; color: #94a3b8; transition: color 0.2s; }
+        .nav-item.active { color: #111827; font-weight: bold; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
 <div class="app-container flex flex-col">
 
-    <div id="screen-home" class="screen active p-5">
+    <div id="screen-home" class="screen active p-6">
         <header class="flex justify-between items-center mb-8 pt-4">
-            <h1 class="text-2xl font-bold text-gray-800">GatherAI</h1>
-            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"><i class="fa-solid fa-user text-gray-500"></i></div>
+            <div>
+                <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight">GatherAI</h1>
+                <p class="text-sm text-gray-500 mt-1">친구들과의 완벽한 튜닝</p>
+            </div>
+            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center shadow-inner"><i class="fa-solid fa-user text-gray-500"></i></div>
         </header>
         
-        <h2 class="text-lg font-semibold mb-4 text-gray-700">예정된 모임</h2>
-        <div class="bg-white border border-gray-100 rounded-2xl p-4 mb-6 shadow-sm">
-            <p class="text-sm text-blue-500 font-bold mb-1">D-3</p>
-            <h3 class="text-xl font-bold mb-2">동기들 중간고사 뒷풀이 🍻</h3>
-            <p class="text-sm text-gray-500 mb-3"><i class="fa-regular fa-calendar mr-1"></i> 금요일 오후 6시 • 강남역</p>
-            <div class="flex gap-2">
-                <button onclick="alert('가짜 영수증 OCR 정산 화면이 뜹니다.')" class="flex-1 bg-gray-100 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">1원 단위 더치페이</button>
-                <button onclick="alert('친구들이 올린 사진으로 AI 브이로그가 생성됩니다.')" class="flex-1 bg-gray-100 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">모임 앨범 (Vlog)</button>
+        <h2 class="text-lg font-bold mb-4 text-gray-800">다가오는 약속</h2>
+        <div class="bg-white border border-gray-100 rounded-3xl p-5 mb-8 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-blue-50 rounded-bl-full -z-10"></div>
+            <div class="flex justify-between items-start mb-2">
+                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold">D-3</span>
+                <i class="fa-solid fa-ellipsis text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-extrabold mb-1 mt-2">중간고사 뒷풀이 파티 🎉</h3>
+            <p class="text-sm text-gray-500 mb-5 font-medium"><i class="fa-regular fa-clock mr-1"></i> 금요일 오후 6시 • 강남역 11번 출구</p>
+            <div class="flex gap-3">
+                <button onclick="alert('N빵 정산 시스템이 활성화됩니다.')" class="flex-1 bg-gray-50 border border-gray-100 py-3 rounded-2xl text-sm font-semibold text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-receipt mr-2"></i>스마트 정산</button>
+                <button onclick="alert('친구들과 찍은 사진으로 브이로그가 만들어집니다.')" class="flex-1 bg-gray-50 border border-gray-100 py-3 rounded-2xl text-sm font-semibold text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-video mr-2"></i>모임 V-log</button>
             </div>
         </div>
 
-        <button onclick="goTo('screen-create')" class="w-full bg-black text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-md">
-            + 새 모임 일정 잡기
+        <button onclick="goTo('screen-create')" class="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold text-lg hover:bg-black transition shadow-lg flex justify-center items-center gap-2">
+            <i class="fa-solid fa-plus"></i> 새 모임 시작하기
         </button>
     </div>
 
-    <div id="screen-create" class="screen p-5 h-full">
-        <button onclick="goTo('screen-home')" class="text-gray-500 mb-6 mt-4"><i class="fa-solid fa-arrow-left text-xl"></i></button>
-        <h2 class="text-2xl font-bold mb-6">언제 만날까요?</h2>
+    <div id="screen-create" class="screen p-6">
+        <button onclick="goTo('screen-home')" class="text-gray-400 hover:text-gray-900 transition mb-6 mt-2"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+        <h2 class="text-2xl font-extrabold mb-6 leading-tight">언제 만나는 게<br>가장 좋을까요?</h2>
         
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2">에브리타임/캘린더 연동으로 빈 시간 찾기</label>
-            <button class="w-full bg-green-50 text-green-600 border border-green-200 py-3 rounded-xl font-semibold flex justify-center items-center gap-2">
-                <i class="fa-solid fa-sync"></i> 내 시간표 1초 만에 불러오기
+        <div class="mb-8">
+            <button class="w-full bg-[#f0fdf4] text-[#16a34a] border border-[#bbf7d0] py-4 rounded-2xl font-bold flex justify-center items-center gap-2 transition hover:bg-[#dcfce7]">
+                <i class="fa-regular fa-calendar-check text-xl"></i> 에브리타임 시간표 연동하기
             </button>
         </div>
 
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2">가능한 날짜를 대략 선택해주세요</label>
-            <div class="grid grid-cols-4 gap-2 text-center text-sm">
-                <div class="py-2 bg-gray-100 rounded-lg text-gray-400">10</div>
-                <div class="py-2 bg-gray-100 rounded-lg text-gray-400">11</div>
-                <div class="py-2 bg-black text-white rounded-lg font-bold shadow-sm">12</div>
-                <div class="py-2 bg-black text-white rounded-lg font-bold shadow-sm">13</div>
-                <div class="py-2 bg-gray-100 rounded-lg text-gray-400">14</div>
-                <div class="py-2 bg-black text-white rounded-lg font-bold shadow-sm">15</div>
-                <div class="py-2 bg-gray-100 rounded-lg text-gray-400">16</div>
-                <div class="py-2 bg-gray-100 rounded-lg text-gray-400">17</div>
-            </div>
-        </div>
-
         <div class="mb-8">
-            <label class="block text-sm font-medium text-gray-700 mb-2">어떤 분위기를 원하시나요?</label>
-            <div class="flex flex-wrap gap-2">
-                <span class="px-4 py-2 border border-gray-200 rounded-full text-sm bg-gray-50">활동적인 🏃</span>
-                <span class="px-4 py-2 border border-black rounded-full text-sm bg-black text-white font-medium">가성비 💸</span>
-                <span class="px-4 py-2 border border-black rounded-full text-sm bg-black text-white font-medium">핫플 📸</span>
-                <span class="px-4 py-2 border border-gray-200 rounded-full text-sm bg-gray-50">조용한 ☕</span>
+            <label class="block text-sm font-bold text-gray-700 mb-3">가능한 날짜 (중복 선택)</label>
+            <div class="grid grid-cols-5 gap-2 text-center text-sm font-medium">
+                <div class="selectable py-3 bg-white border border-gray-200 rounded-xl text-gray-600 cursor-pointer transition" onclick="this.classList.toggle('selected')">10일</div>
+                <div class="selectable py-3 bg-white border border-gray-200 rounded-xl text-gray-600 cursor-pointer transition" onclick="this.classList.toggle('selected')">11일</div>
+                <div class="selectable py-3 bg-white border border-gray-200 rounded-xl text-gray-600 cursor-pointer transition selected" onclick="this.classList.toggle('selected')">12일</div>
+                <div class="selectable py-3 bg-white border border-gray-200 rounded-xl text-gray-600 cursor-pointer transition selected" onclick="this.classList.toggle('selected')">13일</div>
+                <div class="selectable py-3 bg-white border border-gray-200 rounded-xl text-gray-600 cursor-pointer transition" onclick="this.classList.toggle('selected')">14일</div>
             </div>
         </div>
 
-        <button onclick="startAILoading()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-md">
-            AI에게 추천받기
+        <div class="mb-10">
+            <label class="block text-sm font-bold text-gray-700 mb-3">모임의 분위기는?</label>
+            <div class="flex flex-wrap gap-2">
+                <span class="selectable px-4 py-2 border border-gray-200 rounded-full text-sm cursor-pointer transition" onclick="this.classList.toggle('selected')">🔥 활동적인</span>
+                <span class="selectable px-4 py-2 border border-gray-200 rounded-full text-sm cursor-pointer transition selected" onclick="this.classList.toggle('selected')">💸 가성비</span>
+                <span class="selectable px-4 py-2 border border-gray-200 rounded-full text-sm cursor-pointer transition selected" onclick="this.classList.toggle('selected')">📸 인스타 핫플</span>
+                <span class="selectable px-4 py-2 border border-gray-200 rounded-full text-sm cursor-pointer transition" onclick="this.classList.toggle('selected')">☕ 조용한 힐링</span>
+            </div>
+        </div>
+
+        <button onclick="startAILoading()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200 flex justify-center items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI 최적 경로 분석
         </button>
     </div>
 
-    <div id="screen-loading" class="screen h-screen flex flex-col items-center justify-center bg-white">
-        <i class="fa-solid fa-compass fa-spin text-4xl text-blue-500 mb-6"></i>
-        <h2 class="text-xl font-bold mb-2">AI가 분석 중입니다...</h2>
-        <p id="loading-text" class="text-gray-500 text-sm text-center">친구 4명의 동선과 빈 시간을 쪼개는 중<br>...</p>
+    <div id="screen-loading" class="screen ai-gradient h-screen flex flex-col items-center justify-center fixed top-0 left-0 w-full max-w-[480px] z-50">
+        <i class="fa-solid fa-layer-group fa-fade text-5xl mb-6 opacity-90"></i>
+        <h2 class="text-2xl font-extrabold mb-3 tracking-tight">Gather AI 분석 중</h2>
+        <p id="loading-text" class="text-white/80 text-sm text-center font-medium h-10">친구들의 일정과 동선을<br>매칭하고 있습니다...</p>
     </div>
 
-    <div id="screen-result" class="screen p-5 bg-gray-50 min-h-screen">
-        <button onclick="goTo('screen-create')" class="text-gray-500 mb-4 mt-4"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+    <div id="screen-result" class="screen p-6 bg-gray-50 min-h-screen">
+        <div class="flex justify-between items-center mb-6 mt-2">
+            <button onclick="goTo('screen-home')" class="text-gray-900"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <span class="font-bold text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-full">분석 완료</span>
+        </div>
         
-        <div class="bg-white p-5 rounded-2xl shadow-sm mb-6 border border-gray-100">
-            <h2 class="text-sm text-blue-500 font-bold mb-1">최적의 교집합</h2>
-            <h3 class="text-2xl font-bold mb-2">5월 12일(금) 오후 4시</h3>
-            <p class="text-gray-600 flex items-center gap-2"><i class="fa-solid fa-location-dot"></i> 성수역 (모두의 중간 지점)</p>
-            <p class="text-xs text-gray-400 mt-2">*날씨: 맑음, 일교차 큼 (가디건 추천)</p>
+        <h2 class="text-2xl font-extrabold mb-6">모두가 만족하는<br>최적의 플랜을 찾았어요!</h2>
+
+        <div class="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] mb-6 overflow-hidden border border-gray-100">
+            <div class="w-full h-32 bg-gray-200 relative flex items-center justify-center overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="map" class="absolute inset-0 w-full h-full object-cover opacity-50 blur-[1px]">
+                <div class="z-10 bg-black text-white px-3 py-2 rounded-full font-bold text-sm shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-blue-400"></i> 성수역 (중간지점)
+                </div>
+            </div>
+            <div class="p-5">
+                <h3 class="text-2xl font-extrabold mb-1">5월 12일(금) 오후 4시</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3">모두의 일정이 비는 유일한 3시간이에요.</p>
+                <div class="flex gap-2">
+                    <span class="bg-orange-50 text-orange-600 px-2 py-1 rounded text-xs font-bold"><i class="fa-solid fa-sun"></i> 맑음 (22도)</span>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-bold">얇은 겉옷 추천</span>
+                </div>
+            </div>
         </div>
 
-        <h3 class="font-bold text-lg mb-3">AI 오마카세 추천 코스</h3>
+        <h3 class="font-bold text-lg mb-3 text-gray-800">AI 추천 오마카세 코스</h3>
         
-        <div class="bg-white p-4 rounded-xl shadow-sm mb-3 border border-gray-100 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
-            <div class="flex justify-between items-start mb-2">
-                <h4 class="font-bold text-md">A. 성수동 트렌드 뽀개기 코스</h4>
-                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-bold">할인율 15%</span>
+        <div class="bg-white p-5 rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.02)] mb-4 border border-gray-100 cursor-pointer hover:border-blue-400 transition">
+            <div class="flex justify-between items-start mb-3">
+                <h4 class="font-extrabold text-md">A. 성수동 트렌드 뽀개기 📸</h4>
+                <span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded-md font-bold">전시 15% 할인</span>
             </div>
-            <p class="text-sm text-gray-500 mb-3">대림창고 카페 ☕ ➔ 모나미 스토어 체험 ➔ 소문난 성수 감자탕 🍲</p>
-            <button onclick="alert('단톡방에 투표 링크가 공유되었습니다!')" class="w-full bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200">이 코스로 투표 만들기</button>
+            <p class="text-sm text-gray-500 mb-4 font-medium">대림창고 카페 ➔ 모나미 스토어 ➔ 소문난 감자탕</p>
+            <button class="w-full bg-gray-900 text-white py-3 rounded-xl text-sm font-bold">이 코스로 투표 올리기</button>
         </div>
+    </div>
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
-            <div class="flex justify-between items-start mb-2">
-                <h4 class="font-bold text-md">B. 조용한 서울숲 힐링 코스</h4>
-            </div>
-            <p class="text-sm text-gray-500 mb-3">서울숲 따릉이 🚲 ➔ 체다앤올리 브런치 ➔ 센터커피 ☕</p>
-            <button onclick="alert('단톡방에 투표 링크가 공유되었습니다!')" class="w-full bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200">이 코스로 투표 만들기</button>
+    <div class="bottom-nav">
+        <div class="nav-item active text-center cursor-pointer" onclick="goTo('screen-home')">
+            <i class="fa-solid fa-house"></i>
+            <span>홈</span>
+        </div>
+        <div class="nav-item text-center cursor-pointer" onclick="alert('캘린더 화면입니다.')">
+            <i class="fa-regular fa-calendar"></i>
+            <span>일정</span>
+        </div>
+        <div class="nav-item text-center cursor-pointer" onclick="alert('마이페이지입니다.')">
+            <i class="fa-regular fa-user"></i>
+            <span>MY</span>
         </div>
     </div>
 
 </div>
 
 <script>
-    // 화면 전환 함수
     function goTo(screenId) {
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
         window.scrollTo(0, 0);
     }
 
-    // AI 분석 로딩 연출 (진짜 작동하는 것처럼 보이기 위함)
     function startAILoading() {
-        goTo('screen-loading');
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        document.getElementById('screen-loading').classList.add('active');
+        
         const loadingText = document.getElementById('loading-text');
         
-        setTimeout(() => {
-            loadingText.innerHTML = "최근 SNS 핫플 데이터 크롤링 중...<br>가성비 키워드 필터링 중...";
-        }, 1200);
-
-        setTimeout(() => {
-            loadingText.innerHTML = "제휴 할인 링크 매칭 중...<br>거의 다 됐습니다!";
-        }, 2400);
-
-        setTimeout(() => {
-            goTo('screen-result');
-        }, 3500);
+        setTimeout(() => { loadingText.innerHTML = "실시간 날씨와 핫플레이스<br>데이터를 동기화 중입니다..."; }, 1500);
+        setTimeout(() => { loadingText.innerHTML = "제휴 할인 혜택을<br>적용하는 중입니다..."; }, 2800);
+        setTimeout(() => { 
+            document.getElementById('screen-loading').classList.remove('active');
+            document.getElementById('screen-result').classList.add('active');
+        }, 4000);
     }
 </script>
 
