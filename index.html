@@ -32,34 +32,31 @@
             background-color: #f4f5f7;
             position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* PC/태블릿에서만 아이폰 형태의 테두리 적용 (스케일 축소 없음 -> 화질 뭉개짐 완벽 해결) */
+        /* PC/태블릿에서만 아이폰 형태의 테두리 적용 */
         @media (min-width: 480px) and (min-height: 700px) {
             .device-wrapper {
                 width: 400px;
                 height: 852px;
-                max-height: 92vh; /* 모니터 높이에 맞춰 자연스럽게 높이만 조절됨 */
+                max-height: 92vh;
                 border-radius: 40px;
                 border: 10px solid #111;
                 box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2), 0 20px 50px rgba(0, 0, 0, 0.3);
             }
         }
 
-        /* 📺 각 화면 (스크린) 구조 */
+        /* 📺 각 화면 (스크린) 구조 - Block 기반 절대영역 사용으로 스크롤 문제 완벽 해결 */
         .screen { 
             position: absolute;
             inset: 0;
             display: none; /* JS로 제어 */
-            flex-direction: column;
             background: #f4f5f7;
             z-index: 10;
         }
         
         .screen.active { 
-            display: flex; 
+            display: block; 
             z-index: 20;
             animation: fadeIn 0.25s ease-out forwards; 
         }
@@ -80,36 +77,44 @@
             to { opacity: 1; } 
         }
 
-        /* 🚀 글씨 잘림/겹침을 완벽 방지하는 독립적 스크롤 영역 */
+        /* 🚀 핵심: 글씨 잘림/겹침을 방지하는 독립적 스크롤 영역 */
         .scroll-area {
-            flex: 1;
+            position: absolute; /* 스크린 안에서 꽉 차게 설정 */
+            inset: 0;
+            width: 100%;
+            height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            padding: 20px;
             padding-bottom: 120px; /* 하단 네비게이션과 겹치지 않도록 충분한 여백 */
         }
         
         .detail-screen .scroll-area {
-            padding-bottom: 40px;
+            padding-bottom: 40px; /* 디테일 화면은 네비게이션이 없으므로 여백 축소 */
         }
 
         /* 고정 헤더 */
         .glass-header { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             background: rgba(244, 245, 247, 0.85); 
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
             z-index: 50;
-            flex-shrink: 0;
         }
         
         .glass-header-white {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
             z-index: 50;
-            flex-shrink: 0;
         }
 
         /* 하단 네비게이션 */
@@ -123,7 +128,7 @@
             border-top: 1px solid rgba(0,0,0,0.05); 
             display: flex; 
             justify-content: space-around; 
-            padding: 12px 0 24px 0; /* 터치 영역 확보 */
+            padding: 12px 0 24px 0; 
             z-index: 70; 
             transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); 
         }
@@ -146,7 +151,7 @@
         .bottom-sheet.show .sheet-content { transform: translateY(0); }
         
         /* 토스트 팝업 */
-        #toast { position: absolute; top: 30px; left: 50%; transform: translateX(-50%) translateY(-20px); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-20px); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* 커스텀 한국 도심 맵 스타일 */
@@ -165,7 +170,6 @@
         .marker-pulse { animation: ripple 2s infinite; }
         .spin-animation { transition: transform 3.5s cubic-bezier(0.2, 0.8, 0.1, 1); }
         
-        /* 텍스트가 잘리지 않도록 줄바꿈 방지 유틸 */
         .keep-all { word-break: keep-all; }
     </style>
 </head>
@@ -181,12 +185,12 @@
     =========================================== -->
     <div id="screen-home" class="screen active">
         <!-- 상단 헤더 -->
-        <header class="glass-header px-6 pt-6 pb-4 flex flex-col justify-end">
+        <header class="glass-header px-6 pt-12 pb-4">
             <div class="flex justify-between items-center mb-2">
                 <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Gather<span class="text-blue-600">AI</span></h1>
                 <div class="flex gap-3 items-center">
                     <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-600 btn-press shrink-0" onclick="showToast('새로운 알림이 없습니다.')"><i class="fa-regular fa-bell text-lg"></i></button>
-                    <!-- 내 프로필 (한국인 여성 페르소나 - 민지) -->
+                    <!-- 내 프로필 -->
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 p-[2px] btn-press shrink-0" onclick="switchTab('screen-mypage')">
                         <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="민지 프로필" class="w-full h-full rounded-full border-2 border-white object-cover">
                     </div>
@@ -196,7 +200,7 @@
         </header>
 
         <!-- 스크롤 영역 -->
-        <div class="scroll-area flex flex-col gap-5">
+        <div class="scroll-area pt-[120px] px-5 flex flex-col gap-5">
             
             <!-- 앱 핵심 가치 배너 -->
             <div class="bg-gray-900 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden btn-press shrink-0" onclick="pushScreen('screen-create')">
@@ -267,7 +271,7 @@
         </div>
 
         <!-- 하단 플로팅 버튼 -->
-        <div class="absolute bottom-[85px] left-0 w-full px-5 z-40 pointer-events-none">
+        <div class="absolute bottom-[90px] left-0 w-full px-5 z-40 pointer-events-none">
             <button onclick="pushScreen('screen-create')" class="w-full bg-gray-900 text-white py-4 rounded-full font-extrabold text-lg shadow-lg btn-press flex justify-center items-center gap-2 pointer-events-auto shrink-0">
                 <i class="fa-solid fa-calendar-plus text-blue-400"></i> 새 모임 방 만들기
             </button>
@@ -278,11 +282,11 @@
          [탭 2] 일정 (캘린더)
     =========================================== -->
     <div id="screen-calendar" class="screen">
-        <header class="glass-header px-6 pt-6 pb-4">
+        <header class="glass-header px-6 pt-12 pb-4">
             <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">내 일정</h2>
         </header>
         
-        <div class="scroll-area">
+        <div class="scroll-area pt-[100px] px-5">
             <div class="bg-white p-6 rounded-3xl mb-6 shadow-sm border border-gray-100 shrink-0">
                 <div class="flex justify-between items-center mb-6">
                     <span class="font-extrabold text-xl text-gray-900">2026년 4월</span>
@@ -342,61 +346,91 @@
     </div>
 
     <!-- ==========================================
-         [탭 3] 탐색
+         [탭 3] 탐색 (신규 콘텐츠 추가)
     =========================================== -->
     <div id="screen-explore" class="screen">
-        <header class="glass-header px-6 pt-6 pb-4">
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-1">핫플 추천 🎈</h2>
-            <p class="text-gray-500 font-medium text-sm keep-all">AI가 분석한 민지님 취향저격 장소</p>
+        <header class="glass-header px-6 pt-12 pb-4">
+            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-1">탐색 🎈</h2>
+            <p class="text-gray-500 font-medium text-sm keep-all">민지님을 위한 날씨와 핫플 추천</p>
         </header>
 
-        <div class="scroll-area !px-0">
-            <div class="px-6 mb-4 shrink-0">
-                <h3 class="font-extrabold text-xl text-gray-900">이번 주말, 여기 어때요?</h3>
-            </div>
+        <div class="scroll-area pt-[110px] !px-0 flex flex-col gap-6">
             
-            <div class="flex overflow-x-auto gap-4 px-6 pb-6 no-scrollbar snap-x shrink-0">
-                <div class="snap-center w-[280px] bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 shrink-0 btn-press flex flex-col" onclick="pushScreen('screen-create')">
-                    <div class="h-48 relative w-full shrink-0">
-                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                        <div class="absolute bottom-4 left-5 right-5">
-                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded mb-2 inline-block shadow-sm shrink-0">주말 한정</span>
-                            <h4 class="font-extrabold text-white text-lg mb-1 truncate">한강 달빛 야시장 투어</h4>
-                            <p class="text-xs text-gray-300 truncate">반포 한강공원 일대</p>
-                        </div>
+            <!-- 신규: 날씨 & 코디 위젯 -->
+            <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mx-5 mt-2 shrink-0">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center gap-1.5 text-gray-800">
+                        <i class="fa-solid fa-location-dot text-blue-500"></i>
+                        <span class="font-extrabold text-sm">경기 수원시 영통구 (현재 위치)</span>
                     </div>
-                    <div class="p-4 flex justify-center items-center bg-gray-900 text-white text-sm font-bold gap-2 shrink-0">
-                        이 장소로 약속 잡기 <i class="fa-solid fa-arrow-right"></i>
+                    <span class="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">오후 11:00 기준</span>
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <i class="fa-solid fa-cloud-moon text-[40px] text-gray-600"></i>
+                    <div>
+                        <p class="text-2xl font-extrabold text-gray-900">14°C <span class="text-sm font-medium text-gray-500">구름 조금</span></p>
+                        <p class="text-xs text-gray-500 mt-0.5 font-medium keep-all">일교차가 커서 밤에는 쌀쌀해요.</p>
                     </div>
                 </div>
+                <button class="w-full bg-[#111] text-white py-3.5 rounded-xl text-sm font-extrabold btn-press flex items-center justify-center gap-2" onclick="showToast('무신사 코디 추천 페이지로 이동합니다.')">
+                    <i class="fa-solid fa-shirt"></i> 무신사 14도 맞춤 코디 보기
+                </button>
+            </div>
 
-                <div class="snap-center w-[280px] bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 shrink-0 btn-press flex flex-col" onclick="pushScreen('screen-create')">
-                    <div class="h-48 relative w-full shrink-0">
-                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                        <div class="absolute bottom-4 left-5 right-5">
-                            <span class="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded mb-2 inline-block shadow-sm shrink-0">인기 팝업</span>
-                            <h4 class="font-extrabold text-white text-lg mb-1 truncate">성수동 캐릭터 팝업</h4>
-                            <p class="text-xs text-gray-300 truncate">성동구 연무장길</p>
-                        </div>
+            <!-- 놀거리/혜택 추가 -->
+            <div class="shrink-0">
+                <div class="px-6 mb-3">
+                    <h3 class="font-extrabold text-lg text-gray-900">놓치면 아까운 혜택 🎟️</h3>
+                </div>
+                <div class="flex overflow-x-auto gap-4 px-6 no-scrollbar snap-x pb-2">
+                    <div class="snap-center min-w-[210px] bg-white rounded-3xl p-4.5 shadow-sm border border-gray-100 shrink-0 btn-press" onclick="showToast('영화 할인 정보로 이동합니다.')">
+                        <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center text-red-500 mb-3"><i class="fa-solid fa-film"></i></div>
+                        <h4 class="font-extrabold text-gray-900 text-sm mb-1">CGV/메가박스</h4>
+                        <p class="text-xs text-gray-500 mb-3 font-medium">통신사 VIP 연 3회 무료 예매</p>
+                        <span class="text-[10px] bg-red-100 text-red-600 px-2.5 py-1 rounded font-bold">혜택 확인하기</span>
                     </div>
-                    <div class="p-4 flex justify-center items-center bg-gray-900 text-white text-sm font-bold gap-2 shrink-0">
-                        이 장소로 약속 잡기 <i class="fa-solid fa-arrow-right"></i>
+                    <div class="snap-center min-w-[210px] bg-white rounded-3xl p-4.5 shadow-sm border border-gray-100 shrink-0 btn-press" onclick="showToast('놀이공원 할인 정보로 이동합니다.')">
+                        <div class="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center text-purple-500 mb-3"><i class="fa-solid fa-ticket"></i></div>
+                        <h4 class="font-extrabold text-gray-900 text-sm mb-1">에버랜드/롯데월드</h4>
+                        <p class="text-xs text-gray-500 mb-3 font-medium">제휴카드 현장 결제 50% 할인</p>
+                        <span class="text-[10px] bg-purple-100 text-purple-600 px-2.5 py-1 rounded font-bold">할인카드 보기</span>
                     </div>
                 </div>
             </div>
 
-            <div class="px-6 mt-4 shrink-0">
-                <h3 class="font-extrabold text-xl text-gray-900 mb-4">놀러갈 때 유용한 꿀팁 💡</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white p-5 rounded-3xl border border-gray-100 btn-press flex flex-col justify-center gap-4 shadow-sm" onclick="showToast('매거진 글로 이동합니다.')">
-                        <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 shrink-0"><i class="fa-solid fa-umbrella text-lg"></i></div>
-                        <p class="font-extrabold text-sm text-gray-800 keep-all leading-snug">비 오는 날<br>실내 액티비티</p>
+            <div class="shrink-0">
+                <div class="px-6 mb-3">
+                    <h3 class="font-extrabold text-lg text-gray-900">이번 주말, 여기 어때요?</h3>
+                </div>
+                <div class="flex overflow-x-auto gap-4 px-6 pb-6 no-scrollbar snap-x shrink-0">
+                    <div class="snap-center w-[280px] bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 shrink-0 btn-press flex flex-col" onclick="pushScreen('screen-create')">
+                        <div class="h-44 relative w-full shrink-0">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-4 left-5 right-5">
+                                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block shadow-sm shrink-0">주말 한정</span>
+                                <h4 class="font-extrabold text-white text-lg mb-1 truncate">한강 달빛 야시장 투어</h4>
+                                <p class="text-xs text-gray-300 truncate">반포 한강공원 일대</p>
+                            </div>
+                        </div>
+                        <div class="p-4 flex justify-center items-center bg-gray-900 text-white text-sm font-bold gap-2 shrink-0">
+                            이 장소로 약속 잡기 <i class="fa-solid fa-arrow-right"></i>
+                        </div>
                     </div>
-                    <div class="bg-white p-5 rounded-3xl border border-gray-100 btn-press flex flex-col justify-center gap-4 shadow-sm" onclick="showToast('할인 정보 페이지로 이동합니다.')">
-                        <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center text-red-500 shrink-0"><i class="fa-solid fa-id-card text-lg"></i></div>
-                        <p class="font-extrabold text-sm text-gray-800 keep-all leading-snug">놓치면 손해!<br>직장인 제휴 할인</p>
+
+                    <div class="snap-center w-[280px] bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 shrink-0 btn-press flex flex-col" onclick="pushScreen('screen-create')">
+                        <div class="h-44 relative w-full shrink-0">
+                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-4 left-5 right-5">
+                                <span class="bg-blue-500 text-white text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block shadow-sm shrink-0">인기 팝업</span>
+                                <h4 class="font-extrabold text-white text-lg mb-1 truncate">성수동 캐릭터 팝업</h4>
+                                <p class="text-xs text-gray-300 truncate">성동구 연무장길</p>
+                            </div>
+                        </div>
+                        <div class="p-4 flex justify-center items-center bg-gray-900 text-white text-sm font-bold gap-2 shrink-0">
+                            이 장소로 약속 잡기 <i class="fa-solid fa-arrow-right"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -407,11 +441,11 @@
          [탭 4] 마이페이지
     =========================================== -->
     <div id="screen-mypage" class="screen">
-        <header class="glass-header px-6 pt-6 pb-4">
+        <header class="glass-header px-6 pt-12 pb-4">
             <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">마이페이지</h2>
         </header>
         
-        <div class="scroll-area flex flex-col gap-6">
+        <div class="scroll-area pt-[100px] px-5 flex flex-col gap-6">
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-4">
                     <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="민지 프로필" class="w-[70px] h-[70px] rounded-full border border-gray-200 object-cover shadow-sm shrink-0">
@@ -474,13 +508,13 @@
          [상세 화면 1] 모임방
     =========================================== -->
     <div id="screen-room" class="screen detail-screen">
-        <header class="glass-header-white px-5 pt-5 pb-4 flex justify-between items-center">
+        <header class="glass-header-white px-5 pt-12 pb-4 flex justify-between items-center">
             <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-xl shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
             <h2 class="text-lg font-extrabold text-gray-900 truncate">대학 동기들 불금 벙개 🍻</h2>
             <button class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-xl shrink-0"><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </header>
 
-        <div class="scroll-area flex flex-col gap-8">
+        <div class="scroll-area pt-[100px] px-5 flex flex-col gap-8">
             <!-- AI 중간 지점 지도 -->
             <div class="shrink-0 mt-2">
                 <div class="flex justify-between items-center mb-4">
@@ -607,13 +641,13 @@
          [상세 화면 2] 모임 생성
     =========================================== -->
     <div id="screen-create" class="screen detail-screen">
-        <header class="glass-header-white px-5 pt-5 pb-4 flex items-center justify-between">
+        <header class="glass-header-white px-5 pt-12 pb-4 flex items-center justify-between">
             <button onclick="popScreen()" class="text-gray-800 font-bold text-base px-2 py-1 btn-press shrink-0">취소</button>
             <h2 class="text-lg font-extrabold text-gray-900">새 약속 만들기</h2>
             <div class="w-10 shrink-0"></div> <!-- 중앙 정렬을 위한 더미 요소 -->
         </header>
         
-        <div class="scroll-area p-6 flex flex-col gap-6">
+        <div class="scroll-area p-6 pt-[90px] flex flex-col gap-6">
             <h2 class="text-3xl font-extrabold mb-4 leading-tight text-gray-900 keep-all">어떤 모임인지<br><span class="text-blue-600">AI</span>에게 알려주세요.</h2>
             
             <div class="shrink-0">
@@ -697,27 +731,30 @@
         </div>
     </div>
 
+    <!-- 신규: 작동하는 투표 기능 반영 -->
     <div id="sheet-vote" class="bottom-sheet">
         <div class="sheet-bg" onclick="hideSheet('sheet-vote')"></div>
         <div class="sheet-content bg-white p-6 pb-[40px]">
             <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
             <h3 class="text-2xl font-extrabold text-gray-900 mb-2">보드게임&마라탕 팟 🎲</h3>
-            <p class="text-sm text-gray-500 mb-8 keep-all">친구들의 캘린더를 종합해 찾아낸 베스트 시간입니다.</p>
+            <p class="text-sm text-gray-500 mb-8 keep-all">친구들의 캘린더를 종합해 찾아낸 베스트 시간입니다. 원하시는 시간에 투표해주세요.</p>
             
             <div class="space-y-4 mb-8">
-                <div class="border-2 border-purple-500 bg-purple-50/50 rounded-2xl p-5 btn-press flex items-center justify-between" onclick="showToast('투표가 완료되었습니다.')">
+                <!-- 옵션 1 (기본 선택됨) -->
+                <div class="vote-option border-2 border-purple-500 bg-purple-50/50 rounded-2xl p-5 btn-press flex items-center justify-between" onclick="toggleVote(this)">
                     <div class="flex flex-col justify-center">
-                        <p class="font-extrabold text-purple-900 text-lg mb-1">5.11 (월) 오후 6:00</p>
-                        <p class="text-xs text-purple-700 font-medium">4명 모두 가능 (최적 플랜)</p>
+                        <p class="vote-title font-extrabold text-purple-900 text-lg mb-1">5.11 (월) 오후 6:00</p>
+                        <p class="text-xs text-gray-500 font-medium">4명 모두 가능 (최적 플랜)</p>
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-check"></i></div>
+                    <div class="vote-check w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-check"></i></div>
                 </div>
-                <div class="border border-gray-200 bg-white rounded-2xl p-5 btn-press flex items-center justify-between" onclick="showToast('투표가 완료되었습니다.')">
+                <!-- 옵션 2 -->
+                <div class="vote-option border border-gray-200 bg-white rounded-2xl p-5 btn-press flex items-center justify-between" onclick="toggleVote(this)">
                     <div class="flex flex-col justify-center">
-                        <p class="font-bold text-gray-800 text-lg mb-1">5.12 (화) 오후 4:00</p>
-                        <p class="text-xs text-gray-400 font-medium">3명 가능</p>
+                        <p class="vote-title font-bold text-gray-800 text-lg mb-1">5.12 (화) 오후 4:00</p>
+                        <p class="text-xs text-gray-500 font-medium">3명 가능</p>
                     </div>
-                    <div class="w-8 h-8 rounded-full border-2 border-gray-300 shrink-0"></div>
+                    <div class="vote-check w-8 h-8 rounded-full border-2 border-gray-300 shrink-0 flex items-center justify-center"></div>
                 </div>
             </div>
             <button class="w-full bg-gray-100 text-gray-800 py-5 rounded-2xl font-extrabold text-lg btn-press shrink-0" onclick="hideSheet('sheet-vote')">닫기</button>
@@ -759,27 +796,12 @@
 </div> <!-- // device-wrapper -->
 
 <script>
-    function updateClock() {
-        const clock = document.getElementById('clock');
-        if(!clock) return;
-        const now = new Date();
-        let hours = now.getHours();
-        let minutes = now.getMinutes();
-        hours = hours % 12;
-        hours = hours ? hours : 12; 
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        clock.innerText = `${hours}:${minutes}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
+    // 네비게이션 탭 스위치
     let navigationStack = ['screen-home'];
 
     function switchTab(screenId) {
         document.querySelectorAll('.screen').forEach(el => {
-            el.classList.remove('active');
-            el.classList.remove('slide-in'); 
-            el.classList.remove('detail-screen');
+            el.classList.remove('active', 'slide-in', 'detail-screen');
         });
         
         const target = document.getElementById(screenId);
@@ -796,10 +818,10 @@
         if(activeNav) activeNav.classList.add('active');
     }
 
+    // 상세화면 푸시
     function pushScreen(screenId) {
         const target = document.getElementById(screenId);
-        target.classList.add('active');
-        target.classList.add('detail-screen');
+        target.classList.add('active', 'detail-screen');
         
         setTimeout(() => {
             target.classList.add('slide-in');
@@ -812,6 +834,7 @@
         navigationStack.push(screenId);
     }
 
+    // 뒤로가기
     function popScreen() {
         if(navigationStack.length <= 1) return;
         
@@ -821,14 +844,14 @@
         currentScreen.classList.remove('slide-in');
         
         setTimeout(() => {
-            currentScreen.classList.remove('active');
-            currentScreen.classList.remove('detail-screen');
+            currentScreen.classList.remove('active', 'detail-screen');
             if(navigationStack.length === 1) {
                 document.getElementById('bottom-nav').classList.remove('hide');
             }
         }, 350); 
     }
 
+    // 바텀 시트
     function showSheet(sheetId) { document.getElementById(sheetId).classList.add('show'); }
     function hideSheet(sheetId) {
         if(sheetId === 'sheet-roulette') {
@@ -839,6 +862,7 @@
         document.getElementById(sheetId).classList.remove('show'); 
     }
 
+    // 토스트 팝업
     let toastTimeout;
     function showToast(msg) {
         const toast = document.getElementById('toast');
@@ -849,6 +873,7 @@
         toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 2500);
     }
 
+    // AI 로딩 연출
     function startLoading() {
         pushScreen('screen-loading');
         const msg = document.getElementById('loading-msg');
@@ -863,6 +888,7 @@
         }, 3000);
     }
 
+    // 룰렛 연출
     function spinRoulette() {
         const wheel = document.getElementById('roulette-wheel');
         const desc = document.getElementById('roulette-desc');
@@ -880,6 +906,36 @@
             btn.innerText = "다시 돌리기";
             wheel.style.transform = `rotate(${randomDeg % 360}deg)`;
         }, 3500);
+    }
+
+    // 💡 신규: 실제 작동하는 투표 로직
+    function toggleVote(clickedElement) {
+        // 1. 모든 옵션 초기화 (회색 테두리로)
+        document.querySelectorAll('.vote-option').forEach(el => {
+            el.className = 'vote-option border border-gray-200 bg-white rounded-2xl p-5 btn-press flex items-center justify-between';
+            const check = el.querySelector('.vote-check');
+            check.className = 'vote-check w-8 h-8 rounded-full border-2 border-gray-300 shrink-0 flex items-center justify-center';
+            check.innerHTML = '';
+            
+            const title = el.querySelector('.vote-title');
+            title.classList.replace('text-purple-900', 'text-gray-800');
+            title.classList.remove('font-extrabold');
+            title.classList.add('font-bold');
+        });
+        
+        // 2. 클릭된 요소만 보라색 체크 활성화
+        clickedElement.className = 'vote-option border-2 border-purple-500 bg-purple-50/50 rounded-2xl p-5 btn-press flex items-center justify-between';
+        
+        const activeCheck = clickedElement.querySelector('.vote-check');
+        activeCheck.className = 'vote-check w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0';
+        activeCheck.innerHTML = '<i class="fa-solid fa-check text-sm"></i>';
+        
+        const activeTitle = clickedElement.querySelector('.vote-title');
+        activeTitle.classList.replace('text-gray-800', 'text-purple-900');
+        activeTitle.classList.remove('font-bold');
+        activeTitle.classList.add('font-extrabold');
+
+        showToast('투표가 반영되었습니다.');
     }
 </script>
 
