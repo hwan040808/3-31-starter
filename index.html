@@ -192,7 +192,7 @@
                     <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-600 btn-press shrink-0" onclick="showToast('새로운 알림이 없습니다.')"><i class="fa-regular fa-bell text-lg"></i></button>
                     <!-- 내 프로필 -->
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 p-[2px] btn-press shrink-0" onclick="switchTab('screen-mypage')">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="민지 프로필" class="w-full h-full rounded-full border-2 border-white object-cover">
+                        <img src="" alt="민지 프로필" class="w-full h-full rounded-full border-2 border-white object-cover">
                     </div>
                 </div>
             </div>
@@ -232,9 +232,9 @@
                     <div class="flex items-center gap-3">
                         <div class="flex -space-x-2">
                             <!-- 한국인 친구들 프로필 이미지 -->
-                            <img src="https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=100&q=80" alt="친구1" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
-                            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=100&q=80" alt="친구2" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
-                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" alt="친구3" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
+                            <img src="" alt="친구1" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
+                            <img src="" alt="친구2" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
+                            <img src="" alt="친구3" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
                         </div>
                         <span class="text-xs font-bold text-white tracking-wide">친구들 이동 중 <span class="animate-pulse">...</span></span>
                     </div>
@@ -405,7 +405,7 @@
                 <div class="flex overflow-x-auto gap-4 px-6 pb-6 no-scrollbar snap-x shrink-0">
                     <div class="snap-center w-[280px] bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 shrink-0 btn-press flex flex-col" onclick="pushScreen('screen-create')">
                         <div class="h-44 relative w-full shrink-0">
-                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <img src="" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                             <div class="absolute bottom-4 left-5 right-5">
                                 <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block shadow-sm shrink-0">주말 한정</span>
@@ -420,7 +420,7 @@
 
                     <div class="snap-center w-[280px] bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 shrink-0 btn-press flex flex-col" onclick="pushScreen('screen-create')">
                         <div class="h-44 relative w-full shrink-0">
-                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <img src="" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                             <div class="absolute bottom-4 left-5 right-5">
                                 <span class="bg-blue-500 text-white text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block shadow-sm shrink-0">인기 팝업</span>
@@ -430,6 +430,40 @@
                         </div>
                         <div class="p-4 flex justify-center items-center bg-gray-900 text-white text-sm font-bold gap-2 shrink-0">
                             이 장소로 약속 잡기 <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 신규 콘텐츠: 탐색 페이지 스크롤 유도를 위한 핫플 트렌드 -->
+            <div class="shrink-0 pb-4">
+                <div class="px-6 mb-3 flex justify-between items-end">
+                    <h3 class="font-extrabold text-lg text-gray-900">요즘 뜨는 동네 🔥</h3>
+                    <span class="text-xs font-bold text-gray-400">이번 주 기준</span>
+                </div>
+                <div class="px-5 space-y-3">
+                    <div class="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 btn-press" onclick="showToast('행궁동 맛집 리스트를 엽니다.')">
+                        <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center">1</div>
+                        <img src="" class="w-16 h-16 rounded-2xl object-cover shrink-0">
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-gray-900 text-base">수원 행궁동</h4>
+                            <p class="text-xs text-gray-500 mt-1">감성 카페와 야경이 예쁜 성곽길</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 btn-press" onclick="showToast('신당동 맛집 리스트를 엽니다.')">
+                        <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center">2</div>
+                        <img src="" class="w-16 h-16 rounded-2xl object-cover shrink-0">
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-gray-900 text-base">서울 신당동</h4>
+                            <p class="text-xs text-gray-500 mt-1">힙한 술집과 맛집이 가득한 핫플</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 btn-press" onclick="showToast('성수동 맛집 리스트를 엽니다.')">
+                        <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center">3</div>
+                        <img src="" class="w-16 h-16 rounded-2xl object-cover shrink-0">
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-gray-900 text-base">서울 성수동</h4>
+                            <p class="text-xs text-gray-500 mt-1">끝나지 않는 팝업 스토어의 성지</p>
                         </div>
                     </div>
                 </div>
@@ -448,7 +482,7 @@
         <div class="scroll-area pt-[100px] px-5 flex flex-col gap-6">
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="민지 프로필" class="w-[70px] h-[70px] rounded-full border border-gray-200 object-cover shadow-sm shrink-0">
+                    <img src="" alt="민지 프로필" class="w-[70px] h-[70px] rounded-full border border-gray-200 object-cover shadow-sm shrink-0">
                     <div class="flex flex-col justify-center">
                         <p class="text-xl font-extrabold text-gray-900 flex items-center gap-2 mb-1">박민지 <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500 font-bold shrink-0">마케터</span></p>
                         <p class="text-sm text-gray-500 font-medium">서울시 마포구 연남동</p>
@@ -457,6 +491,25 @@
                 <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold btn-press shrink-0" onclick="showToast('프로필 수정 화면입니다.')">수정</button>
             </div>
             
+            <!-- 신규 콘텐츠: 내 활동 요약 (스크롤 유도) -->
+            <div class="shrink-0">
+                <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2">내 활동 요약</h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-4 text-center btn-press" onclick="showToast('이번 달 모임 내역입니다.')">
+                        <p class="text-xs text-gray-500 font-medium mb-1">이번 달 모임</p>
+                        <p class="text-2xl font-extrabold text-blue-600">4<span class="text-sm text-gray-800 ml-0.5">회</span></p>
+                    </div>
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-4 text-center btn-press" onclick="showToast('정산 내역입니다.')">
+                        <p class="text-xs text-gray-500 font-medium mb-1">정산 완료</p>
+                        <p class="text-2xl font-extrabold text-indigo-600">2<span class="text-sm text-gray-800 ml-0.5">건</span></p>
+                    </div>
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-4 text-center btn-press" onclick="showToast('저장된 핫플 리스트입니다.')">
+                        <p class="text-xs text-gray-500 font-medium mb-1">저장한 핫플</p>
+                        <p class="text-2xl font-extrabold text-purple-600">12<span class="text-sm text-gray-800 ml-0.5">곳</span></p>
+                    </div>
+                </div>
+            </div>
+
             <div class="shrink-0">
                 <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2">앱 연동 관리 (올인원 파이프라인)</h3>
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -486,6 +539,23 @@
                             <p class="font-extrabold text-base text-gray-800">피드백 남기기</p>
                         </div>
                         <i class="fa-solid fa-chevron-right text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 신규 콘텐츠: 앱 설정 (스크롤 유도) -->
+            <div class="shrink-0 pb-4">
+                <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2">설정</h3>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-5 border-b border-gray-50 flex justify-between items-center btn-press" onclick="showToast('푸시 알림 설정이 변경되었습니다.')">
+                        <p class="font-bold text-base text-gray-800">푸시 알림 설정</p>
+                        <div class="w-11 h-6 bg-blue-500 rounded-full relative">
+                            <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+                        </div>
+                    </div>
+                    <div class="p-5 flex justify-between items-center btn-press" onclick="showToast('최신 버전입니다.')">
+                        <p class="font-bold text-base text-gray-800">앱 버전 정보</p>
+                        <span class="text-xs text-gray-400 font-medium">v 2.1.0</span>
                     </div>
                 </div>
             </div>
@@ -543,7 +613,7 @@
                     <!-- 친구 1 -->
                     <div class="absolute top-[70%] left-[20%] flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 z-20">
                         <div class="w-10 h-10 bg-white rounded-full p-[2px] shadow-lg border-2 border-blue-500 relative flex items-center justify-center shrink-0">
-                            <img src="https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=100&q=80" class="w-full h-full rounded-full object-cover">
+                            <img src="" class="w-full h-full rounded-full object-cover">
                         </div>
                         <div class="bg-white/95 backdrop-blur text-gray-800 text-[10px] font-extrabold px-2 py-1 rounded shadow-sm mt-1.5 border border-gray-100 shrink-0">도착 5분 전</div>
                     </div>
@@ -551,7 +621,7 @@
                     <!-- 친구 2 -->
                     <div class="absolute top-[20%] right-[20%] flex flex-col items-center opacity-70 z-10">
                         <div class="w-10 h-10 bg-gray-200 rounded-full p-[2px] shadow-md border-2 border-gray-300 flex items-center justify-center grayscale shrink-0">
-                            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=100&q=80" class="w-full h-full rounded-full object-cover">
+                            <img src="" class="w-full h-full rounded-full object-cover">
                         </div>
                         <div class="bg-white text-gray-500 text-[10px] font-extrabold px-2 py-1 rounded shadow-sm mt-1.5 shrink-0">퇴근 중</div>
                     </div>
