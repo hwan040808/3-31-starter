@@ -32,6 +32,8 @@
             background-color: #f4f5f7;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* PC/태블릿 환경에서만 아이폰 형태의 테두리 적용 */
@@ -186,16 +188,27 @@
 
 <div class="device-wrapper">
     
+    <!-- 데스크탑 목업 장식 요소 (상태바) -->
+    <div class="absolute top-[11px] left-1/2 -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-[20px] z-[1000] hidden min-[480px]:block"></div>
+    <div class="absolute top-0 left-0 w-full h-[54px] px-8 justify-between items-center z-[998] font-semibold text-[15px] text-[#111] hidden min-[480px]:flex pointer-events-none">
+        <span id="clock" class="tracking-wide">12:00</span>
+        <div class="flex items-center gap-1.5 text-sm">
+            <i class="fa-solid fa-signal text-[11px]"></i>
+            <i class="fa-solid fa-wifi text-[11px]"></i>
+            <i class="fa-solid fa-battery-full text-[17px]"></i>
+        </div>
+    </div>
+
     <!-- 토스트 메시지 -->
     <div id="toast"><i class="fa-solid fa-circle-check mr-2 text-green-400 text-lg align-middle"></i><span id="toast-msg">완료</span></div>
 
-    <div class="screens-wrapper">
+    <div class="screens-wrapper min-[480px]:mt-[30px]">
         <!-- ==========================================
              [탭 1] 홈 화면
         =========================================== -->
         <div id="screen-home" class="screen active">
             <!-- 상단 헤더 -->
-            <header class="glass-header px-6 pt-12 pb-4">
+            <header class="glass-header px-6 pt-10 pb-4">
                 <div class="flex justify-between items-center mb-1">
                     <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Gather<span class="text-blue-600">AI</span></h1>
                     <div class="flex gap-2.5 items-center">
@@ -356,7 +369,7 @@
         </div>
 
         <!-- ==========================================
-             [탭 3] 탐색 (자연스러운 핫플 목록 복구)
+             [탭 3] 탐색
         =========================================== -->
         <div id="screen-explore" class="screen">
             <header class="glass-header px-6 pt-12 pb-4">
@@ -414,37 +427,34 @@
                     </div>
                 </div>
 
-                <!-- 핫플 순위 (사진이 포함된 이전 버전 디자인으로 완벽 복구) -->
+                <!-- 핫플 순위 (사진 제거 후 깔끔한 텍스트 리스트 형태로 리뉴얼) -->
                 <div class="px-5 pb-2 shrink-0">
-                    <div class="flex justify-between items-end mb-4 px-1">
+                    <div class="flex justify-between items-end mb-3 px-1">
                         <h3 class="font-extrabold text-lg text-gray-900">요즘 뜨는 동네 🔥</h3>
                         <span class="text-[11px] font-bold text-gray-400">이번 주 기준</span>
                     </div>
-                    <div class="space-y-3">
-                        <div class="bg-white p-4 rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center gap-4 btn-press" onclick="showToast('행궁동 핫플 리스트를 엽니다.')">
-                            <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center flex-shrink-0">1</div>
-                            <img src="https://images.unsplash.com/photo-1613136245084-2a6286f784e1?auto=format&fit=crop&w=300&q=80" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="수원 행궁동">
+                    <div class="bg-white rounded-[24px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
+                        <div class="p-5 border-b border-gray-50 flex items-center gap-4 btn-press" onclick="showToast('행궁동 핫플 리스트를 엽니다.')">
+                            <div class="font-extrabold text-lg text-blue-600 w-5 text-center flex-shrink-0">1</div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-0.5">수원 행궁동</h4>
-                                <p class="text-[12px] text-gray-500 font-medium truncate">감성 한옥 카페와 야경이 예쁜 성곽길</p>
+                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-1 truncate">수원 행궁동</h4>
+                                <p class="text-xs text-gray-500 font-medium truncate">감성 한옥 카페와 야경이 예쁜 성곽길</p>
                             </div>
                             <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
-                        <div class="bg-white p-4 rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center gap-4 btn-press" onclick="showToast('신당동 핫플 리스트를 엽니다.')">
-                            <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center flex-shrink-0">2</div>
-                            <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=300&q=80" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="서울 신당동">
+                        <div class="p-5 border-b border-gray-50 flex items-center gap-4 btn-press" onclick="showToast('신당동 핫플 리스트를 엽니다.')">
+                            <div class="font-extrabold text-lg text-gray-400 w-5 text-center flex-shrink-0">2</div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-0.5">서울 신당동</h4>
-                                <p class="text-[12px] text-gray-500 font-medium truncate">힙한 술집과 맛집이 가득한 핫플</p>
+                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-1 truncate">서울 신당동</h4>
+                                <p class="text-xs text-gray-500 font-medium truncate">새롭게 떠오르는 힙한 중앙시장 골목</p>
                             </div>
                             <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
-                        <div class="bg-white p-4 rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center gap-4 btn-press" onclick="showToast('성수동 핫플 리스트를 엽니다.')">
-                            <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center flex-shrink-0">3</div>
-                            <img src="https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&w=300&q=80" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="서울 성수동">
+                        <div class="p-5 flex items-center gap-4 btn-press" onclick="showToast('성수동 핫플 리스트를 엽니다.')">
+                            <div class="font-extrabold text-lg text-gray-400 w-5 text-center flex-shrink-0">3</div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-0.5">서울 성수동</h4>
-                                <p class="text-[12px] text-gray-500 font-medium truncate">끝나지 않는 팝업 스토어의 성지</p>
+                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-1 truncate">서울 성수동</h4>
+                                <p class="text-xs text-gray-500 font-medium truncate">끝나지 않는 트렌디한 팝업스토어의 성지</p>
                             </div>
                             <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
@@ -462,11 +472,11 @@
             </header>
             
             <div class="scroll-area pt-[100px] px-5 flex flex-col gap-6">
-                <!-- 프로필 영역 (사용자 지정 프로필 적용) -->
+                <!-- 프로필 영역 -->
                 <div class="bg-white p-5 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex items-center justify-between shrink-0">
                     <div class="flex items-center gap-4">
                         <div class="w-[72px] h-[72px] bg-white rounded-full p-[1.5px] shadow-[0_4px_14px_rgba(0,0,0,0.08)] border border-gray-200 flex-shrink-0">
-                            <!-- 사용자가 올린 파일 (대소문자 정확히 매칭) -->
+                            <!-- 사용자가 올린 파일 반영 -->
                             <img src="my-profile.JPG" alt="내 프로필" class="w-full h-full rounded-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80';">
                         </div>
                         <div class="flex flex-col justify-center">
@@ -478,9 +488,8 @@
                     <button class="bg-gray-50 text-gray-600 px-3.5 py-2 rounded-xl text-xs font-bold btn-press border border-gray-100 shrink-0 whitespace-nowrap" onclick="showToast('프로필 수정 화면입니다.')">수정</button>
                 </div>
                 
-                <div class="shrink-0">
                 <!-- 앱 사용 설명서 버튼 -->
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-5 border border-blue-100 flex justify-between items-center btn-press shadow-[0_4px_20px_rgba(59,130,246,0.08)]" onclick="pushScreen('screen-guide')">
+                <div class="shrink-0 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-5 border border-blue-100 flex justify-between items-center btn-press shadow-[0_4px_20px_rgba(59,130,246,0.08)]" onclick="pushScreen('screen-guide')">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-white text-blue-600 rounded-2xl flex items-center justify-center text-xl shadow-sm flex-shrink-0"><i class="fa-solid fa-book-open"></i></div>
                         <div class="flex flex-col justify-center">
@@ -491,8 +500,8 @@
                     <i class="fa-solid fa-chevron-right text-blue-300 text-sm"></i>
                 </div>
 
-                <div>
-                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 mt-6">내 활동 요약</h3>
+                <div class="shrink-0">
+                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 mt-2">내 활동 요약</h3>
                     <div class="grid grid-cols-3 gap-3">
                         <div class="bg-white rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-4 text-center btn-press" onclick="showToast('이번 달 모임 내역입니다.')">
                             <p class="text-[11px] text-gray-500 font-medium mb-1.5">이번 달 모임</p>
@@ -509,8 +518,8 @@
                     </div>
                 </div>
 
-                <div>
-                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 mt-6">앱 연동 관리 (올인원 파이프라인)</h3>
+                <div class="shrink-0 pb-4">
+                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 mt-2">앱 연동 관리 (올인원 파이프라인)</h3>
                     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="p-5 border-b border-gray-50 flex justify-between items-center btn-press" onclick="showToast('에브리타임 동기화 완료!')">
                             <div class="flex items-center gap-4">
@@ -546,11 +555,11 @@
         </div>
 
         <!-- ==========================================
-             [상세 화면] 모임방
+             [상세 화면 1] 모임방
         =========================================== -->
         <div id="screen-room" class="screen detail-screen">
             <header class="glass-header-white px-4 pt-12 pb-3 flex justify-between items-center">
-                <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[18px] flex-shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[20px] flex-shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
                 <h2 class="text-[17px] font-extrabold text-gray-900 truncate px-2 text-center">대학 동기들 불금 벙개 🍻</h2>
                 <button class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[20px] flex-shrink-0"><i class="fa-solid fa-ellipsis-vertical"></i></button>
             </header>
