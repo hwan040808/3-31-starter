@@ -194,24 +194,25 @@
         <div id="screen-home" class="screen active">
             <!-- 상단 헤더 -->
             <header class="glass-header px-6 pt-12 pb-4">
-                <div class="flex justify-between items-center mb-1.5">
+                <div class="flex justify-between items-center mb-1">
                     <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Gather<span class="text-blue-600">AI</span></h1>
                     <div class="flex gap-2.5 items-center">
-                        <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="pushScreen('screen-guide')"><i class="ph ph-question text-[22px]"></i></button>
-                        <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="showToast('새로운 알림이 없습니다.')"><i class="ph ph-bell text-[22px]"></i></button>
-                        <!-- 내 프로필 -->
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 p-[2px] btn-press shrink-0" onclick="switchTab('screen-mypage')">
-                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="민지 프로필" class="w-full h-full rounded-full border-2 border-white object-cover">
+                        <button class="w-10 h-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="pushScreen('screen-guide')"><i class="ph ph-question text-[22px]"></i></button>
+                        <button class="w-10 h-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="showToast('새로운 알림이 없습니다.')"><i class="ph ph-bell text-[22px]"></i></button>
+                        <!-- 내 프로필 (토스/29CM 감성의 프리미엄 스타일) -->
+                        <div class="w-10 h-10 rounded-full bg-white p-[1.5px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-gray-200 btn-press shrink-0" onclick="switchTab('screen-mypage')">
+                            <img src="my-profile.jpg" alt="내 프로필" class="w-full h-full rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80'">
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-500 font-medium text-sm">민지님, 오늘 하루도 스트레스 없는 만남 되세요.</p>
+                <!-- 트렌디한 소개 문구 적용 -->
+                <p class="text-gray-500 font-medium text-[13px] keep-all mt-1.5">행궁동, 성수동 핫플 탐험가 민지님, 환영해요 ✨</p>
             </header>
 
             <!-- 스크롤 영역 -->
             <div class="scroll-area pt-[125px] px-5 flex flex-col gap-5">
                 
-                <!-- 앱 핵심 가치 배너 (자연스러운 줄바꿈 적용) -->
+                <!-- 앱 핵심 가치 배너 -->
                 <div class="bg-gray-900 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden btn-press shrink-0" onclick="pushScreen('screen-create')">
                     <div class="absolute -right-4 -top-4 w-32 h-32 bg-blue-600 rounded-full blur-[30px] opacity-40 pointer-events-none"></div>
                     <div class="absolute -left-4 -bottom-4 w-24 h-24 bg-purple-500 rounded-full blur-[24px] opacity-30 pointer-events-none"></div>
@@ -354,7 +355,7 @@
         </div>
 
         <!-- ==========================================
-             [탭 3] 탐색 (알차게 리뉴얼)
+             [탭 3] 탐색
         =========================================== -->
         <div id="screen-explore" class="screen">
             <header class="glass-header px-6 pt-12 pb-4">
@@ -365,7 +366,7 @@
             <div class="scroll-area pt-[115px] !px-0 flex flex-col gap-8">
                 
                 <!-- 날씨 & 코디 위젯 -->
-                <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mx-5 shrink-0">
+                <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mx-5 mt-2 shrink-0">
                     <div class="flex justify-between items-center mb-4">
                         <div class="flex items-center gap-1.5 text-gray-800">
                             <i class="ph-fill ph-map-pin text-blue-500 text-lg"></i>
@@ -385,7 +386,7 @@
                     </button>
                 </div>
 
-                <!-- 놓치면 아까운 혜택 (자연스러운 리스트로 변경) -->
+                <!-- 놓치면 아까운 혜택 -->
                 <div class="px-5 shrink-0">
                     <h3 class="font-extrabold text-lg text-gray-900 mb-4 px-1">대학생 제휴 혜택 🎟️</h3>
                     <div class="space-y-3">
@@ -412,7 +413,7 @@
                     </div>
                 </div>
 
-                <!-- 핫플 순위 (사진 없애고 깔끔하게 텍스트 위주로 변경) -->
+                <!-- 핫플 순위 -->
                 <div class="px-5 pb-2 shrink-0">
                     <div class="flex justify-between items-end mb-4 px-1">
                         <h3 class="font-extrabold text-lg text-gray-900">요즘 뜨는 동네 🔥</h3>
@@ -457,15 +458,19 @@
             </header>
             
             <div class="scroll-area pt-[100px] px-5 flex flex-col gap-6">
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between shrink-0">
+                <!-- 프로필 영역 (사용자 지정 프로필 적용) -->
+                <div class="bg-white p-5 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex items-center justify-between shrink-0">
                     <div class="flex items-center gap-4">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="민지 프로필" class="w-[70px] h-[70px] rounded-full border border-gray-200 object-cover shadow-sm flex-shrink-0">
+                        <div class="w-[72px] h-[72px] bg-white rounded-full p-[2px] shadow-[0_4px_14px_rgba(0,0,0,0.08)] border border-gray-200 flex-shrink-0">
+                            <img src="my-profile.jpg" alt="내 프로필" class="w-full h-full rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80'">
+                        </div>
                         <div class="flex flex-col justify-center">
-                            <p class="text-xl font-extrabold text-gray-900 flex items-center gap-2 mb-1.5">박민지 <span class="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-500 font-bold">마케터</span></p>
-                            <p class="text-[13px] text-gray-500 font-medium">서울시 마포구 연남동</p>
+                            <p class="text-[18px] font-extrabold text-gray-900 flex items-center gap-2 mb-1">박민지 <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-extrabold">ENFP</span></p>
+                            <p class="text-[12px] text-gray-500 font-medium mb-1">서울시 마포구 연남동</p>
+                            <p class="text-[12px] text-gray-700 font-semibold">전국 축제 & 성수동 핫플 마스터 🗺️</p>
                         </div>
                     </div>
-                    <button class="bg-gray-100 text-gray-600 px-4 py-2.5 rounded-xl text-xs font-bold btn-press flex-shrink-0" onclick="showToast('프로필 수정 화면입니다.')">수정</button>
+                    <button class="bg-gray-50 text-gray-600 px-3.5 py-2 rounded-xl text-xs font-bold btn-press border border-gray-100 flex-shrink-0" onclick="showToast('프로필 수정 화면입니다.')">수정</button>
                 </div>
                 
                 <!-- 앱 사용 설명서 버튼 추가 -->
@@ -556,6 +561,10 @@
                         <div class="absolute top-0 left-1/2 w-8 h-full bg-white transform -translate-x-1/2 rotate-12 shadow-sm"></div>
                         <div class="absolute top-1/2 left-0 w-full h-6 bg-white transform -translate-y-1/2 -rotate-6 shadow-sm"></div>
                         <div class="absolute top-4 right-4 w-16 h-16 bg-green-200/40 rounded-[20px] blur-[2px]"></div>
+
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d="M 20 70 Q 40 70, 50 50 T 60 40" stroke="#3b82f6" stroke-width="2" stroke-dasharray="3,3" fill="none" class="opacity-80" stroke-linecap="round"/>
+                        </svg>
                         
                         <!-- AI가 찾은 목적지 -->
                         <div class="absolute top-[40%] left-[60%] flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 z-20">
@@ -629,7 +638,7 @@
                                     모임 추억 브이로그 
                                     <span class="bg-purple-200 text-purple-800 text-[10px] px-1.5 py-0.5 rounded font-extrabold">AI</span>
                                 </h4>
-                                <p class="text-[11px] text-purple-700 font-medium text-truncate-2">오늘 친구들과 찍은 사진들을 인스타 릴스로 예쁘게 편집해드려요.</p>
+                                <p class="text-[11px] text-purple-700 font-medium">오늘 찍은 사진들을 인스타 릴스로 편집해드려요.</p>
                             </div>
                             <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-500 shadow-sm flex-shrink-0"><i class="ph-fill ph-film-strip text-[24px]"></i></div>
                         </div>
@@ -706,7 +715,7 @@
         </div>
 
         <!-- ==========================================
-             [상세 화면 3] GatherAI 사용 설명서 (신규)
+             [상세 화면 3] GatherAI 사용 설명서
         =========================================== -->
         <div id="screen-guide" class="screen detail-screen">
             <header class="glass-header-white px-4 pt-12 pb-3 flex justify-between items-center">
