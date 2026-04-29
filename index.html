@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GatherAI - 모임의 모든 것</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
@@ -32,19 +32,17 @@
             background-color: #f4f5f7;
             position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* PC/태블릿 환경에서만 아이폰 형태의 테두리 적용 (가로폭을 넓혀 글자/버튼 잘림 완벽 방지) */
-        @media (min-width: 500px) and (min-height: 750px) {
+        /* PC/태블릿 환경에서만 아이폰 형태의 테두리 적용 */
+        @media (min-width: 480px) and (min-height: 700px) {
             .device-wrapper {
-                width: 440px; /* 더 넓은 가로폭 확보 */
-                height: 880px;
-                max-height: 92vh; /* 모니터 높이에 맞게 유동적 조절 */
-                border-radius: 45px;
-                border: 14px solid #111;
-                box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.1), 0 25px 50px rgba(0, 0, 0, 0.4);
+                width: 400px;
+                height: 852px;
+                max-height: 92vh;
+                border-radius: 40px;
+                border: 10px solid #111;
+                box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2), 0 20px 50px rgba(0, 0, 0, 0.3);
             }
         }
 
@@ -83,9 +81,12 @@
             transform: translateX(0);
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
 
-        /* 🚀 핵심: 독립적 스크롤 영역 */
+        /* 🚀 핵심: 글씨 잘림/겹침을 방지하는 독립적 스크롤 영역 */
         .scroll-area {
             position: absolute; 
             inset: 0;
@@ -94,11 +95,11 @@
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 130px; 
+            padding-bottom: 120px; 
         }
         
         .detail-screen .scroll-area {
-            padding-bottom: 50px; 
+            padding-bottom: 40px; 
         }
 
         /* 고정 헤더 */
@@ -141,7 +142,7 @@
             transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); 
         }
         .bottom-nav.hide { transform: translateY(100%); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #a1a1aa; cursor: pointer; flex: 1; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #a1a1aa; cursor: pointer; flex: 1; }
         .nav-item.active { color: #2563eb; }
         
         .btn-press { transition: transform 0.1s ease, opacity 0.1s; cursor: pointer; }
@@ -159,7 +160,7 @@
         .bottom-sheet.show .sheet-content { transform: translateY(0); }
         
         /* 토스트 팝업 */
-        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-20px); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        #toast { position: absolute; top: 40px; left: 50%; transform: translateX(-50%) translateY(-20px); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 600; z-index: 999; opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* 커스텀 한국 도심 맵 스타일 */
@@ -177,6 +178,8 @@
         @keyframes ripple { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
         .marker-pulse { animation: ripple 2s infinite; }
         .spin-animation { transition: transform 3.5s cubic-bezier(0.2, 0.8, 0.1, 1); }
+        
+        .keep-all { word-break: keep-all; }
     </style>
 </head>
 <body>
@@ -184,7 +187,7 @@
 <div class="device-wrapper">
     
     <!-- 토스트 메시지 -->
-    <div id="toast" class="flex items-center gap-2 max-w-[80%] break-words"><i class="ph-fill ph-check-circle text-green-400 text-lg"></i><span id="toast-msg">완료</span></div>
+    <div id="toast"><i class="fa-solid fa-circle-check mr-2 text-green-400 text-lg align-middle"></i><span id="toast-msg">완료</span></div>
 
     <div class="screens-wrapper">
         <!-- ==========================================
@@ -193,70 +196,69 @@
         <div id="screen-home" class="screen active">
             <!-- 상단 헤더 -->
             <header class="glass-header px-6 pt-12 pb-4">
-                <div class="flex justify-between items-center mb-2">
+                <div class="flex justify-between items-center mb-1">
                     <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Gather<span class="text-blue-600">AI</span></h1>
                     <div class="flex gap-2.5 items-center">
-                        <button class="w-10 h-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="pushScreen('screen-guide')"><i class="ph ph-question text-[22px]"></i></button>
-                        <button class="w-10 h-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="showToast('새로운 알림이 없습니다.')"><i class="ph ph-bell text-[22px]"></i></button>
-                        <!-- 내 프로필 (프리미엄 스타일 적용) -->
+                        <button class="w-10 h-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="pushScreen('screen-guide')"><i class="fa-regular fa-circle-question text-xl"></i></button>
+                        <button class="w-10 h-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-center text-gray-700 btn-press shrink-0" onclick="showToast('새로운 알림이 없습니다.')"><i class="fa-regular fa-bell text-xl"></i></button>
+                        <!-- 내 프로필 (사용자가 올린 my-profile.JPG 반영) -->
                         <div class="w-10 h-10 rounded-full bg-white p-[1.5px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-gray-200 btn-press shrink-0" onclick="switchTab('screen-mypage')">
-                            <img src="my-profile.jpg" alt="내 프로필" class="w-full h-full rounded-full object-cover">
+                            <img src="my-profile.JPG" alt="내 프로필" class="w-full h-full rounded-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80';">
                         </div>
                     </div>
                 </div>
-                <!-- 트렌디한 소개 문구 적용 -->
-                <p class="text-gray-500 font-medium text-[13px] keep-all mt-1">전국 축제 & 성수동 핫플 마스터 민지님, 환영해요 ✨</p>
+                <p class="text-gray-500 font-medium text-[13px] keep-all mt-1.5">행궁동, 성수동 핫플 탐험가 민지님, 환영해요 ✨</p>
             </header>
 
             <!-- 스크롤 영역 -->
-            <div class="scroll-area pt-[130px] px-5 flex flex-col gap-5">
+            <div class="scroll-area pt-[125px] px-5 flex flex-col gap-5">
                 
                 <!-- 앱 핵심 가치 배너 -->
-                <div class="bg-gray-900 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden btn-press" onclick="pushScreen('screen-create')">
+                <div class="bg-gray-900 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden btn-press shrink-0" onclick="pushScreen('screen-create')">
                     <div class="absolute -right-4 -top-4 w-32 h-32 bg-blue-600 rounded-full blur-[30px] opacity-40 pointer-events-none"></div>
                     <div class="absolute -left-4 -bottom-4 w-24 h-24 bg-purple-500 rounded-full blur-[24px] opacity-30 pointer-events-none"></div>
                     <h3 class="font-extrabold text-[17px] mb-2 relative z-10 flex items-center gap-2">
-                        <i class="ph-fill ph-magic-wand text-blue-400 text-xl"></i> 모임 준비 스트레스 제로화
+                        <i class="fa-solid fa-wand-magic-sparkles text-blue-400 text-lg"></i> 모임 준비 스트레스 제로화
                     </h3>
                     <p class="text-[13px] text-gray-300 font-medium relative z-10 mb-4 leading-relaxed">
                         단톡방 투표 지옥, 중간 지점 핫플 찾기, 귀찮은 N빵까지. 이제 총무 역할은 AI에게 맡기고 놀기만 하세요.
                     </p>
-                    <div class="inline-flex bg-white/20 backdrop-blur-sm px-4 py-2.5 rounded-full text-xs font-bold border border-white/10 relative z-10 items-center w-fit">
-                        AI 플래너 시작하기 <i class="ph-bold ph-caret-right ml-1.5 text-[10px]"></i>
+                    <div class="inline-flex bg-white/20 backdrop-blur-sm px-4 py-2.5 rounded-full text-xs font-bold border border-white/10 relative z-10 items-center whitespace-nowrap">
+                        AI 플래너 시작하기 <i class="fa-solid fa-chevron-right ml-1.5 text-[10px]"></i>
                     </div>
                 </div>
 
                 <!-- 모임 1 (강조) -->
-                <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-5 md:p-6 text-white shadow-[0_10px_25px_rgba(59,130,246,0.25)] btn-press relative overflow-hidden" onclick="pushScreen('screen-room')">
-                    <i class="ph-fill ph-beer-stein absolute -right-4 -bottom-4 text-9xl opacity-10 rotate-12 pointer-events-none"></i>
+                <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-[0_10px_25px_rgba(59,130,246,0.25)] btn-press relative overflow-hidden shrink-0" onclick="pushScreen('screen-room')">
+                    <i class="fa-solid fa-beer-mug-empty absolute -right-4 -bottom-4 text-9xl opacity-10 rotate-12 pointer-events-none"></i>
                     
-                    <div class="flex justify-between items-center mb-4 relative z-10 flex-wrap gap-2">
-                        <span class="text-xs font-extrabold bg-white text-blue-600 px-3 py-1.5 rounded-full shadow-sm flex items-center animate-pulse"><i class="ph-fill ph-fire mr-1.5 text-orange-500 text-sm"></i> D-DAY 오늘!</span>
-                        <span class="text-xs font-bold text-blue-100 flex items-center bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20">방 입장 <i class="ph-bold ph-caret-right ml-1 text-[10px]"></i></span>
+                    <div class="flex justify-between items-center mb-4 relative z-10">
+                        <span class="text-xs font-extrabold bg-white text-blue-600 px-3 py-1.5 rounded-full shadow-sm flex items-center animate-pulse whitespace-nowrap"><i class="fa-solid fa-fire mr-1.5 text-orange-500 text-sm"></i> D-DAY 오늘!</span>
+                        <span class="text-xs font-bold text-blue-100 flex items-center bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 whitespace-nowrap">방 입장 <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-extrabold mb-2 relative z-10 leading-tight">대학 동기들 불금 벙개 🍻</h3>
-                    <p class="text-sm text-blue-100 mb-5 font-medium relative z-10 flex items-center gap-1.5"><i class="ph-fill ph-map-pin"></i> 강남역 10번 출구 • 오후 7:00</p>
+                    <h3 class="text-[22px] font-extrabold mb-1.5 relative z-10 leading-tight">대학 동기들 불금 벙개 🍻</h3>
+                    <p class="text-sm text-blue-100 mb-6 font-medium relative z-10 flex items-center gap-1.5"><i class="fa-solid fa-location-dot"></i> 강남역 10번 출구 • 오후 7:00</p>
                     
-                    <div class="bg-black/20 backdrop-blur-md rounded-2xl p-3 flex justify-between items-center relative z-10 border border-white/10 flex-wrap gap-2">
+                    <div class="bg-black/20 backdrop-blur-md rounded-2xl p-3.5 flex justify-between items-center relative z-10 border border-white/10">
                         <div class="flex items-center gap-3">
                             <div class="flex -space-x-2">
-                                <img src="https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=100&q=80" alt="친구1" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover">
-                                <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=100&q=80" alt="친구2" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover">
-                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" alt="친구3" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover">
+                                <img src="https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=100&q=80" alt="친구1" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
+                                <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=100&q=80" alt="친구2" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
+                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" alt="친구3" class="w-8 h-8 rounded-full border-2 border-indigo-700 object-cover shrink-0">
                             </div>
-                            <span class="text-xs font-bold text-white tracking-wide">친구들 이동 중 <span class="animate-pulse">...</span></span>
+                            <span class="text-xs font-bold text-white tracking-wide whitespace-nowrap">친구들 이동 중 <span class="animate-pulse">...</span></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 모임 2 -->
-                <div class="bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-100 btn-press relative" onclick="showSheet('sheet-vote')">
-                    <div class="absolute top-5 right-5 w-11 h-11 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center text-2xl"><i class="ph-fill ph-cube"></i></div>
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 btn-press relative shrink-0" onclick="showSheet('sheet-vote')">
+                    <div class="absolute top-6 right-6 w-11 h-11 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-dice"></i></div>
                     <div class="mb-3">
-                        <span class="text-[11px] font-extrabold text-purple-600 bg-purple-50 border border-purple-100 px-2.5 py-1 rounded-md">일정/장소 조율 중</span>
+                        <span class="text-[11px] font-extrabold text-purple-600 bg-purple-50 border border-purple-100 px-2.5 py-1 rounded-md whitespace-nowrap">일정/장소 조율 중</span>
                     </div>
-                    <h3 class="text-[17px] font-extrabold text-gray-900 mb-2 pr-12 leading-tight">보드게임 & 마라탕 팟</h3>
-                    <p class="text-[13px] text-gray-500 mb-5 font-medium leading-relaxed">에브리타임 연동 완료. 투표를 마쳐주세요.</p>
+                    <h3 class="text-[17px] font-extrabold text-gray-900 mb-1.5 pr-12 leading-tight">보드게임 & 마라탕 팟</h3>
+                    <p class="text-[13px] text-gray-500 mb-5 font-medium leading-relaxed keep-all">에브리타임 연동 완료. 투표를 마쳐주세요.</p>
                     
                     <div class="w-full bg-gray-100 rounded-full h-2 mb-2 overflow-hidden"><div class="bg-purple-500 h-2 rounded-full" style="width: 80%"></div></div>
                     <div class="flex justify-between text-xs font-bold">
@@ -266,12 +268,12 @@
                 </div>
 
                 <!-- 모임 3 -->
-                <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex flex-wrap md:flex-nowrap items-center gap-4 btn-press" onclick="showSheet('sheet-receipt')">
-                    <div class="w-14 h-14 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-2xl border border-red-100">🎂</div>
+                <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 btn-press shrink-0" onclick="showSheet('sheet-receipt')">
+                    <div class="w-14 h-14 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-2xl border border-red-100 flex-shrink-0">🎂</div>
                     <div class="flex-1 min-w-0">
-                        <div class="flex flex-col md:flex-row justify-between md:items-center mb-1.5 gap-1.5">
-                            <h3 class="text-[15px] font-extrabold text-gray-900 break-words">지훈 선배 생일 파티</h3>
-                            <span class="text-[10px] font-extrabold text-red-500 bg-red-50 border border-red-100 px-2 py-0.5 rounded shadow-sm inline-block w-fit">N빵 정산</span>
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-[15px] font-extrabold text-gray-900 truncate">지훈 선배 생일 파티</h3>
+                            <span class="text-[10px] font-extrabold text-red-500 bg-red-50 border border-red-100 px-2 py-0.5 rounded shadow-sm whitespace-nowrap shrink-0">N빵 정산</span>
                         </div>
                         <p class="text-xs text-gray-400 font-medium truncate">지난 주 토요일 • 성수동</p>
                     </div>
@@ -281,7 +283,7 @@
             <!-- 하단 플로팅 버튼 -->
             <div class="absolute bottom-[90px] left-0 w-full px-5 z-40 pointer-events-none">
                 <button onclick="pushScreen('screen-create')" class="w-full bg-gray-900 text-white py-[18px] rounded-full font-extrabold text-[16px] shadow-[0_10px_25px_rgba(0,0,0,0.25)] btn-press flex justify-center items-center gap-2 pointer-events-auto">
-                    <i class="ph-bold ph-calendar-plus text-blue-400 text-[20px]"></i> 새 모임 방 만들기
+                    <i class="fa-solid fa-calendar-plus text-blue-400 text-lg"></i> 새 모임 방 만들기
                 </button>
             </div>
         </div>
@@ -295,12 +297,12 @@
             </header>
             
             <div class="scroll-area pt-[100px] px-5">
-                <div class="bg-white p-6 rounded-3xl mb-6 shadow-sm border border-gray-100">
+                <div class="bg-white p-6 rounded-3xl mb-6 shadow-sm border border-gray-100 shrink-0">
                     <div class="flex justify-between items-center mb-6">
                         <span class="font-extrabold text-xl text-gray-900">2026년 4월</span>
                         <div class="flex gap-2">
-                            <button class="w-9 h-9 bg-gray-50 rounded-full btn-press flex items-center justify-center"><i class="ph-bold ph-caret-left text-gray-500"></i></button>
-                            <button class="w-9 h-9 bg-gray-50 rounded-full btn-press flex items-center justify-center"><i class="ph-bold ph-caret-right text-gray-800"></i></button>
+                            <button class="w-9 h-9 bg-gray-50 rounded-full btn-press flex items-center justify-center shrink-0"><i class="fa-solid fa-chevron-left text-gray-500 text-[13px]"></i></button>
+                            <button class="w-9 h-9 bg-gray-50 rounded-full btn-press flex items-center justify-center shrink-0"><i class="fa-solid fa-chevron-right text-gray-800 text-[13px]"></i></button>
                         </div>
                     </div>
                     
@@ -326,27 +328,27 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center mb-4 px-1">
+                <div class="flex justify-between items-center mb-4 px-1 shrink-0">
                     <h3 class="font-extrabold text-gray-800 text-lg">다가오는 약속</h3>
-                    <span class="text-[10px] text-gray-500 bg-gray-200/60 px-2 py-1 rounded font-bold">에브리타임 연동됨</span>
+                    <span class="text-[10px] text-gray-500 bg-gray-200/60 px-2 py-1 rounded font-bold whitespace-nowrap">에브리타임 연동됨</span>
                 </div>
                 
-                <div class="space-y-4">
+                <div class="space-y-4 shrink-0">
                     <div class="bg-white border border-gray-100 p-5 rounded-3xl flex items-center gap-4 shadow-[0_8px_24px_rgba(149,157,165,0.05)] btn-press" onclick="pushScreen('screen-room')">
-                        <div class="w-1.5 h-12 bg-blue-500 rounded-full"></div>
+                        <div class="w-1.5 h-12 bg-blue-500 rounded-full shrink-0"></div>
                         <div class="flex-1 min-w-0">
-                            <p class="font-extrabold text-gray-900 text-[15px] flex items-center flex-wrap gap-1.5 break-words">
+                            <p class="font-extrabold text-gray-900 text-[15px] truncate flex items-center">
                                 대학 동기들 벙개 
-                                <span class="bg-red-50 border border-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded">오늘</span>
+                                <span class="bg-red-50 border border-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded ml-2 whitespace-nowrap">오늘</span>
                             </p>
-                            <p class="text-xs text-gray-500 mt-1 font-medium break-words">오후 7:00 • 강남역 10번 출구</p>
+                            <p class="text-xs text-gray-500 mt-1 font-medium truncate">오후 7:00 • 강남역 10번 출구</p>
                         </div>
                     </div>
                     <div class="bg-white border border-gray-100 p-5 rounded-3xl flex items-center gap-4 shadow-[0_8px_24px_rgba(149,157,165,0.05)] btn-press" onclick="showSheet('sheet-vote')">
-                        <div class="w-1.5 h-12 bg-purple-500 rounded-full"></div>
+                        <div class="w-1.5 h-12 bg-purple-500 rounded-full shrink-0"></div>
                         <div class="flex-1 min-w-0">
-                            <p class="font-extrabold text-gray-900 text-[15px] break-words">보드게임 & 마라탕 팟</p>
-                            <p class="text-xs text-gray-500 mt-1 font-medium break-words">다음 주 • 시간/장소 조율 중</p>
+                            <p class="font-extrabold text-gray-900 text-[15px] truncate">보드게임 & 마라탕 팟</p>
+                            <p class="text-xs text-gray-500 mt-1 font-medium truncate">다음 주 • 시간/장소 조율 중</p>
                         </div>
                     </div>
                 </div>
@@ -354,90 +356,97 @@
         </div>
 
         <!-- ==========================================
-             [탭 3] 탐색 (완벽 리뉴얼 반영)
+             [탭 3] 탐색 (자연스러운 핫플 목록 복구)
         =========================================== -->
         <div id="screen-explore" class="screen">
             <header class="glass-header px-6 pt-12 pb-4">
                 <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-1">탐색 🎈</h2>
-                <p class="text-gray-500 font-medium text-sm break-words">민지님을 위한 맞춤 정보와 핫플</p>
+                <p class="text-gray-500 font-medium text-sm keep-all">민지님을 위한 맞춤 정보와 핫플</p>
             </header>
 
             <div class="scroll-area pt-[115px] !px-0 flex flex-col gap-8">
                 
                 <!-- 날씨 & 코디 위젯 -->
-                <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mx-5 mt-2">
-                    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mx-5 mt-2 shrink-0">
+                    <div class="flex justify-between items-center mb-4">
                         <div class="flex items-center gap-1.5 text-gray-800">
-                            <i class="ph-fill ph-map-pin text-blue-500 text-lg"></i>
-                            <span class="font-extrabold text-[13px] break-words">서울 마포구 연남동</span>
+                            <i class="fa-solid fa-location-dot text-blue-500 text-lg"></i>
+                            <span class="font-extrabold text-[13px]">서울 마포구 연남동</span>
                         </div>
-                        <span class="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">오후 11:00</span>
+                        <span class="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded whitespace-nowrap">오후 11:00</span>
                     </div>
                     <div class="flex items-center gap-5 mb-5">
-                        <i class="ph-fill ph-cloud-moon text-[46px] text-gray-600"></i>
+                        <i class="fa-solid fa-cloud-moon text-[42px] text-gray-600"></i>
                         <div>
                             <p class="text-2xl font-extrabold text-gray-900 flex items-end gap-1.5">14°C <span class="text-sm font-medium text-gray-500 mb-0.5">구름 조금</span></p>
-                            <p class="text-xs text-gray-500 mt-1 font-medium break-words">일교차가 커서 밤에는 쌀쌀해요.</p>
+                            <p class="text-xs text-gray-500 mt-1 font-medium keep-all">일교차가 커서 밤에는 쌀쌀해요.</p>
                         </div>
                     </div>
                     <button class="w-full bg-[#111] text-white py-3.5 rounded-xl text-[13px] font-extrabold btn-press flex items-center justify-center gap-2" onclick="showToast('무신사 코디 추천 페이지로 이동합니다.')">
-                        <i class="ph-fill ph-t-shirt text-lg"></i> 무신사 14도 맞춤 코디 보기
+                        <i class="fa-solid fa-shirt text-sm"></i> 무신사 14도 맞춤 코디 보기
                     </button>
                 </div>
 
-                <!-- 놓치면 아까운 혜택 (프리미엄 배너 형태로 자연스럽게 디자인 리뉴얼) -->
-                <div class="px-5">
-                    <h3 class="font-extrabold text-lg text-gray-900 mb-3 px-1">대학생 제휴 혜택 🎟️</h3>
-                    <div class="grid grid-cols-1 gap-3">
-                        <div class="bg-gradient-to-r from-red-50 to-pink-50 p-5 rounded-[24px] flex justify-between items-center btn-press border border-red-100/50" onclick="showToast('영화 할인 정보로 이동합니다.')">
-                            <div class="flex flex-col gap-1.5">
-                                <span class="text-[10px] font-extrabold text-red-500 bg-white px-2 py-0.5 rounded-full self-start shadow-sm">통신사 VIP</span>
-                                <h4 class="font-extrabold text-gray-900 text-[15px]">CGV / 메가박스 무료 예매</h4>
-                                <p class="text-[11px] text-gray-600 font-medium">연 3회 영화 무료 혜택 받기</p>
+                <!-- 놓치면 아까운 혜택 -->
+                <div class="px-5 shrink-0">
+                    <h3 class="font-extrabold text-lg text-gray-900 mb-4 px-1">대학생 제휴 혜택 🎟️</h3>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4.5 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex justify-between items-center btn-press" onclick="showToast('영화 할인 정보로 이동합니다.')">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-film text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-extrabold text-gray-900 text-sm mb-1">CGV / 메가박스</h4>
+                                    <p class="text-[11px] text-gray-500 font-medium">대학생 학생증 인증 시 3,000원 할인</p>
+                                </div>
                             </div>
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-red-500 shadow-sm"><i class="ph-fill ph-film-strip text-[22px]"></i></div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
-                        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-5 rounded-[24px] flex justify-between items-center btn-press border border-purple-100/50" onclick="showToast('놀이공원 할인 정보로 이동합니다.')">
-                            <div class="flex flex-col gap-1.5">
-                                <span class="text-[10px] font-extrabold text-purple-600 bg-white px-2 py-0.5 rounded-full self-start shadow-sm">제휴 카드</span>
-                                <h4 class="font-extrabold text-gray-900 text-[15px]">에버랜드 / 롯데월드 반값</h4>
-                                <p class="text-[11px] text-gray-600 font-medium">현장 결제 50% 특가 확인하기</p>
+                        <div class="bg-white p-4.5 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex justify-between items-center btn-press" onclick="showToast('놀이공원 할인 정보로 이동합니다.')">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-ticket text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-extrabold text-gray-900 text-sm mb-1">에버랜드 / 롯데월드</h4>
+                                    <p class="text-[11px] text-gray-500 font-medium">제휴카드 현장 결제 50% 특가</p>
+                                </div>
                             </div>
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-500 shadow-sm"><i class="ph-fill ph-ticket text-[22px]"></i></div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- 핫플 순위 (사진 제거하고 깔끔하고 알차게 텍스트 위주로 랭킹 보드 형태로 리뉴얼) -->
-                <div class="px-5 pb-2">
-                    <div class="flex justify-between items-end mb-3 px-1">
+                <!-- 핫플 순위 (사진이 포함된 이전 버전 디자인으로 완벽 복구) -->
+                <div class="px-5 pb-2 shrink-0">
+                    <div class="flex justify-between items-end mb-4 px-1">
                         <h3 class="font-extrabold text-lg text-gray-900">요즘 뜨는 동네 🔥</h3>
-                        <span class="text-[11px] font-bold text-gray-400">SNS 언급량 기준</span>
+                        <span class="text-[11px] font-bold text-gray-400">이번 주 기준</span>
                     </div>
-                    <div class="bg-white rounded-[24px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-2">
-                        <div class="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-2xl transition-colors btn-press cursor-pointer" onclick="showToast('행궁동 핫플 리스트를 엽니다.')">
-                            <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 font-extrabold flex items-center justify-center text-sm">1</div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center gap-4 btn-press" onclick="showToast('행궁동 핫플 리스트를 엽니다.')">
+                            <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center flex-shrink-0">1</div>
+                            <img src="https://images.unsplash.com/photo-1613136245084-2a6286f784e1?auto=format&fit=crop&w=300&q=80" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="수원 행궁동">
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-1">수원 행궁동</h4>
-                                <p class="text-[12px] text-gray-500 font-medium break-words">감성 한옥 카페와 야경이 예쁜 성곽길 산책</p>
+                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-0.5">수원 행궁동</h4>
+                                <p class="text-[12px] text-gray-500 font-medium truncate">감성 한옥 카페와 야경이 예쁜 성곽길</p>
                             </div>
-                            <i class="ph-bold ph-caret-right text-gray-300"></i>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
-                        <div class="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-2xl transition-colors btn-press cursor-pointer" onclick="showToast('신당동 핫플 리스트를 엽니다.')">
-                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 font-extrabold flex items-center justify-center text-sm">2</div>
+                        <div class="bg-white p-4 rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center gap-4 btn-press" onclick="showToast('신당동 핫플 리스트를 엽니다.')">
+                            <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center flex-shrink-0">2</div>
+                            <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=300&q=80" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="서울 신당동">
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-1">서울 신당동</h4>
-                                <p class="text-[12px] text-gray-500 font-medium break-words">새롭게 떠오르는 힙한 술집과 맛집 골목</p>
+                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-0.5">서울 신당동</h4>
+                                <p class="text-[12px] text-gray-500 font-medium truncate">힙한 술집과 맛집이 가득한 핫플</p>
                             </div>
-                            <i class="ph-bold ph-caret-right text-gray-300"></i>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
-                        <div class="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-2xl transition-colors btn-press cursor-pointer" onclick="showToast('성수동 핫플 리스트를 엽니다.')">
-                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 font-extrabold flex items-center justify-center text-sm">3</div>
+                        <div class="bg-white p-4 rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center gap-4 btn-press" onclick="showToast('성수동 핫플 리스트를 엽니다.')">
+                            <div class="font-extrabold text-xl text-gray-300 italic w-6 text-center flex-shrink-0">3</div>
+                            <img src="https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&w=300&q=80" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="서울 성수동">
                             <div class="flex-1 min-w-0">
-                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-1">서울 성수동</h4>
-                                <p class="text-[12px] text-gray-500 font-medium break-words">끝나지 않는 트렌디한 팝업스토어의 성지</p>
+                                <h4 class="font-extrabold text-gray-900 text-[15px] mb-0.5">서울 성수동</h4>
+                                <p class="text-[12px] text-gray-500 font-medium truncate">끝나지 않는 팝업 스토어의 성지</p>
                             </div>
-                            <i class="ph-bold ph-caret-right text-gray-300"></i>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
                     </div>
                 </div>
@@ -453,36 +462,37 @@
             </header>
             
             <div class="scroll-area pt-[100px] px-5 flex flex-col gap-6">
-                <!-- 프로필 영역 (프리미엄 스타일 및 핫플 소개 추가) -->
+                <!-- 프로필 영역 (사용자 지정 프로필 적용) -->
                 <div class="bg-white p-5 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex items-center justify-between shrink-0">
                     <div class="flex items-center gap-4">
                         <div class="w-[72px] h-[72px] bg-white rounded-full p-[1.5px] shadow-[0_4px_14px_rgba(0,0,0,0.08)] border border-gray-200 flex-shrink-0">
-                            <img src="my-profile.jpg" alt="내 프로필" class="w-full h-full rounded-full object-cover">
+                            <!-- 사용자가 올린 파일 (대소문자 정확히 매칭) -->
+                            <img src="my-profile.JPG" alt="내 프로필" class="w-full h-full rounded-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80';">
                         </div>
                         <div class="flex flex-col justify-center">
-                            <p class="text-[18px] font-extrabold text-gray-900 flex items-center gap-2 mb-1">박민지 <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-extrabold shrink-0">ENFP</span></p>
+                            <p class="text-[18px] font-extrabold text-gray-900 flex items-center gap-2 mb-1">박민지 <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-extrabold whitespace-nowrap">ENFP</span></p>
                             <p class="text-[12px] text-gray-500 font-medium mb-1.5">서울시 마포구 연남동</p>
                             <p class="text-[11px] text-gray-700 font-semibold leading-tight">전국 축제 & 성수동 핫플 마스터 🗺️</p>
                         </div>
                     </div>
-                    <button class="bg-gray-50 text-gray-600 px-3.5 py-2 rounded-xl text-xs font-bold btn-press border border-gray-100 shrink-0" onclick="showToast('프로필 수정 화면입니다.')">수정</button>
+                    <button class="bg-gray-50 text-gray-600 px-3.5 py-2 rounded-xl text-xs font-bold btn-press border border-gray-100 shrink-0 whitespace-nowrap" onclick="showToast('프로필 수정 화면입니다.')">수정</button>
                 </div>
                 
                 <div class="shrink-0">
-                <!-- 앱 사용 설명서 버튼 추가 -->
+                <!-- 앱 사용 설명서 버튼 -->
                 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-5 border border-blue-100 flex justify-between items-center btn-press shadow-[0_4px_20px_rgba(59,130,246,0.08)]" onclick="pushScreen('screen-guide')">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-white text-blue-600 rounded-2xl flex items-center justify-center text-[22px] shadow-sm"><i class="ph-fill ph-book-open-text"></i></div>
+                        <div class="w-12 h-12 bg-white text-blue-600 rounded-2xl flex items-center justify-center text-xl shadow-sm flex-shrink-0"><i class="fa-solid fa-book-open"></i></div>
                         <div class="flex flex-col justify-center">
                             <h4 class="font-extrabold text-gray-900 text-[15px] mb-1">GatherAI 사용 설명서</h4>
-                            <p class="text-[11px] text-gray-500 font-medium break-words">AI 플래너 100% 활용하는 꿀팁 💡</p>
+                            <p class="text-[11px] text-gray-500 font-medium">AI 플래너 100% 활용하는 꿀팁 💡</p>
                         </div>
                     </div>
-                    <i class="ph-bold ph-caret-right text-blue-300 text-sm"></i>
+                    <i class="fa-solid fa-chevron-right text-blue-300 text-sm"></i>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2">내 활동 요약</h3>
+                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 mt-6">내 활동 요약</h3>
                     <div class="grid grid-cols-3 gap-3">
                         <div class="bg-white rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-4 text-center btn-press" onclick="showToast('이번 달 모임 내역입니다.')">
                             <p class="text-[11px] text-gray-500 font-medium mb-1.5">이번 달 모임</p>
@@ -500,34 +510,34 @@
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2">앱 연동 관리 (올인원 파이프라인)</h3>
+                    <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 mt-6">앱 연동 관리 (올인원 파이프라인)</h3>
                     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="p-5 border-b border-gray-50 flex justify-between items-center btn-press" onclick="showToast('에브리타임 동기화 완료!')">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-2xl"><i class="ph-fill ph-calendar-check"></i></div>
+                                <div class="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-calendar-days"></i></div>
                                 <div class="flex flex-col justify-center">
                                     <p class="font-extrabold text-[15px] text-gray-800 mb-1">일정 자동 동기화</p>
-                                    <p class="text-[11px] text-gray-400 font-medium break-words">에브리타임 캘린더</p>
+                                    <p class="text-[11px] text-gray-400 font-medium">에브리타임 캘린더</p>
                                 </div>
                             </div>
-                            <span class="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">연동됨</span>
+                            <span class="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100 whitespace-nowrap">연동됨</span>
                         </div>
                         <div class="p-5 border-b border-gray-50 flex justify-between items-center btn-press" onclick="showToast('토스 계좌가 연결되어 있습니다.')">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-[24px] font-bold"><i class="ph-fill ph-bank"></i></div>
+                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-[20px] font-bold flex-shrink-0">t</div>
                                 <div class="flex flex-col justify-center">
                                     <p class="font-extrabold text-[15px] text-gray-800 mb-1">N빵 정산 계좌 관리</p>
-                                    <p class="text-[11px] text-gray-400 font-medium break-words">토스(Toss) 송금</p>
+                                    <p class="text-[11px] text-gray-400 font-medium">토스(Toss) 송금</p>
                                 </div>
                             </div>
-                            <span class="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">연동됨</span>
+                            <span class="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100 whitespace-nowrap">연동됨</span>
                         </div>
                         <div class="p-5 flex justify-between items-center btn-press" onclick="showToast('고객센터 준비중입니다.')">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-gray-100 text-gray-600 rounded-2xl flex items-center justify-center text-[22px]"><i class="ph-fill ph-headset"></i></div>
+                                <div class="w-12 h-12 bg-gray-100 text-gray-600 rounded-2xl flex items-center justify-center text-xl flex-shrink-0"><i class="fa-solid fa-headset"></i></div>
                                 <p class="font-extrabold text-[15px] text-gray-800">피드백 남기기</p>
                             </div>
-                            <i class="ph-bold ph-caret-right text-gray-300"></i>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
                     </div>
                 </div>
@@ -540,17 +550,17 @@
         =========================================== -->
         <div id="screen-room" class="screen detail-screen">
             <header class="glass-header-white px-4 pt-12 pb-3 flex justify-between items-center">
-                <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[22px]"><i class="ph-bold ph-caret-left"></i></button>
-                <h2 class="text-[17px] font-extrabold text-gray-900 break-words px-2 text-center">대학 동기들 불금 벙개 🍻</h2>
-                <button class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[24px]"><i class="ph-bold ph-dots-three-vertical"></i></button>
+                <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[18px] flex-shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
+                <h2 class="text-[17px] font-extrabold text-gray-900 truncate px-2 text-center">대학 동기들 불금 벙개 🍻</h2>
+                <button class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[20px] flex-shrink-0"><i class="fa-solid fa-ellipsis-vertical"></i></button>
             </header>
 
             <div class="scroll-area pt-[95px] px-5 flex flex-col gap-8">
                 <!-- AI 중간 지점 지도 -->
-                <div class="mt-2">
+                <div class="shrink-0 mt-2">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-extrabold text-xl text-gray-900">모두 오고 있나요? 👀</h3>
-                        <span class="text-[11px] font-extrabold text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1.5 rounded-md">약속 30분 전</span>
+                        <span class="text-[11px] font-extrabold text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1.5 rounded-md whitespace-nowrap">약속 30분 전</span>
                     </div>
                     
                     <div class="city-map-bg rounded-3xl h-[220px] relative overflow-hidden border border-gray-200 shadow-inner w-full">
@@ -576,7 +586,7 @@
                             <div class="w-10 h-10 bg-white rounded-full p-[2px] shadow-lg border-2 border-blue-500 relative flex items-center justify-center">
                                 <img src="https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=100&q=80" class="w-full h-full rounded-full object-cover">
                             </div>
-                            <div class="bg-white/95 backdrop-blur text-gray-800 text-[10px] font-extrabold px-2.5 py-1.5 rounded shadow-sm mt-1.5 border border-gray-100">도착 5분 전</div>
+                            <div class="bg-white/95 backdrop-blur text-gray-800 text-[10px] font-extrabold px-2.5 py-1.5 rounded shadow-sm mt-1.5 border border-gray-100 whitespace-nowrap">도착 5분 전</div>
                         </div>
 
                         <!-- 친구 2 -->
@@ -584,82 +594,82 @@
                             <div class="w-10 h-10 bg-gray-200 rounded-full p-[2px] shadow-md border-2 border-gray-300 flex items-center justify-center grayscale">
                                 <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=100&q=80" class="w-full h-full rounded-full object-cover">
                             </div>
-                            <div class="bg-white text-gray-500 text-[10px] font-extrabold px-2.5 py-1.5 rounded shadow-sm mt-1.5">퇴근 중</div>
+                            <div class="bg-white text-gray-500 text-[10px] font-extrabold px-2.5 py-1.5 rounded shadow-sm mt-1.5 whitespace-nowrap">퇴근 중</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 shrink-0">
                     <h4 class="font-extrabold text-gray-900 mb-4 text-[15px]">나의 최적 이동 경로 🧭</h4>
                     <div class="space-y-3">
                         <div class="bg-blue-50/50 border border-blue-100 p-4 rounded-2xl flex justify-between items-center btn-press" onclick="showToast('지도 앱으로 연결됩니다.')">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-blue-500 text-white rounded-xl flex items-center justify-center shadow-sm"><i class="ph-fill ph-bus text-[20px]"></i></div>
+                                <div class="w-10 h-10 bg-blue-500 text-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0"><i class="fa-solid fa-bus-simple text-[18px]"></i></div>
                                 <div class="flex flex-col justify-center">
                                     <p class="font-extrabold text-gray-900 text-[14px] mb-1">대중교통 (지하철)</p>
-                                    <p class="text-[11px] text-gray-500 font-medium break-words">35분 소요 • 환승 1회</p>
+                                    <p class="text-[11px] text-gray-500 font-medium">35분 소요 • 환승 1회</p>
                                 </div>
                             </div>
-                            <div class="bg-blue-100 text-blue-600 px-2.5 py-1 rounded-md text-[10px] font-extrabold">추천</div>
+                            <div class="bg-blue-100 text-blue-600 px-2.5 py-1 rounded-md text-[10px] font-extrabold whitespace-nowrap">추천</div>
                         </div>
                         <div class="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex justify-between items-center btn-press" onclick="showToast('택시 앱으로 연결됩니다.')">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-gray-800 text-white rounded-xl flex items-center justify-center shadow-sm"><i class="ph-fill ph-taxi text-[20px]"></i></div>
+                                <div class="w-10 h-10 bg-gray-800 text-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0"><i class="fa-solid fa-taxi text-[18px]"></i></div>
                                 <div class="flex flex-col justify-center">
                                     <p class="font-extrabold text-gray-900 text-[14px] mb-1">택시 / 자가용</p>
-                                    <p class="text-[11px] text-gray-500 font-medium break-words">20분 소요 • 약 8,500원</p>
+                                    <p class="text-[11px] text-gray-500 font-medium">20분 소요 • 약 8,500원</p>
                                 </div>
                             </div>
-                            <i class="ph-bold ph-caret-right text-gray-300"></i>
+                            <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
                         </div>
                     </div>
                 </div>
 
-                <div>
+                <div class="shrink-0">
                     <h3 class="font-extrabold text-[18px] text-gray-900 mb-4">모임 도구 (펀 & 정산)</h3>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="bg-[#FFF5ED] rounded-3xl p-5 btn-press border border-[#FFE8D6] flex flex-col justify-center" onclick="showSheet('sheet-roulette')">
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-orange-500 mb-3 shadow-sm"><i class="ph-fill ph-target text-[22px]"></i></div>
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-orange-500 mb-3 shadow-sm flex-shrink-0"><i class="fa-solid fa-dharmachakra text-[22px]"></i></div>
                             <h4 class="font-extrabold text-orange-900 mb-1.5 text-[15px]">복불복 룰렛</h4>
-                            <p class="text-[11px] text-orange-700 font-medium break-words">늦는 사람 커피 쏘기!</p>
+                            <p class="text-[11px] text-orange-700 font-medium keep-all">늦는 사람 커피 쏘기!</p>
                         </div>
                         <div class="bg-[#F0F2FF] rounded-3xl p-5 btn-press border border-[#E0E6FF] flex flex-col justify-center" onclick="showSheet('sheet-receipt')">
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-indigo-500 mb-3 shadow-sm"><i class="ph-fill ph-receipt text-[22px]"></i></div>
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-indigo-500 mb-3 shadow-sm flex-shrink-0"><i class="fa-solid fa-receipt text-[22px]"></i></div>
                             <h4 class="font-extrabold text-indigo-900 mb-1.5 text-[15px]">AI 1초 N빵</h4>
-                            <p class="text-[11px] text-indigo-700 font-medium break-words">영수증만 스캔하세요</p>
+                            <p class="text-[11px] text-indigo-700 font-medium keep-all">영수증만 스캔하세요</p>
                         </div>
                         <div class="bg-[#F6F0FF] rounded-3xl p-5 btn-press border border-[#EBE0FF] col-span-2 flex items-center justify-between" onclick="showSheet('sheet-vlog')">
                             <div class="flex-1 min-w-0 pr-2">
                                 <h4 class="font-extrabold text-purple-900 mb-2 text-[15px] flex items-center flex-wrap gap-2">
                                     모임 추억 브이로그 
-                                    <span class="bg-purple-200 text-purple-800 text-[10px] px-1.5 py-0.5 rounded font-extrabold">AI</span>
+                                    <span class="bg-purple-200 text-purple-800 text-[10px] px-1.5 py-0.5 rounded font-extrabold whitespace-nowrap">AI</span>
                                 </h4>
-                                <p class="text-[11px] text-purple-700 font-medium break-words">오늘 찍은 사진들을 인스타 릴스로 편집해드려요.</p>
+                                <p class="text-[11px] text-purple-700 font-medium keep-all">오늘 찍은 사진들을 인스타 릴스로 편집해드려요.</p>
                             </div>
-                            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-500 shadow-sm"><i class="ph-fill ph-film-strip text-[24px]"></i></div>
+                            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-500 shadow-sm flex-shrink-0"><i class="fa-solid fa-clapperboard text-[24px]"></i></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="pb-4">
+                <div class="shrink-0 pb-4">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-extrabold text-[18px] text-gray-900">AI가 짠 오늘 코스</h3>
-                        <span class="text-xs text-gray-500 underline decoration-gray-300 font-bold btn-press">수정하기</span>
+                        <span class="text-xs text-gray-500 underline decoration-gray-300 font-bold btn-press whitespace-nowrap">수정하기</span>
                     </div>
                     <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                         <div class="space-y-6 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px before:h-full before:w-[2px] before:bg-gray-100">
                             <div class="relative flex items-start gap-5">
-                                <div class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shadow z-10">1</div>
-                                <div class="flex flex-col justify-center pt-0.5 flex-1 min-w-0">
-                                    <p class="font-extrabold text-gray-900 text-[15px] mb-1 break-words">땀땀 (곱창쌀국수)</p>
-                                    <p class="text-[11px] text-gray-500 font-medium break-words">19:00 • 리뷰 1위 맛집</p>
+                                <div class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shadow z-10 flex-shrink-0">1</div>
+                                <div class="flex flex-col justify-center pt-0.5">
+                                    <p class="font-extrabold text-gray-900 text-[15px] mb-1">땀땀 (곱창쌀국수)</p>
+                                    <p class="text-[11px] text-gray-500 font-medium">19:00 • 리뷰 1위 맛집</p>
                                 </div>
                             </div>
                             <div class="relative flex items-start gap-5">
-                                <div class="w-8 h-8 rounded-full bg-white border-2 border-gray-200 text-gray-400 flex items-center justify-center font-bold text-sm shadow-sm z-10">2</div>
-                                <div class="flex flex-col justify-center pt-0.5 flex-1 min-w-0">
-                                    <p class="font-extrabold text-gray-700 text-[15px] mb-1 break-words">보드게임카페 레드버튼</p>
-                                    <p class="text-[11px] text-gray-400 font-medium break-words">20:30 • 소화시키며 내기하기</p>
+                                <div class="w-8 h-8 rounded-full bg-white border-2 border-gray-200 text-gray-400 flex items-center justify-center font-bold text-sm shadow-sm z-10 flex-shrink-0">2</div>
+                                <div class="flex flex-col justify-center pt-0.5">
+                                    <p class="font-extrabold text-gray-700 text-[15px] mb-1">보드게임카페 레드버튼</p>
+                                    <p class="text-[11px] text-gray-400 font-medium">20:30 • 소화시키며 내기하기</p>
                                 </div>
                             </div>
                         </div>
@@ -673,38 +683,38 @@
         =========================================== -->
         <div id="screen-create" class="screen detail-screen">
             <header class="glass-header-white px-5 pt-12 pb-3 flex items-center justify-between">
-                <button onclick="popScreen()" class="text-gray-800 font-bold text-[15px] py-1 btn-press">취소</button>
+                <button onclick="popScreen()" class="text-gray-800 font-bold text-[15px] py-1 btn-press whitespace-nowrap flex-shrink-0">취소</button>
                 <h2 class="text-[17px] font-extrabold text-gray-900">새 약속 만들기</h2>
-                <div class="w-8"></div> <!-- 중앙 정렬 맞춤 -->
+                <div class="w-8 flex-shrink-0"></div> <!-- 중앙 정렬 맞춤 -->
             </header>
             
             <div class="scroll-area p-6 pt-[100px] flex flex-col gap-7">
-                <h2 class="text-2xl font-extrabold mb-2 leading-tight text-gray-900 break-words">어떤 모임인지<br><span class="text-blue-600">AI</span>에게 알려주세요.</h2>
+                <h2 class="text-2xl font-extrabold mb-2 leading-tight text-gray-900 keep-all">어떤 모임인지<br><span class="text-blue-600">AI</span>에게 알려주세요.</h2>
                 
-                <div>
+                <div class="shrink-0">
                     <label class="block text-sm font-extrabold text-gray-500 mb-3 ml-1">모임 이름</label>
                     <input type="text" placeholder="예: 연남동 핫플 탐방팟" class="w-full p-4 bg-[#f4f5f7] rounded-2xl font-bold text-base text-gray-900 outline-none border border-transparent focus:border-blue-500 focus:bg-white transition-all placeholder-gray-400">
                 </div>
                 
-                <div>
+                <div class="shrink-0">
                     <label class="block text-sm font-extrabold text-gray-500 mb-3 ml-1">모임의 목적이나 분위기 (다중 선택)</label>
                     <div class="flex flex-wrap gap-2.5">
-                        <button class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-900 hover:text-white transition-colors btn-press">💸 지갑 지키는 가성비</button>
-                        <button class="px-4 py-3 bg-gray-900 border border-gray-900 rounded-full text-[13px] font-bold text-white btn-press">📸 인스타/틱톡 핫플</button>
-                        <button class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-900 hover:text-white transition-colors btn-press">☕ 맛집+카페 소확행</button>
-                        <button class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-900 hover:text-white transition-colors btn-press">🍻 부어라 마셔라</button>
+                        <button class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-900 hover:text-white transition-colors btn-press whitespace-nowrap shrink-0">💸 지갑 지키는 가성비</button>
+                        <button class="px-4 py-3 bg-gray-900 border border-gray-900 rounded-full text-[13px] font-bold text-white btn-press whitespace-nowrap shrink-0">📸 인스타/틱톡 핫플</button>
+                        <button class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-900 hover:text-white transition-colors btn-press whitespace-nowrap shrink-0">☕ 맛집+카페 소확행</button>
+                        <button class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-900 hover:text-white transition-colors btn-press whitespace-nowrap shrink-0">🍻 부어라 마셔라</button>
                     </div>
                 </div>
 
-                <div class="bg-blue-50/80 p-5 rounded-3xl flex gap-4 items-center border border-blue-100 mt-2">
-                    <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-[20px] shadow-sm flex-shrink-0"><i class="ph-bold ph-link"></i></div>
-                    <div class="flex flex-col justify-center flex-1 min-w-0">
-                        <p class="font-extrabold text-blue-900 text-[14px] mb-1.5 break-words">초대장 링크 하나로 끝내세요</p>
-                        <p class="text-[11px] text-blue-700 font-medium leading-relaxed break-words">링크를 보내면 친구들의 빈 시간과 위치를 종합해 가장 합리적인 모임 장소를 AI가 찾아냅니다.</p>
+                <div class="bg-blue-50/80 p-5 rounded-3xl flex gap-4 items-center border border-blue-100 mt-2 shrink-0">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-[20px] flex-shrink-0 shadow-sm"><i class="fa-solid fa-link"></i></div>
+                    <div class="flex flex-col justify-center">
+                        <p class="font-extrabold text-blue-900 text-[14px] mb-1.5">초대장 링크 하나로 끝내세요</p>
+                        <p class="text-[11px] text-blue-700 font-medium leading-relaxed keep-all">링크를 보내면 친구들의 빈 시간과 위치를 종합해 가장 합리적인 모임 장소를 AI가 찾아냅니다.</p>
                     </div>
                 </div>
 
-                <button onclick="startLoading()" class="w-full bg-gray-900 text-white py-[18px] rounded-full font-extrabold text-[16px] btn-press flex justify-center items-center gap-2 shadow-lg mt-auto">
+                <button onclick="startLoading()" class="w-full bg-gray-900 text-white py-[18px] rounded-full font-extrabold text-[16px] btn-press flex justify-center items-center gap-2 shadow-lg mt-auto shrink-0">
                     링크 만들고 초대하기
                 </button>
             </div>
@@ -715,52 +725,52 @@
         =========================================== -->
         <div id="screen-guide" class="screen detail-screen">
             <header class="glass-header-white px-4 pt-12 pb-3 flex justify-between items-center">
-                <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[22px] flex-shrink-0"><i class="ph-bold ph-caret-left"></i></button>
-                <h2 class="text-[17px] font-extrabold text-gray-900 px-2 text-center break-words">앱 사용 설명서 📘</h2>
+                <button onclick="popScreen()" class="w-10 h-10 flex items-center justify-center text-gray-800 btn-press text-[20px] flex-shrink-0"><i class="fa-solid fa-chevron-left"></i></button>
+                <h2 class="text-[17px] font-extrabold text-gray-900 px-2 text-center">앱 사용 설명서 📘</h2>
                 <div class="w-10 flex-shrink-0"></div>
             </header>
             
             <div class="scroll-area p-5 pt-[95px] flex flex-col gap-6">
-                <div class="bg-gray-900 text-white p-6 rounded-3xl shadow-lg relative overflow-hidden">
+                <div class="bg-gray-900 text-white p-6 rounded-3xl shadow-lg relative overflow-hidden shrink-0">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-600 rounded-full blur-[40px] opacity-50 pointer-events-none"></div>
-                    <h2 class="text-2xl font-extrabold mb-3 relative z-10 break-words">GatherAI 완벽 활용법</h2>
-                    <p class="text-[13px] text-gray-300 font-medium relative z-10 leading-relaxed break-words">
+                    <h2 class="text-2xl font-extrabold mb-3 relative z-10">GatherAI 완벽 활용법</h2>
+                    <p class="text-[13px] text-gray-300 font-medium relative z-10 leading-relaxed keep-all">
                         더 이상 단톡방에서 눈치 보며 투표하지 마세요.<br>AI가 알아서 척척, 약속의 모든 과정을 해결해 드립니다.
                     </p>
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-4 shrink-0">
                     <div class="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex gap-4 items-start">
-                        <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-[18px] font-extrabold flex-shrink-0">1</div>
+                        <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-[18px] flex-shrink-0 font-extrabold">1</div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2 break-words">AI 자동 플래너 (초대장)</h4>
-                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed break-words">원하는 모임 분위기를 선택하고 생성된 링크를 카톡에 공유하세요. 친구들이 가능한 시간과 출발 위치만 입력하면 끝입니다.</p>
+                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2">AI 자동 플래너 (초대장)</h4>
+                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed keep-all">원하는 모임 분위기를 선택하고 생성된 링크를 카톡에 공유하세요. 친구들이 가능한 시간과 출발 위치만 입력하면 끝입니다.</p>
                         </div>
                     </div>
                     <div class="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex gap-4 items-start">
-                        <div class="w-10 h-10 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center text-[18px] font-extrabold flex-shrink-0">2</div>
+                        <div class="w-10 h-10 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center text-[18px] flex-shrink-0 font-extrabold">2</div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2 break-words">중간 지점 & 핫플 추천</h4>
-                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed break-words">대중교통 이동 시간을 계산해 누구도 억울하지 않은 최적의 '중간 지점'을 찾고, 해당 지역의 요즘 뜨는 핫플 코스를 짜줍니다.</p>
+                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2">중간 지점 & 핫플 추천</h4>
+                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed keep-all">대중교통 이동 시간을 계산해 누구도 억울하지 않은 최적의 '중간 지점'을 찾고, 해당 지역의 요즘 뜨는 핫플 코스를 짜줍니다.</p>
                         </div>
                     </div>
                     <div class="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex gap-4 items-start">
-                        <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center text-[18px] font-extrabold flex-shrink-0">3</div>
+                        <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center text-[18px] flex-shrink-0 font-extrabold">3</div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2 break-words">1초 N빵 정산 (토스 연동)</h4>
-                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed break-words">모임 종료 후 영수증이나 결제 캡쳐본을 업로드하세요. AI가 메뉴와 금액을 인식해 1/N 계산 후 토스 송금 알림을 보냅니다.</p>
+                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2">1초 N빵 정산 (토스 연동)</h4>
+                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed keep-all">모임 종료 후 영수증이나 결제 캡쳐본을 업로드하세요. AI가 메뉴와 금액을 인식해 1/N 계산 후 토스 송금 알림을 보냅니다.</p>
                         </div>
                     </div>
                     <div class="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex gap-4 items-start">
-                        <div class="w-10 h-10 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-[18px] font-extrabold flex-shrink-0">4</div>
+                        <div class="w-10 h-10 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-[18px] flex-shrink-0 font-extrabold">4</div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2 break-words">추억 브이로그 생성</h4>
-                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed break-words">친구들과 찍은 사진들을 선택만 하세요. AI가 트렌디한 BGM과 함께 인스타/틱톡 업로드용 15초 영상으로 자동 편집해줍니다.</p>
+                            <h4 class="font-extrabold text-gray-900 text-[15px] mb-2">추억 브이로그 생성</h4>
+                            <p class="text-[12px] text-gray-500 font-medium leading-relaxed keep-all">친구들과 찍은 사진들을 선택만 하세요. AI가 트렌디한 BGM과 함께 인스타/틱톡 업로드용 15초 영상으로 자동 편집해줍니다.</p>
                         </div>
                     </div>
                 </div>
 
-                <button class="w-full bg-gray-100 text-gray-800 py-4 rounded-2xl font-extrabold text-[15px] btn-press mt-2" onclick="popScreen()">이해했어요, 닫기</button>
+                <button class="w-full bg-gray-100 text-gray-800 py-4 rounded-2xl font-extrabold text-[15px] btn-press mt-2 shrink-0" onclick="popScreen()">이해했어요, 닫기</button>
             </div>
         </div>
 
@@ -772,11 +782,11 @@
                 <div class="relative w-[100px] h-[100px] mb-8">
                     <div class="absolute inset-0 border-4 border-white/10 border-t-blue-500 rounded-full animate-spin"></div>
                     <div class="absolute inset-0 flex items-center justify-center text-4xl">
-                        <i class="ph-fill ph-magic-wand text-blue-400 animate-pulse"></i>
+                        <i class="fa-solid fa-wand-magic-sparkles text-blue-400 animate-pulse"></i>
                     </div>
                 </div>
-                <h2 class="text-[22px] font-extrabold mb-3 tracking-tight break-words">AI가 플랜을 준비 중입니다</h2>
-                <p id="loading-msg" class="text-[13px] text-gray-400 font-medium break-words">참석자들의 동선과 스케줄을 분석하고 있습니다...</p>
+                <h2 class="text-[22px] font-extrabold mb-3 tracking-tight">AI가 플랜을 준비 중입니다</h2>
+                <p id="loading-msg" class="text-[13px] text-gray-400 font-medium keep-all">참석자들의 동선과 스케줄을 분석하고 있습니다...</p>
             </div>
         </div>
 
@@ -784,17 +794,17 @@
 
     <!-- 하단 네비게이션 바 -->
     <div id="bottom-nav" class="bottom-nav">
-        <div id="nav-screen-home" class="nav-item active btn-press" onclick="switchTab('screen-home')">
-            <i class="ph-fill ph-house text-[24px] mb-1"></i><span class="text-[10px] font-extrabold">홈</span>
+        <div id="nav-screen-home" class="nav-item active btn-press shrink-0" onclick="switchTab('screen-home')">
+            <i class="fa-solid fa-house text-[22px] mb-1"></i><span class="text-[10px] font-extrabold">홈</span>
         </div>
-        <div id="nav-screen-calendar" class="nav-item btn-press" onclick="switchTab('screen-calendar')">
-            <i class="ph-fill ph-calendar-blank text-[24px] mb-1"></i><span class="text-[10px] font-extrabold">일정</span>
+        <div id="nav-screen-calendar" class="nav-item btn-press shrink-0" onclick="switchTab('screen-calendar')">
+            <i class="fa-solid fa-calendar-days text-[22px] mb-1"></i><span class="text-[10px] font-extrabold">일정</span>
         </div>
-        <div id="nav-screen-explore" class="nav-item btn-press" onclick="switchTab('screen-explore')">
-            <i class="ph-fill ph-compass text-[24px] mb-1"></i><span class="text-[10px] font-extrabold">탐색</span>
+        <div id="nav-screen-explore" class="nav-item btn-press shrink-0" onclick="switchTab('screen-explore')">
+            <i class="fa-solid fa-compass text-[22px] mb-1"></i><span class="text-[10px] font-extrabold">탐색</span>
         </div>
-        <div id="nav-screen-mypage" class="nav-item btn-press" onclick="switchTab('screen-mypage')">
-            <i class="ph-fill ph-user text-[24px] mb-1"></i><span class="text-[10px] font-extrabold">마이</span>
+        <div id="nav-screen-mypage" class="nav-item btn-press shrink-0" onclick="switchTab('screen-mypage')">
+            <i class="fa-solid fa-user text-[22px] mb-1"></i><span class="text-[10px] font-extrabold">마이</span>
         </div>
     </div>
 
@@ -805,16 +815,16 @@
         <div class="sheet-bg" onclick="hideSheet('sheet-roulette')"></div>
         <div class="sheet-content bg-white p-6 pb-[40px]">
             <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-[22px] font-extrabold text-center text-gray-900 mb-2 break-words">벌칙 복불복 돌리기 🎯</h3>
-            <p class="text-center text-[13px] text-gray-500 mb-8 break-words" id="roulette-desc">지각한 사람이 커피 쏘기! 돌려볼까요?</p>
+            <h3 class="text-[22px] font-extrabold text-center text-gray-900 mb-2">벌칙 복불복 돌리기 🎯</h3>
+            <p class="text-center text-[13px] text-gray-500 mb-8" id="roulette-desc">지각한 사람이 커피 쏘기! 돌려볼까요?</p>
             
-            <div class="w-[180px] h-[180px] rounded-full border-[8px] border-gray-50 mx-auto relative mb-10 flex items-center justify-center shadow-inner overflow-hidden">
+            <div class="w-[180px] h-[180px] rounded-full border-[8px] border-gray-50 mx-auto relative mb-10 flex items-center justify-center shadow-inner overflow-hidden shrink-0">
                 <div id="roulette-wheel" class="absolute inset-0 bg-[conic-gradient(from_90deg,#ffedd5_0_120deg,#e0e7ff_120deg_240deg,#dbeafe_240deg_360deg)] w-full h-full"></div>
                 <div class="w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-t-[20px] border-t-gray-900 absolute top-0 z-20 -mt-1 drop-shadow-md"></div>
                 <div class="w-14 h-14 bg-white rounded-full z-10 shadow-lg flex items-center justify-center font-bold text-2xl text-gray-800">?</div>
             </div>
 
-            <button id="btn-spin" class="w-full bg-gray-900 text-white py-4 rounded-2xl font-extrabold text-[16px] btn-press" onclick="spinRoulette()">돌리기</button>
+            <button id="btn-spin" class="w-full bg-gray-900 text-white py-4 rounded-2xl font-extrabold text-[16px] btn-press shrink-0" onclick="spinRoulette()">돌리기</button>
         </div>
     </div>
 
@@ -823,23 +833,23 @@
         <div class="sheet-bg" onclick="hideSheet('sheet-vote')"></div>
         <div class="sheet-content bg-white p-6 pb-[40px]">
             <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-[20px] font-extrabold text-gray-900 mb-2 break-words">보드게임&마라탕 팟 🎲</h3>
-            <p class="text-[13px] text-gray-500 mb-6 leading-relaxed break-words">친구들의 캘린더를 종합해 찾아낸 베스트 시간입니다. 원하시는 시간에 투표해주세요.</p>
+            <h3 class="text-[20px] font-extrabold text-gray-900 mb-2">보드게임&마라탕 팟 🎲</h3>
+            <p class="text-[13px] text-gray-500 mb-6 leading-relaxed keep-all">친구들의 캘린더를 종합해 찾아낸 베스트 시간입니다. 원하시는 시간에 투표해주세요.</p>
             
             <div class="space-y-3 mb-7">
                 <!-- 옵션 1 (기본 선택됨) -->
                 <div class="vote-option border-2 border-purple-500 bg-purple-50/50 rounded-2xl p-4.5 btn-press flex items-center justify-between" onclick="toggleVote(this)">
                     <div class="flex flex-col justify-center flex-1 min-w-0">
-                        <p class="vote-title font-extrabold text-purple-900 text-[15px] mb-1 break-words">5.11 (월) 오후 6:00</p>
-                        <p class="text-[11px] text-gray-500 font-medium break-words">4명 모두 가능 (최적 플랜)</p>
+                        <p class="vote-title font-extrabold text-purple-900 text-[15px] mb-1">5.11 (월) 오후 6:00</p>
+                        <p class="text-[11px] text-gray-500 font-medium">4명 모두 가능 (최적 플랜)</p>
                     </div>
-                    <div class="vote-check w-7 h-7 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0"><i class="ph-bold ph-check text-[13px]"></i></div>
+                    <div class="vote-check w-7 h-7 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[13px]"></i></div>
                 </div>
                 <!-- 옵션 2 -->
                 <div class="vote-option border border-gray-200 bg-white rounded-2xl p-4.5 btn-press flex items-center justify-between" onclick="toggleVote(this)">
                     <div class="flex flex-col justify-center flex-1 min-w-0">
-                        <p class="vote-title font-bold text-gray-800 text-[15px] mb-1 break-words">5.12 (화) 오후 4:00</p>
-                        <p class="text-[11px] text-gray-500 font-medium break-words">3명 가능</p>
+                        <p class="vote-title font-bold text-gray-800 text-[15px] mb-1">5.12 (화) 오후 4:00</p>
+                        <p class="text-[11px] text-gray-500 font-medium">3명 가능</p>
                     </div>
                     <div class="vote-check w-7 h-7 rounded-full border-2 border-gray-300 flex-shrink-0 flex items-center justify-center"></div>
                 </div>
@@ -852,12 +862,12 @@
         <div class="sheet-bg" onclick="hideSheet('sheet-receipt')"></div>
         <div class="sheet-content bg-white p-6 pb-[40px]">
             <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-[22px] font-extrabold text-gray-900 mb-2 text-center break-words">AI 영수증 스캔 정산</h3>
-            <p class="text-[13px] text-gray-500 mb-7 text-center font-medium leading-relaxed break-words">영수증을 촬영하면 AI가 메뉴를 분석해 N빵하고<br>토스(Toss)를 통해 친구들에게 자동으로 송금 요청을 보냅니다.</p>
+            <h3 class="text-[22px] font-extrabold text-gray-900 mb-2 text-center">AI 영수증 스캔 정산</h3>
+            <p class="text-[13px] text-gray-500 mb-7 text-center font-medium leading-relaxed keep-all">영수증을 촬영하면 AI가 메뉴를 분석해 N빵하고<br>토스(Toss)를 통해 친구들에게 자동으로 송금 요청을 보냅니다.</p>
             
             <div class="bg-gray-50 rounded-3xl h-[160px] flex flex-col items-center justify-center border-2 border-dashed border-gray-300 mb-7 btn-press" onclick="showToast('카메라가 실행됩니다.')">
                 <div class="w-14 h-14 bg-white rounded-full shadow-sm flex items-center justify-center mb-3 text-gray-400">
-                    <i class="ph-fill ph-camera text-[28px]"></i>
+                    <i class="fa-solid fa-camera text-[24px]"></i>
                 </div>
                 <p class="text-gray-600 font-extrabold text-[14px]">터치하여 영수증 촬영</p>
             </div>
@@ -871,9 +881,9 @@
         <div class="sheet-content bg-white p-6 pb-[40px]">
             <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
             <div class="text-center mb-8">
-                <div class="w-[70px] h-[70px] bg-purple-50 text-purple-600 rounded-[24px] flex items-center justify-center text-[34px] mx-auto mb-4 border border-purple-100"><i class="ph-fill ph-magic-wand"></i></div>
-                <h3 class="text-[22px] font-extrabold text-gray-900 mb-2 break-words">모임 V-log 만들기</h3>
-                <p class="text-[13px] text-gray-500 font-medium leading-relaxed break-words">사진을 선택해주세요.<br>AI가 트렌디한 음악과 함께 15초 릴스를 만듭니다.</p>
+                <div class="w-[70px] h-[70px] bg-purple-50 text-purple-600 rounded-[24px] flex items-center justify-center text-[34px] mx-auto mb-4 border border-purple-100"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3 class="text-[22px] font-extrabold text-gray-900 mb-2">모임 V-log 만들기</h3>
+                <p class="text-[13px] text-gray-500 font-medium leading-relaxed keep-all">사진을 선택해주세요.<br>AI가 트렌디한 음악과 함께 15초 릴스를 만듭니다.</p>
             </div>
             <button class="w-full bg-purple-600 text-white py-4 rounded-2xl font-extrabold text-[15px] btn-press mb-3" onclick="showToast('사진첩 접근 권한을 요청합니다.')">갤러리에서 사진 선택</button>
             <button class="w-full bg-gray-100 text-gray-700 py-4 rounded-2xl font-extrabold text-[15px] btn-press" onclick="hideSheet('sheet-vlog')">닫기</button>
@@ -1015,7 +1025,7 @@
         
         const activeCheck = clickedElement.querySelector('.vote-check');
         activeCheck.className = 'vote-check w-7 h-7 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0';
-        activeCheck.innerHTML = '<i class="ph-bold ph-check text-[13px]"></i>';
+        activeCheck.innerHTML = '<i class="fa-solid fa-check text-[13px]"></i>';
         
         const activeTitle = clickedElement.querySelector('.vote-title');
         activeTitle.classList.replace('text-gray-800', 'text-purple-900');
